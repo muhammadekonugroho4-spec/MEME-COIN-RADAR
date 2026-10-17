@@ -1,41 +1,56 @@
 {
-  "run_at": "2026-10-17T14:29:26",
+  "run_at": "2026-10-17T22:01:05",
   "pairs_scanned": 39,
   "known_before": 21,
-  "fresh_candidates": 2,
+  "fresh_candidates": 3,
   "zones": {
     "BUY": 0,
     "WATCH": 0,
-    "PASSIVE": 0,
-    "REJECT": 2
+    "PASSIVE": 1,
+    "REJECT": 1,
+    "SKIP": 1
   },
   "solana_rpc_ok": true,
-  "sol_price_usd": 104.21,
+  "sol_price_usd": 104.25,
   "results": [
     {
-      "mint": "CepzGSiCrXeXVJQ9mMkfmiLErS9oTYQWkcDap3Sppump",
-      "symbol": "gold",
-      "zone": "REJECT",
+      "mint": "3RL6dzUKTSPaWytBYb4Pj9gQCC4sRena6etrP9nfpump",
+      "symbol": "Pump",
+      "zone": "SKIP",
       "score": 0.0,
-      "reasons": "likuiditas $0 < $5,000 | umur 3 menit < 30 menit minimum | harga turun -89% dalam 5 menit (sudah rug saat kita lihat)",
-      "parts": "{}",
-      "price_usd": 3.322e-07,
-      "liquidity_usd": 0.0,
-      "fdv": 332.21,
-      "age_min": 2.9,
-      "chg_h1": -88.64
+      "reasons": "harga tidak tersedia",
+      "parts": "{}"
     },
     {
-      "mint": "DxvQPgEznnZ2Z3svb4YXWyugVX1QJpTVszZYy326mhv8",
+      "mint": "3eMs82ZbkAHUH7qAn1iRtdVKW2egWEwpc8CVXztAgjQo",
       "symbol": "SOL",
       "zone": "REJECT",
       "score": 0.0,
-      "reasons": "FDV $200,644,148 > $5,000,000",
+      "reasons": "FDV $1,494,144,611 > $5,000,000",
       "parts": "{}",
-      "price_usd": 200.64,
-      "liquidity_usd": 31106458.79,
-      "fdv": 200644148.0,
-      "age_min": 508394.9,
+      "ai_flag": "danger",
+      "ai_note": "gagal filter: FDV $1,494,144,611 > $5,000,000.",
+      "ai_engine": "mock",
+      "price_usd": 71.14,
+      "liquidity_usd": 1493930454.44,
+      "fdv": 1494144611.0,
+      "age_min": 174500.0,
+      "chg_h1": 0.0
+    },
+    {
+      "mint": "5XXn2PCJDCGUViEUcwKA6gLcTS5zG5ESnmTsfvEvDU4P",
+      "symbol": "SOL",
+      "zone": "PASSIVE",
+      "score": 34.5,
+      "reasons": "",
+      "parts": "{\"momentum\": 0.0, \"volume_sustain\": 0.0, \"buy_sell_ratio\": 0.0, \"liq_vs_fdv\": 15.0, \"age_sweetspot\": 4.5, \"supply_known\": 15}",
+      "ai_flag": "ok",
+      "ai_note": "Metrik pasar dalam batas wajar untuk meme coin.",
+      "ai_engine": "mock",
+      "price_usd": 87.58,
+      "liquidity_usd": 1177115.57,
+      "fdv": 1313733.0,
+      "age_min": 264065.6,
       "chg_h1": 0.0
     }
   ]

@@ -48,7 +48,10 @@ class SolanaRpcAdapter:
             return False
 
     def token_supply(self, mint: str) -> dict | None:
-        """{'supply': float, 'decimals': int} dengan cache TTL. None bila RPC gagal."""
+        """{'supply': float, 'decimals': int, 'mint_authority', 'freeze_authority'} dgn cache TTL.
+
+        mint/freeze authority None berarti sudah revoked (aman). Bila RPC gagal -> None (lembut).
+        """
         now = time.monotonic()
         hit = self._cache.get(mint)
         if hit and now - hit[0] < self.ttl:
@@ -60,8 +63,33 @@ class SolanaRpcAdapter:
             out = {
                 "supply": float(value.get("uiAmount") or 0),
                 "decimals": int(value.get("decimals") or 0),
+                "mint_authority": value.get("mintAuthority"),
+                "freeze_authority": value.get("freezeAuthority"),
             }
         except (DataSourceError, requests.RequestException):
             return None  # lembut: scan lanjut tanpa data supply
         self._cache[mint] = (now, out)
         return out
+
+    def top10_holders_pct(self, mint: str, total_supply: float | None) -> float | None:
+        """% supply dipegang 10 rekening terbesar. None bila RPC gagal/rate limited.
+
+        Metode ini paling sering kena 429 di RPC publik -> cache TTL panjang (6 jam).
+        """
+        cache_key = f"top10:{mint}"
+        now = time.monotonic()
+        hit = self._cache.get(cache_key)
+        if hit and now - hit[0] < self.ttl * 6:
+            return hit[1]
+        if total_supply is None or total_supply <= 0:
+            return None
+        try:
+            self.rate.wait_turn(self.source, timeout=30.0)
+            res = self._rpc("getTokenLargestAccounts", [mint])
+            largest = res.get("value") or []
+            held = sum(float(a.get("uiAmount") or 0) for a in largest[:10])
+            pct = held / total_supply * 100.0
+        except (DataSourceError, requests.RequestException):
+            return None
+        self._cache[cache_key] = (now, pct)
+        return pct

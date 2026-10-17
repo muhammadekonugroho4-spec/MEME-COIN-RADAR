@@ -1,0 +1,40 @@
+name: report-mcr
+
+on:
+  schedule:
+    - cron: "30 0 * * *"   # 00:30 UTC harian
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  report:
+    runs-on: ubuntu-latest
+    timeout-minutes: 6
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      - name: Generate report
+        run: python -m jobs.job_report
+
+      - name: Commit report
+        run: |
+          git config user.name "mcr-bot"
+          git config user.email "mcr-bot@users.noreply.github.com"
+          git add data/
+          if git diff --cached --quiet; then
+            echo "Tidak ada laporan baru."
+          else
+            git commit -m "report: analisis harian $(date -u +%F)"
+            git pull --rebase origin main
+            git push
+          fi

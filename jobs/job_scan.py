@@ -21,6 +21,8 @@ from backend.adapters.coingecko import CoinGeckoAdapter
 from backend.adapters.dexscreener import DexScreenerAdapter
 from backend.adapters.solana_rpc import SolanaRpcAdapter
 from backend.core import coin_store, risk_filter, scorer
+from backend.core.ai_service import analyze_risk
+from backend.core.onchain_filter import onchain_reasons, top10_pct_from_accounts
 
 
 def _evaluate(row: dict, age_min: float | None, supply: float | None) -> dict:
@@ -30,6 +32,10 @@ def _evaluate(row: dict, age_min: float | None, supply: float | None) -> dict:
         return {"zone": "REJECT", "score": 0.0, "reasons": reasons, "parts": {}}
     s = scorer.score(row, age_min, supply)
     return {"zone": s.zone, "score": s.score, "reasons": [], "parts": s.parts}
+
+
+def _evaluate_onchain(mint_authority, freeze_authority, top10_pct) -> list[str]:
+    return onchain_reasons(mint_authority, freeze_authority, top10_pct)
 
 
 def run(queries: tuple[str, ...] = ("pump", "sol"), max_new: int = 15) -> dict:
@@ -87,6 +93,24 @@ def run(queries: tuple[str, ...] = ("pump", "sol"), max_new: int = 15) -> dict:
 
         verdict = _evaluate(row, age_min, row["supply"])
 
+        # Lapisan on-chain (Fase 4): authority + konsentrasi holder, hanya untuk yang lolos filter API
+        if verdict["zone"] != "REJECT":
+            top10 = sol.top10_holders_pct(mint, row["supply"]) if row["supply"] else None
+            oc_reasons = _evaluate_onchain(
+                supply_info.get("mint_authority") if supply_info else None,
+                supply_info.get("freeze_authority") if supply_info else None,
+                top10,
+            )
+            if oc_reasons:
+                verdict = {"zone": "REJECT", "score": 0.0,
+                           "reasons": verdict["reasons"] + oc_reasons, "parts": verdict["parts"]}
+
+        # Narasi AI (Fase 5): 1-2 kalimat risiko; mock bila key kosong
+        top10_for_ai = sol.top10_holders_pct(mint, row["supply"]) if row["supply"] else None
+        ai = analyze_risk(
+            row, verdict["score"], verdict["zone"], verdict["reasons"], top10_for_ai, age_min
+        )
+
         # simpan observasi hanya untuk yang layak dipantau (hemat ruang git);
         # REJECT diarsipkan cukup di jurnal harian.
         if verdict["zone"] in ("BUY", "WATCH"):
@@ -99,6 +123,9 @@ def run(queries: tuple[str, ...] = ("pump", "sol"), max_new: int = 15) -> dict:
             "score": verdict["score"],
             "reasons": " | ".join(verdict["reasons"]),
             "parts": json.dumps(verdict["parts"]),
+            "ai_flag": ai.flag,
+            "ai_note": ai.note,
+            "ai_engine": ai.engine,
             "price_usd": row["price_usd"],
             "liquidity_usd": row["liquidity_usd"],
             "fdv": row["fdv"],

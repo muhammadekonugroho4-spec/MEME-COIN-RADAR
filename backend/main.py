@@ -49,3 +49,13 @@ def index(request: Request):
 @app.get("/positions", response_class=HTMLResponse)
 def positions_page(request: Request):
     return TEMPLATES.TemplateResponse(request, "positions.html")
+
+
+@app.get("/journal", response_class=HTMLResponse)
+def journal_page(request: Request):
+    return TEMPLATES.TemplateResponse(request, "journal.html")
+
+
+@app.get("/stats", response_class=HTMLResponse)
+def stats_page(request: Request):
+    return TEMPLATES.TemplateResponse(request, "stats.html")

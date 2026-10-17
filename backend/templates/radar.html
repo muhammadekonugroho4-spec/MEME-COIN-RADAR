@@ -33,10 +33,11 @@ th:first-child,td:first-child{text-align:left}
 <div class="wrap">
 <h1>MEME-COIN-<span>RADAR</span></h1>
 <div class="meta"><a href="/positions" style="color:var(--acc)">Lihat Posisi Paper →</a></div>
+<nav><a href="/">Radar</a><a href="/positions">Posisi</a><a href="/journal">Jurnal</a><a href="/stats">Statistik</a></nav>
 <div class="meta" id="meta">memuat...</div>
 <div class="zones" id="zones"></div>
 <table><thead><tr>
-<th>Coin</th><th>Zona</th><th>Skor</th><th>Harga</th><th>Likuid</th><th>FDV</th><th>Umur</th><th>Alasan/Reject</th>
+<th>Coin</th><th>Zona</th><th>Skor</th><th>Harga</th><th>Likuid</th><th>FDV</th><th>Umur</th><th>AI</th><th>Alasan/Reject</th>
 </tr></thead><tbody id="tb"></tbody></table>
 <div class="dis">Simulasi virtual — bukan saran finansial. Meme coin berisiko total loss.</div>
 </div>
@@ -62,6 +63,7 @@ fetch('/api/scan').then(r=>r.json()).then(d=>{
     <td>${fmt$(r.liquidity_usd)}</td>
     <td>${fmt$(r.fdv)}</td>
     <td>${r.age_min!=null?r.age_min+'m':'?'}</td>
+    <td class="rj" style="color:${r.ai_flag==='danger'?'var(--rej)':r.ai_flag==='caution'?'var(--watch)':'var(--up)'}">${r.ai_flag||''}: ${r.ai_note||''}</td>
     <td class="rj">${r.reasons||''}</td>
   </tr>`).join('');
 }).catch(()=>document.getElementById('meta').textContent='gagal memuat API');

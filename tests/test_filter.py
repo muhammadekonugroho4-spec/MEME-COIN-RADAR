@@ -146,3 +146,14 @@ def test_ui_radar_page():
     r = TestClient(app).get("/")
     assert r.status_code == 200
     assert "RADAR" in r.text
+
+
+def test_ui_all_pages():
+    from fastapi.testclient import TestClient
+    from backend.main import app
+
+    c = TestClient(app)
+    for path, needle in [("/", "RADAR"), ("/positions", "Posisi"), ("/journal", "Jurnal"), ("/stats", "Statistik")]:
+        r = c.get(path)
+        assert r.status_code == 200, path
+        assert needle in r.text, path

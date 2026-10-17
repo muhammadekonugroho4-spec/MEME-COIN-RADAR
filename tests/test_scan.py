@@ -114,7 +114,10 @@ class FakeSol:
         return True
 
     def token_supply(self, mint):
-        return {"supply": 1_000_000_000.0, "decimals": 6}
+        return {"supply": 1_000_000_000.0, "decimals": 6, "mint_authority": None, "freeze_authority": None}
+
+    def top10_holders_pct(self, mint, total_supply):
+        return 12.5  # terdistribusi sehat
 
 
 class FakeCg:

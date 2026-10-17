@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>MEME-COIN-RADAR - Statistik</title>
+<link rel="manifest" href="/static/manifest.json">
+<style>
+:root{--bg:#0b0f1a;--card:#121a2e;--line:#1f2b47;--txt:#dbe4f5;--dim:#7d8db0;--up:#31c48d;--down:#f05252;--acc:#5a8dee}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--bg);color:var(--txt);font:15px/1.5 system-ui,sans-serif}
+.wrap{max-width:1080px;margin:0 auto;padding:16px}
+h1{font-size:19px;margin:8px 0 10px}h1 span{color:var(--acc)}
+nav{display:flex;gap:10px;margin-bottom:14px;flex-wrap:wrap}
+nav a{color:var(--acc);text-decoration:none;padding:6px 12px;border:1px solid var(--line);border-radius:8px;background:var(--card);font-size:14px}
+.bar{background:var(--card);border:1px solid var(--line);border-radius:8px;padding:8px 14px;margin-bottom:8px;display:flex;justify-content:space-between;align-items:center}
+.bar .n{font-weight:700}
+.track{flex:1;height:8px;background:#0e1730;border-radius:4px;margin:0 14px;overflow:hidden}
+.fill{height:100%;background:var(--down);border-radius:4px}
+.empty{padding:16px;text-align:center;color:var(--dim)}
+.dis{color:var(--dim);font-size:11px;text-align:center;margin-top:10px}
+</style>
+</head>
+<body>
+<div class="wrap">
+<h1>Statistik <span>Filter</span></h1>
+<nav><a href="/">Radar</a><a href="/positions">Posisi</a><a href="/journal">Jurnal</a><a href="/stats">Statistik</a></nav>
+<div id="list"></div>
+<div class="dis">Simulasi virtual — bukan saran finansial.</div>
+</div>
+<script>
+fetch('/api/stats').then(r=>r.json()).then(d=>{
+  const el=document.getElementById('list');
+  const total=d.total_rejected||0;
+  if(!total){el.innerHTML='<div class="empty">Belum ada coin yang ditolak.</div>';return;}
+  el.innerHTML=Object.entries(d.by_reason).filter(([k,v])=>v>0)
+    .map(([k,v])=>`<div class="bar"><span>${k}</span>
+      <div class="track"><div class="fill" style="width:${(v/total*100).toFixed(1)}%"></div></div>
+      <span class="n">${v} (${(v/total*100).toFixed(0)}%)</span></div>`).join('')
+    + `<div class="bar" style="border-color:var(--acc)"><span><b>Total ditolak</b></span><span class="n" style="color:var(--acc)">${total}</span></div>`;
+}).catch(()=>document.getElementById('list').innerHTML='<div class="empty">gagal memuat</div>');
+</script>
+</body>
+</html>
