@@ -14,3 +14,4 @@ __pycache__/
 
 # state lokal besar (yang di-commit hanya output pipeline data/daily, portfolio)
 data/cache/
+publish/
