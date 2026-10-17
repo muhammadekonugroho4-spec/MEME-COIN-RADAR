@@ -134,7 +134,7 @@ def test_job_scan_offline(tmp_path, monkeypatch):
     m = job.run()
     assert m["pairs_scanned"] >= 1
     assert m["fresh_candidates"] == 1
-    assert m["recorded"] == 1
+    assert m["zones"]["BUY"] + m["zones"]["WATCH"] + m["zones"]["PASSIVE"] + m["zones"]["REJECT"] == 1
     assert m["solana_rpc_ok"] is True
 
     # idempotent: run ke-2, mint sudah dikenal -> tidak ada fresh

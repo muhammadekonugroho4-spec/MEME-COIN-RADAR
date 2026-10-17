@@ -1,122 +1,29 @@
 {
-  "run_at": "2026-10-17T14:18:35",
+  "run_at": "2026-10-17T21:28:25",
   "pairs_scanned": 39,
-  "known_before": 10,
-  "fresh_candidates": 11,
-  "recorded": 11,
-  "skipped": 0,
+  "known_before": 21,
+  "fresh_candidates": 1,
+  "zones": {
+    "BUY": 0,
+    "WATCH": 0,
+    "PASSIVE": 0,
+    "REJECT": 1
+  },
   "solana_rpc_ok": true,
-  "sol_price_usd": 103.88,
+  "sol_price_usd": 104.14,
   "results": [
     {
-      "mint": "HD1LdgcDKGzzkTkpoA7sFbhZ5FsdFMpxV7Nrey7Xpump",
+      "mint": "DFu78codWQA3njjfsueTGSzGeEsucrrFurt32gamojas",
       "symbol": "SOL",
-      "action": "recorded",
-      "price_usd": 2.053e-07,
-      "liquidity_usd": 0.0,
-      "age_min": 822.3116,
-      "supply": 2000000000.0,
-      "rows": 1
-    },
-    {
-      "mint": "AvU2iYyDk3mwHkqaAqTahRXPniXvuJc5DmpBYRK97688",
-      "symbol": "SOL",
-      "action": "recorded",
-      "price_usd": 119.54,
-      "liquidity_usd": 2510075140.74,
-      "age_min": 27904.2138,
-      "supply": 20999998.990843,
-      "rows": 1
-    },
-    {
-      "mint": "FwtKA62k47DYe3jHmPNjspjVdc7PhipbqZjxTMfp81m6",
-      "symbol": "SOL",
-      "action": "recorded",
-      "price_usd": 121.068,
-      "liquidity_usd": 2542177622.19,
-      "age_min": 31558.449166666665,
-      "supply": 20999997.431438,
-      "rows": 1
-    },
-    {
-      "mint": "2ZbaN9Dkj5HPyYUeij82PcZgHJYZ8747Ca69qdcvCh5C",
-      "symbol": "SOL",
-      "action": "recorded",
-      "price_usd": 77.49,
-      "liquidity_usd": 1627150129.01,
-      "age_min": 124395.88466666666,
-      "supply": 20999998.877753,
-      "rows": 1
-    },
-    {
-      "mint": "97owM7j5K2ciCKjh1Efi8ix8Et9Tp7sjgnmLM2CHMamN",
-      "symbol": "SOL",
-      "action": "recorded",
-      "price_usd": 108.21,
-      "liquidity_usd": 2272336436.32,
-      "age_min": 39512.08881666667,
-      "supply": 20999998.954101,
-      "rows": 1
-    },
-    {
-      "mint": "FbLaAw9wKLVcvGpfE7eDL1DHmANyNUdn59dfkD4u31zC",
-      "symbol": "SOL",
-      "action": "recorded",
-      "price_usd": 103.75,
-      "liquidity_usd": 2178464720.01,
-      "age_min": 62444.2922,
-      "supply": 20999999.977388,
-      "rows": 1
-    },
-    {
-      "mint": "CkH8iAKJhdAvLj9EijKdYwpbhrq6wjmFRZLSu5Rgsjrp",
-      "symbol": "SOL",
-      "action": "recorded",
-      "price_usd": 102.83,
-      "liquidity_usd": 2159225072.12,
-      "age_min": 67574.02913333333,
-      "supply": 20999999.933024,
-      "rows": 1
-    },
-    {
-      "mint": "5vhw96LZoKA4K8kbBkTJXBYvJSN1RWJzJgJbYEorBChv",
-      "symbol": "SOL",
-      "action": "recorded",
-      "price_usd": 76.064,
-      "liquidity_usd": 1597167492.87,
-      "age_min": 94158.3493,
-      "supply": 20999998.726929,
-      "rows": 1
-    },
-    {
-      "mint": "B5aHB8aT87VLykkeBv8jMv88seDheT62KuZp9QPEq1f3",
-      "symbol": "SOL",
-      "action": "recorded",
-      "price_usd": 81.61,
-      "liquidity_usd": 1632045842.43,
-      "age_min": 152427.15325,
-      "supply": 19999999.0,
-      "rows": 1
-    },
-    {
-      "mint": "EZ3swFzaXvEdpXX6rjbZwGkthbc5hsznhpX8rAxTBt38",
-      "symbol": "SOL",
-      "action": "recorded",
-      "price_usd": 73.045,
-      "liquidity_usd": 1533769994.46,
-      "age_min": 111465.08855,
-      "supply": 20999997.031813,
-      "rows": 1
-    },
-    {
-      "mint": "nDtogpNTn5w1DqHwx5JjqXvkbQwxZe4f9tSprPmze5s",
-      "symbol": "SOL",
-      "action": "recorded",
-      "price_usd": 189.2,
-      "liquidity_usd": 113529862.3,
-      "age_min": 522914.64246666664,
-      "supply": 750032.755622,
-      "rows": 1
+      "zone": "REJECT",
+      "score": 0.0,
+      "reasons": "FDV $231,140,986 > $5,000,000",
+      "parts": "{}",
+      "price_usd": 231.14,
+      "liquidity_usd": 37833429.31,
+      "fdv": 231140986.0,
+      "age_min": 540198.2,
+      "chg_h1": 0.0
     }
   ]
 }

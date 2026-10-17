@@ -1,0 +1,69 @@
+<!doctype html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>MEME-COIN-RADAR</title>
+<link rel="manifest" href="/static/manifest.json">
+<style>
+:root{--bg:#0b0f1a;--card:#121a2e;--line:#1f2b47;--txt:#dbe4f5;--dim:#7d8db0;--buy:#31c48d;--watch:#f5b942;--rej:#f05252;--acc:#5a8dee}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--bg);color:var(--txt);font:15px/1.5 system-ui,sans-serif}
+.wrap{max-width:1080px;margin:0 auto;padding:16px}
+h1{font-size:19px;margin:8px 0 4px}
+h1 span{color:var(--acc)}
+.meta{color:var(--dim);font-size:13px;margin-bottom:14px}
+.zones{display:flex;gap:10px;margin-bottom:14px;flex-wrap:wrap}
+.z{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:8px 14px;font-size:13px}
+.z b{font-size:18px;display:block}
+.z.buy b{color:var(--buy)}.z.watch b{color:var(--watch)}.z.rej b{color:var(--rej)}
+table{width:100%;border-collapse:collapse;background:var(--card);border-radius:10px;overflow:hidden;margin-bottom:16px}
+th,td{padding:7px 10px;text-align:right;border-bottom:1px solid var(--line);font-variant-numeric:tabular-nums;font-size:13px}
+th{background:#0e1730;color:var(--dim);text-align:right}
+th:first-child,td:first-child{text-align:left}
+.zb{font-size:11px;padding:2px 8px;border-radius:6px;font-weight:700}
+.zb.BUY{background:#0e2e22;color:var(--buy)}.zb.WATCH{background:#33290f;color:var(--watch)}
+.zb.PASSIVE{background:#1a2236;color:var(--dim)}.zb.REJECT{background:#331a1a;color:var(--rej)}.zb.SKIP{background:#1a2236;color:var(--dim)}
+.rj{color:var(--rej);font-size:12px;text-align:left;max-width:320px}
+.empty{padding:24px;text-align:center;color:var(--dim)}
+.dis{color:var(--dim);font-size:11px;text-align:center;margin-top:10px}
+</style>
+</head>
+<body>
+<div class="wrap">
+<h1>MEME-COIN-<span>RADAR</span></h1>
+<div class="meta" id="meta">memuat...</div>
+<div class="zones" id="zones"></div>
+<table><thead><tr>
+<th>Coin</th><th>Zona</th><th>Skor</th><th>Harga</th><th>Likuid</th><th>FDV</th><th>Umur</th><th>Alasan/Reject</th>
+</tr></thead><tbody id="tb"></tbody></table>
+<div class="dis">Simulasi virtual — bukan saran finansial. Meme coin berisiko total loss.</div>
+</div>
+<script>
+const fmt$ = v => v==null ? '-' : Number(v)>=1 ? '$'+Number(v).toLocaleString('en',{maximumFractionDigits:0}) : '$'+Number(v).toPrecision(3);
+fetch('/api/scan').then(r=>r.json()).then(d=>{
+  const m=d.manifest||{};
+  const z=m.zones||{};
+  document.getElementById('meta').textContent =
+    `Scan: ${m.run_at||'-'} | ${m.pairs_scanned??'-'} pair diperiksa | RPC Solana: ${m.solana_rpc_ok?'OK':'GAGAL'} | SOL $${m.sol_price_usd??'-'}`;
+  document.getElementById('zones').innerHTML =
+    `<div class="z buy"><b>${z.BUY??0}</b>BUY</div>
+     <div class="z watch"><b>${z.WATCH??0}</b>WATCH</div>
+     <div class="z"><b>${z.PASSIVE??0}</b>PASSIVE</div>
+     <div class="z rej"><b>${z.REJECT??0}</b>REJECT</div>`;
+  const tb=document.getElementById('tb');
+  if(!d.results.length){tb.innerHTML='<tr><td colspan="8" class="empty">Belum ada hasil scan.</td></tr>';return;}
+  tb.innerHTML=d.results.map(r=>`<tr>
+    <td><b>${(r.symbol||'?').slice(0,12)}</b><div style="color:var(--dim);font-size:10px">${(r.mint||'').slice(0,8)}…</div></td>
+    <td><span class="zb ${r.zone}">${r.zone}</span></td>
+    <td>${r.score??'-'}</td>
+    <td>${fmt$(r.price_usd)}</td>
+    <td>${fmt$(r.liquidity_usd)}</td>
+    <td>${fmt$(r.fdv)}</td>
+    <td>${r.age_min!=null?r.age_min+'m':'?'}</td>
+    <td class="rj">${r.reasons||''}</td>
+  </tr>`).join('');
+}).catch(()=>document.getElementById('meta').textContent='gagal memuat API');
+</script>
+</body>
+</html>

@@ -1,9 +1,9 @@
-"""Job scan MCR: deteksi coin baru -> parquet + manifest + jurnal keputusan.
+"""Job scan MCR: deteksi coin baru -> filter keras -> skor -> parquet + manifest + jurnal.
 
     .venv/bin/python -m jobs.job_scan
 
-Tiap run: scan pasangan baru -> untuk mint baru ambil detail + supply -> catat observasi.
-Filter/scorer menyusul di Fase 2; di sini pipeline data mentah + jurnal "seen".
+Tiap mint baru dinilai: PASS (BUY zone) / WATCH / REJECT (dengan alasan).
+Semua keputusan tercatat di data/daily/YYYY-MM-DD/.
 """
 from __future__ import annotations
 
@@ -20,7 +20,16 @@ from backend.adapters.base import DataSourceError
 from backend.adapters.coingecko import CoinGeckoAdapter
 from backend.adapters.dexscreener import DexScreenerAdapter
 from backend.adapters.solana_rpc import SolanaRpcAdapter
-from backend.core import coin_store
+from backend.core import coin_store, risk_filter, scorer
+
+
+def _evaluate(row: dict, age_min: float | None, supply: float | None) -> dict:
+    """Filter keras dulu (REJECT), lalu skor untuk yang lolos."""
+    reasons = risk_filter.reject_reasons(row, age_min, chg_m5_low=row.get("chg_m5"))
+    if reasons:
+        return {"zone": "REJECT", "score": 0.0, "reasons": reasons, "parts": {}}
+    s = scorer.score(row, age_min, supply)
+    return {"zone": s.zone, "score": s.score, "reasons": [], "parts": s.parts}
 
 
 def run(queries: tuple[str, ...] = ("pump", "sol"), max_new: int = 15) -> dict:
@@ -32,7 +41,6 @@ def run(queries: tuple[str, ...] = ("pump", "sol"), max_new: int = 15) -> dict:
     pairs = dx.scan_new_pairs(queries=queries)
     seen = coin_store.known_mints(config.COINS_DIR)
 
-    # dedup antar mint, ambil yang benar-benar baru
     by_mint: dict[str, dict] = {}
     for p in pairs:
         by_mint.setdefault(p["mint"], p)
@@ -42,15 +50,16 @@ def run(queries: tuple[str, ...] = ("pump", "sol"), max_new: int = 15) -> dict:
     sol_price = cg.price_sol()
 
     results: list[dict] = []
+    zone_counts = {"BUY": 0, "WATCH": 0, "PASSIVE": 0, "REJECT": 0}
     for p in fresh:
         mint = p["mint"]
-        detail = None
         try:
             detail = dx.token_detail(mint)
         except DataSourceError:
             detail = None
-        best = detail or p  # detail lebih likuid; fallback hasil search
+        best = detail or p
         supply_info = sol.token_supply(mint) if sol_ok else None
+        age_min = coin_store.age_minutes(best["pair_created_at"])
         row = {
             "ts": time.time(),
             "mint": mint,
@@ -71,29 +80,39 @@ def run(queries: tuple[str, ...] = ("pump", "sol"), max_new: int = 15) -> dict:
             "supply": supply_info["supply"] if supply_info else None,
         }
         if row["price_usd"] is None:
-            results.append({"mint": mint, "symbol": best["symbol"], "action": "skip:no_price"})
+            results.append({"mint": mint, "symbol": best["symbol"], "zone": "SKIP", "score": 0.0,
+                            "reasons": "harga tidak tersedia", "parts": json.dumps({})})
+            zone_counts["SKIP"] = zone_counts.get("SKIP", 0) + 1
             continue
-        rows_total = coin_store.append_observation(config.COINS_DIR, row)
-        results.append(
-            {
-                "mint": mint,
-                "symbol": best["symbol"],
-                "action": "recorded",
-                "price_usd": row["price_usd"],
-                "liquidity_usd": row["liquidity_usd"],
-                "age_min": coin_store.age_minutes(best["pair_created_at"]),
-                "supply": row["supply"],
-                "rows": rows_total,
-            }
-        )
+
+        verdict = _evaluate(row, age_min, row["supply"])
+
+        # simpan observasi hanya untuk yang layak dipantau (hemat ruang git);
+        # REJECT diarsipkan cukup di jurnal harian.
+        if verdict["zone"] in ("BUY", "WATCH"):
+            coin_store.append_observation(config.COINS_DIR, row)
+
+        results.append({
+            "mint": mint,
+            "symbol": best["symbol"],
+            "zone": verdict["zone"],
+            "score": verdict["score"],
+            "reasons": " | ".join(verdict["reasons"]),
+            "parts": json.dumps(verdict["parts"]),
+            "price_usd": row["price_usd"],
+            "liquidity_usd": row["liquidity_usd"],
+            "fdv": row["fdv"],
+            "age_min": round(age_min, 1) if age_min is not None else None,
+            "chg_h1": row["chg_h1"],
+        })
+        zone_counts[verdict["zone"]] = zone_counts.get(verdict["zone"], 0) + 1
 
     manifest = {
         "run_at": started,
         "pairs_scanned": len(pairs),
         "known_before": len(seen),
         "fresh_candidates": len(fresh),
-        "recorded": sum(1 for r in results if r["action"] == "recorded"),
-        "skipped": sum(1 for r in results if r["action"] != "recorded"),
+        "zones": zone_counts,
         "solana_rpc_ok": sol_ok,
         "sol_price_usd": sol_price,
         "results": results,
@@ -106,11 +125,11 @@ def run(queries: tuple[str, ...] = ("pump", "sol"), max_new: int = 15) -> dict:
 
 
 def main() -> int:
-    ap = argparse.ArgumentParser(description="MCR scan pipeline")
+    ap = argparse.ArgumentParser(description="MCR scan + filter + skor")
     ap.add_argument("--max-new", type=int, default=15)
     args = ap.parse_args()
     m = run(max_new=args.max_new)
-    print(json.dumps({k: v for k, v in m.items() if k != "results"}, indent=2))
+    print(json.dumps({k: v for k, v in m.items() if k != "results"}, indent=2, ensure_ascii=False))
     return 0 if m["pairs_scanned"] > 0 else 1
 
 

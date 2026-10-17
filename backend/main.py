@@ -1,13 +1,17 @@
-"""MEME-COIN-RADAR - FastAPI app (Fase 0: health + skeleton). Paper-only proyek."""
+"""GLOBAL-STOCK... eh, MEME-COIN-RADAR - FastAPI app (Fase 2: radar UI + API)."""
 from contextlib import asynccontextmanager
 from pathlib import Path
 
-from fastapi import FastAPI
+from fastapi import FastAPI, Request
 from fastapi.responses import HTMLResponse
+from fastapi.staticfiles import StaticFiles
+from fastapi.templating import Jinja2Templates
 
 from backend import config
+from backend.routes.api import router as api_router
 
-VERSION = "0.1.0"
+VERSION = "0.2.0"
+TEMPLATES = Jinja2Templates(directory=str(Path(__file__).parent / "templates"))
 
 
 @asynccontextmanager
@@ -18,6 +22,8 @@ async def lifespan(app: FastAPI):
 
 
 app = FastAPI(title="MEME-COIN-RADAR", version=VERSION, lifespan=lifespan)
+app.include_router(api_router)
+app.mount("/static", StaticFiles(directory=str(Path(__file__).parent / "static")), name="static")
 
 
 @app.get("/health")
@@ -36,11 +42,5 @@ def health():
 
 
 @app.get("/", response_class=HTMLResponse)
-def index():
-    return (
-        "<html><head><title>MEME-COIN-RADAR</title></head><body>"
-        "<h1>MEME-COIN-RADAR</h1>"
-        f"<p>v{VERSION} - Fase 0 skeleton. Mode: PAPER-ONLY (simulasi virtual).</p>"
-        '<p><a href="/health">/health</a> | <a href="/docs">/docs</a></p>'
-        "</body></html>"
-    )
+def index(request: Request):
+    return TEMPLATES.TemplateResponse(request, "radar.html")
