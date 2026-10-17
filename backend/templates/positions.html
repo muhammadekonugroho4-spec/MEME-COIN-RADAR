@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>MEME-COIN-RADAR - Posisi</title>
+<link rel="manifest" href="/static/manifest.json">
+<style>
+:root{--bg:#0b0f1a;--card:#121a2e;--line:#1f2b47;--txt:#dbe4f5;--dim:#7d8db0;--up:#31c48d;--down:#f05252;--acc:#5a8dee}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--bg);color:var(--txt);font:15px/1.5 system-ui,sans-serif}
+.wrap{max-width:1080px;margin:0 auto;padding:16px}
+h1{font-size:19px;margin:8px 0 10px}h1 span{color:var(--acc)}
+.kpis{display:flex;gap:10px;margin-bottom:14px;flex-wrap:wrap}
+.k{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:10px 16px}
+.k b{display:block;font-size:20px}
+.k span{color:var(--dim);font-size:12px}
+.up{color:var(--up)}.down{color:var(--down)}
+table{width:100%;border-collapse:collapse;background:var(--card);border-radius:10px;overflow:hidden;margin-bottom:14px}
+th,td{padding:7px 10px;text-align:right;border-bottom:1px solid var(--line);font-variant-numeric:tabular-nums;font-size:13px}
+th{background:#0e1730;color:var(--dim);text-align:right}
+th:first-child,td:first-child{text-align:left}
+.pos{color:var(--up)}.neg{color:var(--down)}
+h2{font-size:15px;margin:14px 0 8px;color:var(--dim)}
+.dis{color:var(--dim);font-size:11px;text-align:center;margin-top:10px}
+.empty{padding:16px;text-align:center;color:var(--dim)}
+</style>
+</head>
+<body>
+<div class="wrap">
+<h1>MEME-COIN-<span>RADAR</span> — Posisi Paper</h1>
+<div class="kpis" id="kpis"></div>
+<h2>Posisi terbuka</h2>
+<table><thead><tr><th>Coin</th><th>Qty</th><th>Entry</th><th>Harga kini</th><th>PnL</th><th>TP done</th></tr></thead>
+<tbody id="pos"></tbody></table>
+<h2>Order menunggu fill (next scan)</h2>
+<table><thead><tr><th>Coin</th><th>Side</th><th>Signal price</th><th>Alasan</th><th>Tries</th></tr></thead>
+<tbody id="pend"></tbody></table>
+<h2>Equity curve (terakhir)</h2>
+<table><thead><tr><th>Waktu</th><th>Cash</th><th>Unrealized</th><th>Total</th></tr></thead>
+<tbody id="eq"></tbody></table>
+<div class="dis">Simulasi virtual — bukan saran finansial. Meme coin berisiko total loss.</div>
+</div>
+<script>
+const fmt$ = v => v==null?'-':Number(v)>=1?'$'+Number(v).toLocaleString('en',{maximumFractionDigits:2}):'$'+Number(v).toPrecision(4);
+const cls = v => v>=0?'pos':'neg';
+fetch('/api/positions').then(r=>r.json()).then(d=>{
+  document.getElementById('kpis').innerHTML = `
+    <div class="k"><b class="${cls(d.total-d.start_equity)}">$${d.total?.toLocaleString?.('en',{maximumFractionDigits:2})}</b><span>Total equity</span></div>
+    <div class="k"><b>$${d.equity_cash?.toLocaleString?.('en',{maximumFractionDigits:2})}</b><span>Cash</span></div>
+    <div class="k"><b class="${cls(d.unrealized)}">$${d.unrealized?.toFixed?.(2)}</b><span>Unrealized</span></div>
+    <div class="k"><b>${d.open_positions}</b><span>Posisi terbuka</span></div>`;
+  const pos=d.positions.map(p=>{
+    const pnl=p.price_now!=null?(p.price_now-p.entry_price)*p.qty:null;
+    const pnlPct=p.price_now!=null?((p.price_now-p.entry_price)/p.entry_price*100):null;
+    return `<tr><td>${p.symbol}<div style="color:var(--dim);font-size:10px">${p.mint.slice(0,8)}…</div></td>
+      <td>${p.qty?.toPrecision?.(4)}</td><td>${fmt$(p.entry_price)}</td><td>${fmt$(p.price_now)}</td>
+      <td class="${cls(pnl)}">${pnl!=null?'$'+pnl.toFixed(2)+' ('+pnlPct.toFixed(0)+'%)':'-'}</td>
+      <td>${p.tp_done?'✓':'-'}</td></tr>`;}).join('');
+  document.getElementById('pos').innerHTML = pos || '<tr><td colspan="6" class="empty">Tidak ada posisi terbuka.</td></tr>';
+  document.getElementById('pend').innerHTML = d.pending.length? d.pending.map(o=>`<tr>
+    <td>${o.symbol||o.mint.slice(0,8)}</td><td>${o.side}</td><td>${fmt$(o.signal_price)}</td><td style="text-align:left">${o.reason||''}</td><td>${o.tries??0}</td></tr>`).join('')
+    : '<tr><td colspan="5" class="empty">Tidak ada order menunggu.</td></tr>';
+  document.getElementById('eq').innerHTML = d.equity.slice(-8).reverse().map(e=>`<tr>
+    <td>${e.ts?.slice(5,16)}</td><td>$${e.equity_cash}</td><td class="${cls(e.unrealized)}">$${e.unrealized}</td><td class="${cls(e.total-d.start_equity)}">$${e.total}</td></tr>`).join('')
+    || '<tr><td colspan="4" class="empty">Belum ada data equity.</td></tr>';
+}).catch(()=>document.getElementById('kpis').innerHTML='<div class="empty">gagal memuat API</div>');
+</script>
+</body>
+</html>

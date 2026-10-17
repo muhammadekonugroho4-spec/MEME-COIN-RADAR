@@ -59,3 +59,57 @@ def api_stats():
             else:
                 buckets["lain"] += 1
     return {"total_rejected": total, "by_reason": buckets}
+
+
+@router.get("/positions")
+def api_positions():
+    """State paper: KPI + posisi terbuka (dgn harga kini) + pending + equity curve."""
+    from backend.core import portfolio as pf
+
+    state = pf.load_state(config.PORTFOLIO_DIR, config.PAPER_START_EQUITY)
+
+    def _latest(mint: str):
+        p = config.COINS_DIR / f"{mint}.parquet"
+        if not p.exists():
+            return None
+        df = pd.read_parquet(p)
+        if df.empty:
+            return None
+        last = df.iloc[-1].to_dict()
+        return {"price": last.get("price_usd"), "ts": last.get("ts")}
+
+    positions = []
+    for mint, pos in state.get("positions", {}).items():
+        info = _latest(mint)
+        positions.append({
+            "mint": mint, "symbol": pos.get("symbol", mint[:8]),
+            "qty": pos.get("qty"), "entry_price": pos.get("entry_price"),
+            "price_now": info["price"] if info else None,
+            "tp_done": pos.get("tp_done", False),
+        })
+    pending = state.get("pending", [])
+    equity_df = pd.read_csv(config.PORTFOLIO_DIR / pf.EQUITY_FILE).tail(50).to_dict(orient="records") \
+        if (config.PORTFOLIO_DIR / pf.EQUITY_FILE).exists() else []
+
+    prices_now = {p["mint"]: p["price_now"] for p in positions if p["price_now"] is not None}
+    unreal = pf.unrealized_pnl(state, prices_now)
+    return {
+        "start_equity": state.get("start_equity", config.PAPER_START_EQUITY),
+        "equity_cash": state["equity"],
+        "unrealized": round(unreal, 4),
+        "total": round(state["equity"] + unreal, 4),
+        "open_positions": len(positions),
+        "positions": positions,
+        "pending": pending,
+        "equity": equity_df,
+    }
+
+
+@router.get("/journal")
+def api_journal(day: str | None = None):
+    d = Path(day) if day else _latest_day()
+    if d is None:
+        return {"day": None, "trades": []}
+    p = config.PORTFOLIO_DIR / "trades.csv"
+    trades = pd.read_csv(p).tail(100).to_dict(orient="records") if p.exists() else []
+    return {"day": d.name, "trades": trades}

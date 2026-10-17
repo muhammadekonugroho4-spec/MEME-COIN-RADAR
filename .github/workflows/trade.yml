@@ -1,0 +1,44 @@
+name: trade-mcr
+
+on:
+  schedule:
+    - cron: "*/5 * * * *"   # tiap 5 menit: fill pending + monitor exit + sinyal baru
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: trade-mcr
+  cancel-in-progress: false
+
+jobs:
+  trade:
+    runs-on: ubuntu-latest
+    timeout-minutes: 6
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      - name: Run paper trader
+        run: python -m jobs.job_trader
+
+      - name: Commit state & journal
+        run: |
+          git config user.name "mcr-bot"
+          git config user.email "mcr-bot@users.noreply.github.com"
+          git add data/
+          if git diff --cached --quiet; then
+            echo "Tidak ada perubahan trading."
+          else
+            git commit -m "paper: trade cycle $(date -u +%F-%H:%M)"
+            git pull --rebase origin main
+            git push
+          fi
