@@ -1,0 +1,16 @@
+# secrets - jangan pernah di-commit
+.env
+*.key
+*.pem
+
+# python
+__pycache__/
+*.pyc
+.venv/
+.pytest_cache/
+
+# log
+*.log
+
+# state lokal besar (yang di-commit hanya output pipeline data/daily, portfolio)
+data/cache/
