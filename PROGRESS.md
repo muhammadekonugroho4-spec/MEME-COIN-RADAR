@@ -2,7 +2,7 @@
 
 | Fase | Status | Tanggal | Catatan |
 |------|--------|---------|---------|
-| 0 | ⬜ Belum | - | Kerangka proyek (folder, venv, /health, repo GitHub) |
+| 0 | ✅ SELESAI | 2026-10-17 | Kerangka §2 lengkap, venv, `/health` paper-only 200, pytest 4/4, repo GitHub `muhammadekonugroho4-spec/MEME-COIN-RADAR` ter-push (`6070f9b`), credential terpisah `~/.mcr-credentials` |
 | 1-7 | ⬜ Belum | - | Lihat PROMPT_PROJECT_MEME_COIN_RADAR.md §5 |
 
 ## Verifikasi sumber data (17 Okt 2026, Observed)
