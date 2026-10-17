@@ -6,7 +6,10 @@
 | 1 | ✅ SELESAI | 2026-10-17 | Adapter dexscreener/solana/coingecko + coin_store parquet (dedup ts+mint, cap 2000 baris) + job_scan. Smoke nyata: 39 pair, 10 coin tercatat, RPC OK, SOL $103.88. Run Actions scan-mcr SUCCESS. pytest 13/13 |
 | 2 | ✅ SELESAI | 2026-10-17 | risk_filter (5 keras, alasan eksplisit) + scorer (6 sinyal berbobot, 3 zona) + integrasi job_scan + UI radar + API scan/stats. Smoke: SOL | 2-7 | ⬜ Belum | - | Lihat PROMPT_PROJECT_MEME_COIN_RADAR.md §5 | co. tertolak FDV, 2 WATCH. pytest 31/31 |
 | 3 | ✅ SELESAI | 2026-10-17 | PaperBroker (fill next-scan, slippage 0.5%+impact, max 5 posisi) + strategy (stop -35%, liq-pull exit, TP +100% jual 50%, trailing 25%, hold 48j) + portfolio state idempotent + job trader + UI Posisi + trade.yml */5. Siklus penuh teruji offline. Run Actions SUCCESS. pytest 46/46 |
-| 4-7 | ⬜ Belum | - | Lihat PROMPT_PROJECT_MEME_COIN_RADAR.md §5 |
+| 4 | ✅ SELESAI | 2026-10-17 | On-chain: getAccountInfo (mint/freeze authority) + getTokenLargestAccounts (top-10 >40% reject, TTL 6 jam, 429 = lembut). Verifikasi nyata: coin dengan authority None lolos on-chain |
+| 5 | ✅ SELESAI | 2026-10-17 | AI risk note per kandidat (Gemini→Groq→mock), mock deterministik sinkron dgn scorer; ai_flag/note/engine di jurnal & UI radar |
+| 6 | ✅ SELESAI | 2026-10-17 | UI lengkap: radar(+AI note), posisi, jurnal, statistik filter bar-chart; nav konsisten; API /api/scan /stats /positions /journal |
+| 7 | ✅ SELESAI | 2026-10-17 | job_report: win rate, rug stats, efektivitas filter, strategi vs acak → report.md harian + workflow report.yml. Bug FIFO partial-exit ditemukan & diperbaiki. pytest 64/64. Ketiga workflow SUCCESS |
 
 ## Verifikasi sumber data (17 Okt 2026, Observed)
 - DexScreener: search 200 (30 pairs), token endpoint 200, token-profiles 200
