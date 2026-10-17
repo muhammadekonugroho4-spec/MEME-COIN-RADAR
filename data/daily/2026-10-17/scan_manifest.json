@@ -1,5 +1,5 @@
 {
-  "run_at": "2026-10-17T22:01:05",
+  "run_at": "2026-10-17T15:01:48",
   "pairs_scanned": 39,
   "known_before": 21,
   "fresh_candidates": 3,
@@ -34,7 +34,7 @@
       "price_usd": 71.14,
       "liquidity_usd": 1493930454.44,
       "fdv": 1494144611.0,
-      "age_min": 174500.0,
+      "age_min": 174500.7,
       "chg_h1": 0.0
     },
     {
@@ -50,7 +50,7 @@
       "price_usd": 87.58,
       "liquidity_usd": 1177115.57,
       "fdv": 1313733.0,
-      "age_min": 264065.6,
+      "age_min": 264066.4,
       "chg_h1": 0.0
     }
   ]

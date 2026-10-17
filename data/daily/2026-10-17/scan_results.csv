@@ -1,4 +1,4 @@
 mint,symbol,zone,score,reasons,parts,ai_flag,ai_note,ai_engine,price_usd,liquidity_usd,fdv,age_min,chg_h1
 3RL6dzUKTSPaWytBYb4Pj9gQCC4sRena6etrP9nfpump,Pump,SKIP,0.0,harga tidak tersedia,{},,,,,,,,
-3eMs82ZbkAHUH7qAn1iRtdVKW2egWEwpc8CVXztAgjQo,SOL,REJECT,0.0,"FDV $1,494,144,611 > $5,000,000",{},danger,"gagal filter: FDV $1,494,144,611 > $5,000,000.",mock,71.14,1493930454.44,1494144611.0,174500.0,0.0
-5XXn2PCJDCGUViEUcwKA6gLcTS5zG5ESnmTsfvEvDU4P,SOL,PASSIVE,34.5,,"{""momentum"": 0.0, ""volume_sustain"": 0.0, ""buy_sell_ratio"": 0.0, ""liq_vs_fdv"": 15.0, ""age_sweetspot"": 4.5, ""supply_known"": 15}",ok,Metrik pasar dalam batas wajar untuk meme coin.,mock,87.58,1177115.57,1313733.0,264065.6,0.0
+3eMs82ZbkAHUH7qAn1iRtdVKW2egWEwpc8CVXztAgjQo,SOL,REJECT,0.0,"FDV $1,494,144,611 > $5,000,000",{},danger,"gagal filter: FDV $1,494,144,611 > $5,000,000.",mock,71.14,1493930454.44,1494144611.0,174500.7,0.0
+5XXn2PCJDCGUViEUcwKA6gLcTS5zG5ESnmTsfvEvDU4P,SOL,PASSIVE,34.5,,"{""momentum"": 0.0, ""volume_sustain"": 0.0, ""buy_sell_ratio"": 0.0, ""liq_vs_fdv"": 15.0, ""age_sweetspot"": 4.5, ""supply_known"": 15}",ok,Metrik pasar dalam batas wajar untuk meme coin.,mock,87.58,1177115.57,1313733.0,264066.4,0.0
