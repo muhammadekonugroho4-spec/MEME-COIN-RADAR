@@ -57,7 +57,7 @@ def test_report_full(tmp_path, monkeypatch):
     assert st["total_pnl"] == pytest.approx(85.0, abs=0.01)
     assert st["rug_exits"] == 1
 
-    text = (daily / "2026-10-17" / "report.md").read_text()
+    text = Path(r["report_path"]).read_text()
     assert "Win rate" in text
     assert "strategi" in text.lower()
     assert "Simulasi virtual" in text

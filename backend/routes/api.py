@@ -25,7 +25,9 @@ def api_scan(day: str | None = None):
         return {"day": None, "manifest": {}, "results": []}
     mf = d / "scan_manifest.json"
     manifest = json.loads(mf.read_text()) if mf.exists() else {}
-    rows = pd.read_csv(d / "scan_results.csv").where(pd.notna(pd.read_csv(d / "scan_results.csv")), None).to_dict(orient="records")
+    df = pd.read_csv(d / "scan_results.csv").astype(object)
+    df = df.where(pd.notna(df), None)
+    rows = [{k: (None if isinstance(v, float) and v != v else v) for k, v in r.items()} for r in df.to_dict(orient="records")]
     return {"day": d.name, "manifest": manifest, "results": rows}
 
 

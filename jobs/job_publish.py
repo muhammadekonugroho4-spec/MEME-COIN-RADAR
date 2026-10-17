@@ -23,6 +23,17 @@ from backend.core import portfolio as pf
 MAX_ROWS = 60
 
 
+def _clean_nans(obj):
+    """NaN/inf -> None supaya JSON valid untuk browser (json.dumps menulis NaN mentah)."""
+    if isinstance(obj, float):
+        return None if (obj != obj or obj in (float("inf"), float("-inf"))) else obj
+    if isinstance(obj, dict):
+        return {k: _clean_nans(v) for k, v in obj.items()}
+    if isinstance(obj, list):
+        return [_clean_nans(v) for v in obj]
+    return obj
+
+
 def _latest_day() -> Path | None:
     dirs = sorted((d for d in config.DAILY_DIR.iterdir() if d.is_dir() and d.name[:2] == "20"), reverse=True)
     return dirs[0] if dirs else None
@@ -35,7 +46,8 @@ def _read_scan(day: Path) -> tuple[list[dict], dict]:
     if not p.exists():
         return [], manifest
     df = pd.read_csv(p)
-    return df.where(pd.notna(df), None).to_dict(orient="records"), manifest
+    df = pd.read_csv(p).astype(object).where(pd.notna(df), None)
+    return [_clean_nans(r) for r in df.to_dict(orient="records")], manifest
 
 
 def _read_portfolio() -> dict:
@@ -124,7 +136,8 @@ def build(publish_dir: Path | None = None) -> Path:
         "stats": _read_stats(config.DAILY_DIR),
         "report_md": _read_report(day)[-4000:],  # ekor laporan (bagian paling relevan)
     }
-    (publish_dir / "data.json").write_text(json.dumps(data, ensure_ascii=False, default=str))
+    data = _clean_nans(data)
+    (publish_dir / "data.json").write_text(json.dumps(data, ensure_ascii=False, default=str, allow_nan=False))
     (publish_dir / "index.html").write_text(INDEX_HTML)
     return publish_dir
 
