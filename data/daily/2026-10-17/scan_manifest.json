@@ -1,25 +1,32 @@
 {
-  "run_at": "2026-10-17T15:01:48",
-  "pairs_scanned": 39,
+  "run_at": "2026-10-17T17:16:59",
+  "pairs_scanned": 37,
   "known_before": 21,
   "fresh_candidates": 3,
   "zones": {
     "BUY": 0,
     "WATCH": 0,
-    "PASSIVE": 1,
-    "REJECT": 1,
-    "SKIP": 1
+    "PASSIVE": 0,
+    "REJECT": 3
   },
   "solana_rpc_ok": true,
-  "sol_price_usd": 104.25,
+  "sol_price_usd": 103.13,
   "results": [
     {
-      "mint": "3RL6dzUKTSPaWytBYb4Pj9gQCC4sRena6etrP9nfpump",
-      "symbol": "Pump",
-      "zone": "SKIP",
+      "mint": "6ueGm9qsdDY1vFf2M6v6whVbYY2qXU6RwrqJ6ZPG9C3q",
+      "symbol": "SOL",
+      "zone": "REJECT",
       "score": 0.0,
-      "reasons": "harga tidak tersedia",
-      "parts": "{}"
+      "reasons": "FDV $1,454,780,762 > $5,000,000",
+      "parts": "{}",
+      "ai_flag": "danger",
+      "ai_note": "gagal filter: FDV $1,454,780,762 > $5,000,000.",
+      "ai_engine": "mock",
+      "price_usd": 69.27,
+      "liquidity_usd": 1454572261.38,
+      "fdv": 1454780762.0,
+      "age_min": 172955.9,
+      "chg_h1": 0.0
     },
     {
       "mint": "3eMs82ZbkAHUH7qAn1iRtdVKW2egWEwpc8CVXztAgjQo",
@@ -34,23 +41,23 @@
       "price_usd": 71.14,
       "liquidity_usd": 1493930454.44,
       "fdv": 1494144611.0,
-      "age_min": 174500.7,
+      "age_min": 174635.9,
       "chg_h1": 0.0
     },
     {
-      "mint": "5XXn2PCJDCGUViEUcwKA6gLcTS5zG5ESnmTsfvEvDU4P",
+      "mint": "BFAYYr7Fs7P3vcZiFn6g2yowzpB4cFahoj8JpgzdqVi7",
       "symbol": "SOL",
-      "zone": "PASSIVE",
-      "score": 34.5,
-      "reasons": "",
-      "parts": "{\"momentum\": 0.0, \"volume_sustain\": 0.0, \"buy_sell_ratio\": 0.0, \"liq_vs_fdv\": 15.0, \"age_sweetspot\": 4.5, \"supply_known\": 15}",
-      "ai_flag": "ok",
-      "ai_note": "Metrik pasar dalam batas wajar untuk meme coin.",
+      "zone": "REJECT",
+      "score": 0.0,
+      "reasons": "FDV $1,387,585,198 > $5,000,000",
+      "parts": "{}",
+      "ai_flag": "danger",
+      "ai_note": "gagal filter: FDV $1,387,585,198 > $5,000,000.",
       "ai_engine": "mock",
-      "price_usd": 87.58,
-      "liquidity_usd": 1177115.57,
-      "fdv": 1313733.0,
-      "age_min": 264066.4,
+      "price_usd": 69.37,
+      "liquidity_usd": 1387376386.68,
+      "fdv": 1387585198.0,
+      "age_min": 166110.7,
       "chg_h1": 0.0
     }
   ]
