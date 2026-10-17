@@ -11,6 +11,8 @@
 | 6 | ✅ SELESAI | 2026-10-17 | UI lengkap: radar(+AI note), posisi, jurnal, statistik filter bar-chart; nav konsisten; API /api/scan /stats /positions /journal |
 | 7 | ✅ SELESAI | 2026-10-17 | job_report: win rate, rug stats, efektivitas filter, strategi vs acak → report.md harian + workflow report.yml. Bug FIFO partial-exit ditemukan & diperbaiki. pytest 64/64. Ketiga workflow SUCCESS |
 
+| web | ✅ LIVE | 2026-10-18 | Dashboard publik GitHub Pages: https://muhammadekonugroho4-spec.github.io/MEME-COIN-RADAR/ (job_publish statis + workflow pages 2x/jam; data.json terverifikasi 200 & sinkron) |
+
 ## Verifikasi sumber data (17 Okt 2026, Observed)
 - DexScreener: search 200 (30 pairs), token endpoint 200, token-profiles 200
 - Solana RPC publik: getHealth ok, getTokenSupply ok (apiVersion 4.3.0)
