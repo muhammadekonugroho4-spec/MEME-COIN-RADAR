@@ -3,7 +3,8 @@
 | Fase | Status | Tanggal | Catatan |
 |------|--------|---------|---------|
 | 0 | ✅ SELESAI | 2026-10-17 | Kerangka §2 lengkap, venv, `/health` paper-only 200, pytest 4/4, repo GitHub `muhammadekonugroho4-spec/MEME-COIN-RADAR` ter-push (`6070f9b`), credential terpisah `~/.mcr-credentials` |
-| 1-7 | ⬜ Belum | - | Lihat PROMPT_PROJECT_MEME_COIN_RADAR.md §5 |
+| 1 | ✅ SELESAI | 2026-10-17 | Adapter dexscreener/solana/coingecko + coin_store parquet (dedup ts+mint, cap 2000 baris) + job_scan. Smoke nyata: 39 pair, 10 coin tercatat, RPC OK, SOL $103.88. Run Actions scan-mcr SUCCESS. pytest 13/13 |
+| 2-7 | ⬜ Belum | - | Lihat PROMPT_PROJECT_MEME_COIN_RADAR.md §5 |
 
 ## Verifikasi sumber data (17 Okt 2026, Observed)
 - DexScreener: search 200 (30 pairs), token endpoint 200, token-profiles 200
