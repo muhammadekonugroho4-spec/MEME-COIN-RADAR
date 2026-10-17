@@ -1,28 +1,41 @@
 {
-  "run_at": "2026-10-17T21:28:25",
+  "run_at": "2026-10-17T14:29:26",
   "pairs_scanned": 39,
   "known_before": 21,
-  "fresh_candidates": 1,
+  "fresh_candidates": 2,
   "zones": {
     "BUY": 0,
     "WATCH": 0,
     "PASSIVE": 0,
-    "REJECT": 1
+    "REJECT": 2
   },
   "solana_rpc_ok": true,
-  "sol_price_usd": 104.14,
+  "sol_price_usd": 104.21,
   "results": [
     {
-      "mint": "DFu78codWQA3njjfsueTGSzGeEsucrrFurt32gamojas",
+      "mint": "CepzGSiCrXeXVJQ9mMkfmiLErS9oTYQWkcDap3Sppump",
+      "symbol": "gold",
+      "zone": "REJECT",
+      "score": 0.0,
+      "reasons": "likuiditas $0 < $5,000 | umur 3 menit < 30 menit minimum | harga turun -89% dalam 5 menit (sudah rug saat kita lihat)",
+      "parts": "{}",
+      "price_usd": 3.322e-07,
+      "liquidity_usd": 0.0,
+      "fdv": 332.21,
+      "age_min": 2.9,
+      "chg_h1": -88.64
+    },
+    {
+      "mint": "DxvQPgEznnZ2Z3svb4YXWyugVX1QJpTVszZYy326mhv8",
       "symbol": "SOL",
       "zone": "REJECT",
       "score": 0.0,
-      "reasons": "FDV $231,140,986 > $5,000,000",
+      "reasons": "FDV $200,644,148 > $5,000,000",
       "parts": "{}",
-      "price_usd": 231.14,
-      "liquidity_usd": 37833429.31,
-      "fdv": 231140986.0,
-      "age_min": 540198.2,
+      "price_usd": 200.64,
+      "liquidity_usd": 31106458.79,
+      "fdv": 200644148.0,
+      "age_min": 508394.9,
       "chg_h1": 0.0
     }
   ]
