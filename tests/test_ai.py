@@ -1,3 +1,4 @@
+import pytest
 """Test AI service MCR (mock deterministik + fallback + parser) - offline."""
 from unittest.mock import patch
 
@@ -5,6 +6,13 @@ from backend.core import ai_service
 
 ROW = {"mint": "M", "symbol": "TST", "price_usd": 0.001, "liquidity_usd": 20_000.0,
        "fdv": 100_000.0, "chg_h1": 25.0, "buys_m5": 40, "sells_m5": 25}
+
+
+@pytest.fixture(autouse=True)
+def no_llm_keys(monkeypatch):
+    """Isolasi: unit test tidak memanggil LLM sungguhan walau .env berisi key."""
+    monkeypatch.setattr(ai_service.config, "GEMINI_API_KEY", "")
+    monkeypatch.setattr(ai_service.config, "GROQ_API_KEY", "")
 
 
 def test_mock_ok_when_metrics_normal():
