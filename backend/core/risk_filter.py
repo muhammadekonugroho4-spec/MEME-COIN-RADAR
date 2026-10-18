@@ -7,7 +7,7 @@ itu kontrak jurnal (tidak ada penolakan siluman).
 from __future__ import annotations
 
 MIN_LIQUIDITY_USD = 10_000.0       # pool DEX (DexScreener)
-MIN_LIQUIDITY_CURVE_USD = 500.0    # bonding curve pump.fun (likuiditas efektif via reserve SOL)
+MIN_LIQUIDITY_CURVE_USD = 300.0    # bonding curve pump.fun (≈3 SOL, santai utk scalp)
 MIN_AGE_MINUTES = 30.0          # default swing-mode
 # scalp: coin pump.fun umur 5-30 menit diizinkan lewat parameter (di job_scan)
 MAX_FDV = 5_000_000.0

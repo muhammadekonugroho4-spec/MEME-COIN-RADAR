@@ -43,18 +43,26 @@ class PumpFunAdapter:
         self.rate = rate or RateLimitManager()
         self.rate.configure(self.source, RateLimit(max_per_minute=15))
 
-    def newest_coins(self, limit: int = 20) -> list[dict]:
-        """Coin paling baru di-launch pump.fun. Gagal -> [] (lembut)."""
+    def _fetch(self, params: dict) -> list[dict]:
         try:
             self.rate.wait_turn(self.source, timeout=15.0)
-            r = self.session.get(
-                NEW_URL,
-                params={"offset": 0, "limit": limit, "sort": "created_timestamp", "order": "DESC", "includeNsfw": "false"},
-                headers=UA,
-                timeout=15,
-            )
+            r = self.session.get(NEW_URL, params=params, headers=UA, timeout=15)
             if r.status_code != 200:
                 return []
             return parse_coins(r.json())
         except Exception:
             return []  # best-effort mutlak: gagal apa pun = kosong
+
+    def newest_coins(self, limit: int = 20) -> list[dict]:
+        """Coin paling baru di-launch pump.fun. Gagal -> [] (lembut)."""
+        return self._fetch({"offset": 0, "limit": limit, "sort": "created_timestamp",
+                            "order": "DESC", "includeNsfw": "false"})
+
+    def graduating_coins(self, limit: int = 20) -> list[dict]:
+        """Coin pump.fun yang sudah 'berdiri' (belum complete, sort market_cap desc).
+
+        Inilah kandidat scalp sehat: sudah punya volume & holder, curve besar,
+        dan masih bisa naik sebelum graduate ke Raydium.
+        """
+        return self._fetch({"offset": 0, "limit": limit, "sort": "market_cap",
+                            "order": "DESC", "includeNsfw": "false", "complete": "false"})

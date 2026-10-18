@@ -61,28 +61,31 @@ def run(queries: tuple[str, ...] = ("pump", "sol"), max_new: int = 15, min_age: 
     # Sumber UTAMA coin baru: pump.fun newest (search DexScreener tidak menampilkan
     # coin umur menit karena sort likuiditas). Untuk mint baru pump.fun yang belum
     # ada detail pair, tetap masuk kandidat (harga bisa None -> SKIP dgn jurnal).
-    for nc in pf_adapter.newest_coins(limit=20):
-        if nc["mint"] in seen:
-            continue
-        # Harga real-time dari bonding curve: usd_mcap / 1e9 (supply pump.fun konstan)
-        # Likuiditas efektif = real SOL di curve x harga SOL (untuk scalp, pool belum terbentuk)
-        mcap = nc.get("usd_market_cap") or 0.0
-        sol_in_curve = nc.get("real_sol_reserves") or 0.0
-        liq_eff = sol_in_curve * (sol_price or 100.0)
-        existing = by_mint.get(nc["mint"])
-        if existing is not None:
-            # search sudah punya pair-nya; tapi curve lebih segar utk likuiditas kecil:
-            # ambil likuiditas terbesar, harga curve tetap dipakai bila search tidak punya harga
-            if liq_eff > (existing.get("liquidity_usd") or 0):
-                existing["liquidity_usd"] = liq_eff
-            if existing.get("price_usd") is None and mcap > 0:
-                existing["price_usd"] = mcap / 1e9
-                existing["fdv"] = mcap
-                existing["market_cap"] = mcap
-            if not existing.get("pair_created_at") and nc.get("created_ms"):
-                existing["pair_created_at"] = nc["created_ms"]
-            continue
-        by_mint[nc["mint"]] = {
+    pf_sources = [("newest", pf_adapter.newest_coins(limit=20)),
+                  ("graduating", pf_adapter.graduating_coins(limit=20))]
+    for src_name, coins_list in pf_sources:
+        for nc in coins_list:
+            if nc["mint"] in seen and src_name != "graduating":
+                continue  # newest yang sudah tercatat = lewat; graduating tetap di-track
+            # Harga real-time dari bonding curve: usd_mcap / 1e9 (supply pump.fun konstan)
+            # Likuiditas efektif = real SOL di curve x harga SOL (untuk scalp, pool belum terbentuk)
+            mcap = nc.get("usd_market_cap") or 0.0
+            sol_in_curve = nc.get("real_sol_reserves") or 0.0
+            liq_eff = sol_in_curve * (sol_price or 100.0)
+            existing = by_mint.get(nc["mint"])
+            if existing is not None:
+                # search sudah punya pair-nya; tapi curve lebih segar utk likuiditas kecil:
+                # ambil likuiditas terbesar, harga curve tetap dipakai bila search tidak punya harga
+                if liq_eff > (existing.get("liquidity_usd") or 0):
+                    existing["liquidity_usd"] = liq_eff
+                if existing.get("price_usd") is None and mcap > 0:
+                    existing["price_usd"] = mcap / 1e9
+                    existing["fdv"] = mcap
+                    existing["market_cap"] = mcap
+                if not existing.get("pair_created_at") and nc.get("created_ms"):
+                    existing["pair_created_at"] = nc["created_ms"]
+                continue
+            by_mint[nc["mint"]] = {
                 "mint": nc["mint"], "pair_address": "", "symbol": nc["symbol"],
                 "name": nc["name"], "dex": "pumpfun",
                 "price_usd": mcap / 1e9 if mcap > 0 else None,
@@ -93,7 +96,15 @@ def run(queries: tuple[str, ...] = ("pump", "sol"), max_new: int = 15, min_age: 
                 "chg_m5": 0.0, "chg_h1": 0.0, "chg_h24": 0.0,
                 "pair_created_at": nc.get("created_ms"),
             }
-    fresh = [p for m, p in by_mint.items() if m not in seen][:max_new]
+    # Scalp-friendly: kandidat baru + kandidat pumpfun "graduating" yang sudah dikenal
+    # tetap dinilai ulang (mcap/curve mereka berubah tiap menit).
+    # PRIORITAS: graduating (curve besar, sehat) dulu, baru coin lahiran - supaya slot
+    # max_new tidak habis dimakan coin umur 10 detik yang hampir pasti rug.
+    pumpfun_all = [p for p in by_mint.values() if p.get("dex") == "pumpfun"]
+    graduating = [p for p in pumpfun_all
+                  if (p.get("liquidity_usd") or 0) >= 300 and coin_store.age_minutes(p.get("pair_created_at")) is not None
+                  and coin_store.age_minutes(p.get("pair_created_at")) > 10]
+    fresh = (graduating + [p for p in by_mint.values() if p not in graduating])[:max_new]
 
     # Bot A - sentiment: SEKALI per run (hemat quota), dipakai semua kandidat
     sent = SentimentAdapter()
@@ -144,6 +155,19 @@ def run(queries: tuple[str, ...] = ("pump", "sol"), max_new: int = 15, min_age: 
                             "reasons": "harga tidak tersedia", "parts": json.dumps({})})
             zone_counts["SKIP"] = zone_counts.get("SKIP", 0) + 1
             continue
+
+        # Momentum fallback utk pumpfun (list tidak memberi chg_m5):
+        # bandingkan harga sekarang vs observasi terakhir di history (>=3 menit lalu).
+        if best.get("dex") == "pumpfun":
+            hist_prev = coin_store.load_history(config.COINS_DIR, mint)
+            if hist_prev is not None and len(hist_prev) >= 1 and row["price_usd"]:
+                prev = hist_prev.iloc[-1]
+                dt_min = (row["ts"] - float(prev["ts"])) / 60.0
+                if dt_min >= 3 and float(prev["price_usd"] or 0) > 0:
+                    chg = (row["price_usd"] - float(prev["price_usd"])) / float(prev["price_usd"]) * 100.0
+                    row["chg_m5"] = chg
+                    row["chg_h1"] = row.get("chg_h1") or chg  # fallback info
+                    row["vol_m5"] = max(row.get("vol_m5") or 0, 2000.0 if chg != 0 else 0)
 
         verdict = _evaluate(row, age_min, row["supply"], min_age_minutes=min_age)
 

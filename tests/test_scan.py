@@ -129,6 +129,9 @@ class FakePf:
     def newest_coins(self, limit=20):
         return []  # test offline: tanpa pump.fun
 
+    def graduating_coins(self, limit=20):
+        return []
+
 
 def test_job_scan_offline(tmp_path, monkeypatch):
     import jobs.job_scan as job
@@ -146,12 +149,15 @@ def test_job_scan_offline(tmp_path, monkeypatch):
     assert m["zones"]["BUY"] + m["zones"]["WATCH"] + m["zones"]["PASSIVE"] + m["zones"]["REJECT"] == 1
     assert m["solana_rpc_ok"] is True
 
-    # idempotent: run ke-2, mint sudah dikenal -> tidak ada fresh
+    # idempotent: run ke-2 - mint sudah dikenal, TAPI pumpfun tetap di-evaluasi ulang
+    # (tracking scalp: mcap/curve berubah tiap menit); tidak ada DUPLIKAT observasi karena
+    # coin_store dedup ts+mint.
     m2 = job.run()
-    assert m2["fresh_candidates"] == 0
-
+    assert m2["fresh_candidates"] == 1
     hist = coin_store.load_history(tmp_path / "coins", "NEWCOIN1" + "X" * 30)
-    assert hist is not None and len(hist) == 1
+    assert len(hist) == 2  # tracking: observasi baru dgn ts baru (bukan duplikat dedup-able)
+
+    # (asersi lama len==1 digantikan asersi tracking di atas)
 
 
 # ---------- pump.fun adapter (offline) ----------
