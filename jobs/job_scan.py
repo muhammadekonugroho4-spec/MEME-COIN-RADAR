@@ -21,7 +21,9 @@ from backend.adapters.coingecko import CoinGeckoAdapter
 from backend.adapters.dexscreener import DexScreenerAdapter
 from backend.adapters.solana_rpc import SolanaRpcAdapter
 from backend.core import coin_store, risk_filter, scorer
+from backend.adapters.sentiment import SentimentAdapter
 from backend.core.ai_service import analyze_risk
+from backend.core.sentiment import adjust_technical_score, hype_for
 from backend.core.onchain_filter import onchain_reasons, top10_pct_from_accounts
 
 
@@ -54,6 +56,12 @@ def run(queries: tuple[str, ...] = ("pump", "sol"), max_new: int = 15) -> dict:
 
     sol_ok = sol.health()
     sol_price = cg.price_sol()
+
+    # Bot A - sentiment: SEKALI per run (hemat quota), dipakai semua kandidat
+    sent = SentimentAdapter()
+    trending = sent.coingecko_trending_symbols()
+    boosts_list = sent.dexscreener_boosts_solana()
+    boosts = {b["mint"]: b for b in boosts_list}
 
     results: list[dict] = []
     zone_counts = {"BUY": 0, "WATCH": 0, "PASSIVE": 0, "REJECT": 0}
@@ -105,6 +113,14 @@ def run(queries: tuple[str, ...] = ("pump", "sol"), max_new: int = 15) -> dict:
                 verdict = {"zone": "REJECT", "score": 0.0,
                            "reasons": verdict["reasons"] + oc_reasons, "parts": verdict["parts"]}
 
+        # Bot A: hype score dari sentiment, geser skor teknikal maks ±10
+        hype = hype_for(best["symbol"], mint, trending, boosts)
+        if verdict["zone"] != "REJECT":
+            verdict["score"] = adjust_technical_score(verdict["score"], hype)
+            # zona bisa berubah setelah adjust (65 ambang BUY)
+            if verdict["score"] < 65 and verdict["zone"] == "BUY":
+                verdict["zone"] = "WATCH"
+
         # Narasi AI (Fase 5): 1-2 kalimat risiko; mock bila key kosong
         top10_for_ai = sol.top10_holders_pct(mint, row["supply"]) if row["supply"] else None
         ai = analyze_risk(
@@ -124,6 +140,9 @@ def run(queries: tuple[str, ...] = ("pump", "sol"), max_new: int = 15) -> dict:
             "reasons": " | ".join(verdict["reasons"]),
             "parts": json.dumps(verdict["parts"]),
             "ai_flag": ai.flag,
+            "hype_score": hype.score,
+            "hype_note": hype.note,
+            "hype_paid": hype.paid_boost,
             "ai_note": ai.note,
             "ai_engine": ai.engine,
             "price_usd": row["price_usd"],
@@ -141,6 +160,7 @@ def run(queries: tuple[str, ...] = ("pump", "sol"), max_new: int = 15) -> dict:
         "fresh_candidates": len(fresh),
         "zones": zone_counts,
         "solana_rpc_ok": sol_ok,
+        "sentiment": {"trending_symbols": trending[:10], "boosts_tracked": len(boosts)},
         "sol_price_usd": sol_price,
         "results": results,
     }

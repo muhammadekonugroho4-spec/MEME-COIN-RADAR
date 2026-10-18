@@ -63,7 +63,7 @@ fetch('/api/scan').then(r=>r.json()).then(d=>{
     <td>${fmt$(r.liquidity_usd)}</td>
     <td>${fmt$(r.fdv)}</td>
     <td>${r.age_min!=null?r.age_min+'m':'?'}</td>
-    <td class="rj" style="color:${r.ai_flag==='danger'?'var(--rej)':r.ai_flag==='caution'?'var(--watch)':'var(--up)'}">${r.ai_flag||''}: ${r.ai_note||''}</td>
+    <td class="rj" style="color:${r.ai_flag==='danger'?'var(--rej)':r.ai_flag==='caution'?'var(--watch)':'var(--up)'}">${r.ai_flag||''}: ${r.ai_note||''}${r.hype_score?`<div style="margin-top:3px"><span style="background:#33290f;color:var(--watch);padding:1px 6px;border-radius:4px;font-size:10px">hype ${r.hype_score}</span>${r.hype_paid?' <span style="font-size:10px;color:var(--rej)">paid</span>':''}</div>`:''}</td>
     <td class="rj">${r.reasons||''}</td>
   </tr>`).join('');
 }).catch(()=>document.getElementById('meta').textContent='gagal memuat API');
