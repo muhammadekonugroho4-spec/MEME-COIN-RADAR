@@ -1,5 +1,5 @@
 {
-  "run_at": "2026-10-18T10:38:36",
+  "run_at": "2026-10-18T10:41:54",
   "pairs_scanned": 34,
   "known_before": 22,
   "fresh_candidates": 3,
@@ -10,39 +10,23 @@
     "REJECT": 3
   },
   "solana_rpc_ok": true,
-  "sol_price_usd": 104.11,
+  "sol_price_usd": 104.05,
   "results": [
     {
       "mint": "bdqGw6Tp3F3TkANoEYQbC2yVSoaoUcpvP2iLFmQpump",
       "symbol": "SOL",
       "zone": "REJECT",
       "score": 0.0,
-      "reasons": "likuiditas $0 < $5,000 | umur 9 menit < 30 menit minimum",
+      "reasons": "likuiditas $0 < $5,000 | umur 12 menit < 30 menit minimum",
       "parts": "{}",
       "ai_flag": "danger",
-      "ai_note": "gagal filter: likuiditas $0 < $5,000; umur 9 menit < 30 menit minimum; sangat baru (9 menit).",
-      "ai_engine": "mock",
-      "price_usd": 5.034e-06,
+      "ai_note": "Coin ini sangat baru (12 menit) dengan likuiditas $0 dan perubahan harga 73% dalam 1 jam, menandakan risiko likuiditas dan manipulasi harga yang tinggi",
+      "ai_engine": "groq",
+      "price_usd": 5.205e-06,
       "liquidity_usd": 0.0,
-      "fdv": 5034.31,
-      "age_min": 9.0,
-      "chg_h1": 67.52
-    },
-    {
-      "mint": "SoxJYUPFUiwnNb6GyaBx8weEGVoB1RwtmiNzHNLz7u4",
-      "symbol": "SOL",
-      "zone": "REJECT",
-      "score": 0.0,
-      "reasons": "FDV $1,913,131,759 > $5,000,000",
-      "parts": "{}",
-      "ai_flag": "danger",
-      "ai_note": "gagal filter: FDV $1,913,131,759 > $5,000,000.",
-      "ai_engine": "mock",
-      "price_usd": 91.1,
-      "liquidity_usd": 1912926619.89,
-      "fdv": 1913131759.0,
-      "age_min": 224644.3,
-      "chg_h1": 0.0
+      "fdv": 5205.85,
+      "age_min": 12.3,
+      "chg_h1": 73.23
     },
     {
       "mint": "S3vk9CkeztNnuhKMRPfjHG6939DQvFMXG2x5kvnYQY8",
@@ -52,12 +36,28 @@
       "reasons": "FDV $2,002,585,868 > $5,000,000",
       "parts": "{}",
       "ai_flag": "danger",
-      "ai_note": "gagal filter: FDV $2,002,585,868 > $5,000,000.",
-      "ai_engine": "mock",
+      "ai_note": "Coin ini masih sangat muda (≈158 hari) dan likuiditasnya sangat tinggi dibandingkan FDV, menandakan potensi manipulasi harga dan volatilitas tinggi.",
+      "ai_engine": "groq",
       "price_usd": 95.36,
       "liquidity_usd": 2002432323.91,
       "fdv": 2002585868.0,
-      "age_min": 228837.8,
+      "age_min": 228841.2,
+      "chg_h1": 0.0
+    },
+    {
+      "mint": "BFAYYr7Fs7P3vcZiFn6g2yowzpB4cFahoj8JpgzdqVi7",
+      "symbol": "SOL",
+      "zone": "REJECT",
+      "score": 0.0,
+      "reasons": "FDV $1,387,585,198 > $5,000,000",
+      "parts": "{}",
+      "ai_flag": "caution",
+      "ai_note": "Coin ini berumur hanya ~4 bulan dengan likuiditas tinggi namun aktivitas perdagangan sangat rendah, menandakan risiko likuiditas dan potensi manipulasi harga.",
+      "ai_engine": "groq",
+      "price_usd": 69.37,
+      "liquidity_usd": 1387376386.69,
+      "fdv": 1387585198.0,
+      "age_min": 167155.7,
       "chg_h1": 0.0
     }
   ]
