@@ -28,6 +28,9 @@ jobs:
         run: pip install -r requirements.txt
 
       - name: Scan meme coins
+        env:
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+          GROQ_API_KEY: ${{ secrets.GROQ_API_KEY }}
         run: python -m jobs.job_scan --max-new 15
 
       - name: Commit data
