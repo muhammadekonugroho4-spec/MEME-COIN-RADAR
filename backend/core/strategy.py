@@ -1,28 +1,31 @@
-"""Aturan exit (murni) - §4.4.4-6 PROMPT. Evaluasi 1 posisi terhadap observasi terbaru.
+"""Aturan exit (murni) - mode SCALP (pilihan user 18 Okt 2026).
+
+Filosofi scalp: masuk saat momentum jalan, ambil profit kecil cepat, potong rugi
+secepatnya, dan KELUAR karena waktu bila pasar diam. Tidak ada "menunggu berharap".
 
 Prioritas exit (pertama yang kena):
-1. Stop-exit: harga -35% dari entry ATAU likuiditas pair drop >50% dari saat beli (dev menarik LP)
-2. Take-profit bertahap: +100% dari entry -> jual 50%
-3. Trailing stop: turun 25% dari harga tertinggi sejak entry (hanya aktif setelah TP pertama)
-4. Hold maksimum 48 jam -> jual sisa
+1. Stop loss harga: -5% dari entry
+2. Likuiditas ditarik dev: <60% dari saat beli
+3. Take profit: +8% dari entry (langsung exit penuh - scalp)
+4. Trailing stop: -3% dari harga puncak sejak entry
+5. Max hold: 15 menit -> exit apapun hasilnya
 """
 from __future__ import annotations
 
 from dataclasses import dataclass
 
-STOP_LOSS_PCT = -35.0
-LIQ_DROP_EXIT_PCT = 0.50   # likuiditas sekarang < 50% dari saat beli -> exit
-TP_TRIGGER_PCT = 100.0
-TP_SELL_FRACTION = 0.5
-TRAILING_PCT = 25.0
-MAX_HOLD_HOURS = 48.0
+STOP_LOSS_PCT = -5.0
+LIQ_DROP_EXIT_PCT = 0.60       # likuiditas sekarang < 60% dari saat beli -> exit
+TP_TRIGGER_PCT = 8.0           # scalp: profit kecil cepat, exit penuh
+TRAILING_PCT = 3.0             # kunci profit: 3% dari puncak
+MAX_HOLD_MINUTES = 15.0
 
 
 @dataclass
 class ExitSignal:
-    action: str      # "exit" | "partial_exit" | "hold"
+    action: str      # "exit" | "hold"
     reason: str
-    fraction: float  # 1.0 = semua, 0.5 = setengah
+    fraction: float  # 1.0 = semua
 
 
 def evaluate_position(
@@ -31,7 +34,7 @@ def evaluate_position(
     liquidity_usd: float,
     now_ts: float,
 ) -> ExitSignal:
-    """pos: {'qty','entry_price','entry_ts','peak_price','tp_done','entry_liquidity'}"""
+    """pos: {'qty','entry_price','entry_ts','peak_price','entry_liquidity'}"""
     qty = pos.get("qty") or 0.0
     entry = pos.get("entry_price") or 0.0
     if qty <= 0 or entry <= 0:
@@ -41,34 +44,33 @@ def evaluate_position(
     entry_liq = pos.get("entry_liquidity") or 0.0
     peak = max(pos.get("peak_price") or entry, price)
 
-    # 1a. stop loss harga
+    # 1. stop loss
     if pnl_pct <= STOP_LOSS_PCT:
-        return ExitSignal("exit", f"stop-loss {pnl_pct:.0f}% dari entry", 1.0)
+        return ExitSignal("exit", f"stop-loss {pnl_pct:.1f}% dari entry", 1.0)
 
-    # 1b. likuiditas ditarik dev
+    # 2. likuiditas ditarik
     if entry_liq > 0 and liquidity_usd < entry_liq * (1 - LIQ_DROP_EXIT_PCT):
         return ExitSignal(
             "exit",
-            f"likuiditas pair drop ke ${liquidity_usd:,.0f} (<50% dari ${entry_liq:,.0f} saat beli)",
+            f"likuiditas pair drop ke ${liquidity_usd:,.0f} (<60% dari ${entry_liq:,.0f} saat beli)",
             1.0,
         )
 
-    # 4. hold maksimum
-    hours = (now_ts - pos.get("entry_ts", now_ts)) / 3600.0
-    if hours >= MAX_HOLD_HOURS:
-        return ExitSignal("exit", f"hold {hours:.0f} jam >= 48 jam maksimum", 1.0)
+    # 5. max hold
+    minutes = (now_ts - pos.get("entry_ts", now_ts)) / 60.0
+    if minutes >= MAX_HOLD_MINUTES:
+        return ExitSignal("exit", f"scalp timeout: {minutes:.0f} menit >= {MAX_HOLD_MINUTES:.0f} menit", 1.0)
 
-    # 2. TP pertama: +100% -> jual 50%
-    if not pos.get("tp_done") and pnl_pct >= TP_TRIGGER_PCT:
-        return ExitSignal("partial_exit", f"take-profit pertama +{pnl_pct:.0f}%, jual 50%", TP_SELL_FRACTION)
+    # 3. take profit
+    if pnl_pct >= TP_TRIGGER_PCT:
+        return ExitSignal("exit", f"take-profit scalp +{pnl_pct:.1f}%", 1.0)
 
-    # 3. trailing stop: hanya setelah TP pertama
-    if pos.get("tp_done"):
-        drop_from_peak = (price - peak) / peak * 100.0
-        if drop_from_peak <= -TRAILING_PCT:
-            return ExitSignal("exit", f"trailing stop: {drop_from_peak:.0f}% dari puncak {peak:.8f}", 1.0)
+    # 4. trailing stop
+    drop_from_peak = (price - peak) / peak * 100.0
+    if drop_from_peak <= -TRAILING_PCT:
+        return ExitSignal("exit", f"trailing stop: {drop_from_peak:.1f}% dari puncak", 1.0)
 
-    return ExitSignal("hold", f"hold, PnL {pnl_pct:+.0f}%", 0.0)
+    return ExitSignal("hold", f"hold, PnL {pnl_pct:+.1f}%", 0.0)
 
 
 def update_peak(pos: dict, price: float) -> dict:

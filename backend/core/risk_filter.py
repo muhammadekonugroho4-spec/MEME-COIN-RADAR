@@ -6,7 +6,7 @@ itu kontrak jurnal (tidak ada penolakan siluman).
 """
 from __future__ import annotations
 
-MIN_LIQUIDITY_USD = 5_000.0
+MIN_LIQUIDITY_USD = 10_000.0  # scalp: butuh likuiditas utk keluar-masuk cepat
 MIN_AGE_MINUTES = 30.0
 MAX_FDV = 5_000_000.0
 MAX_VOL_TO_LIQ_24H = 15.0

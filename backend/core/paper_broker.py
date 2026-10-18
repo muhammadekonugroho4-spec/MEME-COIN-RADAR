@@ -11,8 +11,8 @@ from __future__ import annotations
 from dataclasses import asdict, dataclass, field
 
 BASE_SLIPPAGE_PCT = 0.5
-MAX_POSITIONS = 5
-POSITION_PCT_EQUITY = 0.10
+MAX_POSITIONS = 3          # scalp: fokus 3 posisi
+POSITION_PCT_EQUITY = 0.15 # scalp: 15% per posisi
 MIN_ORDER_USD = 5.0
 
 

@@ -86,5 +86,14 @@ def score(row: dict, age_min: float | None, supply: float | None) -> SkorResult:
     parts["supply_known"] = WEIGHTS["supply_known"] if supply else 0.0
 
     total = round(sum(parts.values()), 1)
-    zone = "BUY" if total >= 70 else ("WATCH" if total >= 40 else "PASSIVE")
+    # scalp: momentum 5 menit WAJIB hidup + volume aktif - tanpa itu tidak masuk BUY apa pun skornya
+    has_momentum = (row.get("chg_m5") or 0.0) > 0 and (row.get("vol_m5") or 0.0) >= 2_000.0
+    if total >= 65 and has_momentum:
+        zone = "BUY"
+    elif total >= 65:
+        zone = "WATCH"  # skor cukup tapi pasar diam -> tunggu momentum
+    elif total >= 40:
+        zone = "WATCH"
+    else:
+        zone = "PASSIVE"
     return SkorResult(score=total, zone=zone, parts={k: round(v, 1) for k, v in parts.items()})

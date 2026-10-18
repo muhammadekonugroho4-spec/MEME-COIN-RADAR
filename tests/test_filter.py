@@ -157,3 +157,29 @@ def test_ui_all_pages():
         r = c.get(path)
         assert r.status_code == 200, path
         assert needle in r.text, path
+
+
+# ---------- scalp: momentum wajib ----------
+
+def test_buy_requires_live_momentum():
+    # skor 75 tapi chg_m5 negatif -> TIDAK BOLEH BUY (hanya WATCH)
+    s = scorer.score(row(chg_m5=-0.5, vol_m5=5000.0), 90.0, 1e9)
+    assert s.score >= 65 and s.zone == "WATCH"
+
+
+def test_buy_requires_active_volume_m5():
+    # momentum naik tapi volume m5 sepi -> bukan BUY
+    s = scorer.score(row(chg_m5=0.5, vol_m5=100.0), 90.0, 1e9)
+    assert s.zone == "WATCH"
+
+
+def test_buy_with_full_momentum():
+    # skor tinggi + momentum hidup -> BUY
+    s = scorer.score(row(chg_m5=0.8, vol_m5=8000.0), 90.0, 1e9)
+    assert s.zone == "BUY"
+
+
+def test_min_liquidity_10k_scalp():
+    # likuiditas $8k: dulu lolos ($5k), sekarang ditolak ($10k)
+    r = risk_filter.reject_reasons(row(liquidity_usd=8_000.0), age_min=90.0)
+    assert any("likuiditas" in x for x in r)

@@ -24,7 +24,7 @@ from backend import config
 from backend.core import paper_broker, portfolio, strategy
 from backend.core.paper_broker import PendingOrder
 
-PRICE_STALE_SECONDS = 3600  # observasi lebih tua dari ini dianggap basi (coin mati)
+PRICE_STALE_SECONDS = 360   # scalp: observasi >6 menit = basi (SL/TP harus reaksi cepat)
 
 
 def latest_prices(coins_dir: Path, mints: list[str]) -> dict[str, dict]:
@@ -87,7 +87,7 @@ def run(dry_run: bool = False) -> dict:
         if not pinfo or now - pinfo["ts"] > PRICE_STALE_SECONDS:
             # belum ada harga baru -> tetap pending (max 6 run, lalu batal)
             o["tries"] = o.get("tries", 0) + 1
-            if o["tries"] <= 6:
+            if o["tries"] <= 3:
                 remaining.append(o)
             else:
                 journal.append({"mint": o["mint"], "action": "cancel", "reason": "tidak ada fill 6 run"})

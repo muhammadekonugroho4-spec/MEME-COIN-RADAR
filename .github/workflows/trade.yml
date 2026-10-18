@@ -2,7 +2,7 @@ name: trade-mcr
 
 on:
   schedule:
-    - cron: "*/5 * * * *"   # tiap 5 menit: fill pending + monitor exit + sinyal baru
+    - cron: "*/1 * * * *"   # scalp: tiap 1 menit (SL -5% / TP +8% perlu reaksi cepat)
   workflow_dispatch:
 
 permissions:
@@ -15,7 +15,7 @@ concurrency:
 jobs:
   trade:
     runs-on: ubuntu-latest
-    timeout-minutes: 6
+    timeout-minutes: 4
     steps:
       - uses: actions/checkout@v4
 

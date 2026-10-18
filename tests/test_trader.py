@@ -18,8 +18,8 @@ def test_slippage_model():
 
 
 def test_position_size_limits():
-    assert paper_broker.position_size(1000.0, 0) == pytest.approx(100.0)  # 10%
-    assert paper_broker.position_size(1000.0, 5) is None                   # slot penuh
+    assert paper_broker.position_size(1000.0, 0) == pytest.approx(150.0)  # 15% (scalp)
+    assert paper_broker.position_size(1000.0, 3) is None                   # slot penuh (3)
     assert paper_broker.position_size(20.0, 0) is None                     # < $5 minimum
 
 
@@ -56,27 +56,37 @@ def test_stop_loss_35pct():
 
 
 def test_liquidity_pulled_exit():
-    sig = strategy.evaluate_position(_pos(), price=1.2, liquidity_usd=8_000.0, now_ts=3600)  # <50% dari 20k
+    sig = strategy.evaluate_position(_pos(), price=1.2, liquidity_usd=7_000.0, now_ts=600)  # <60% dari 20k
     assert sig.action == "exit" and "likuiditas" in sig.reason
 
 
-def test_max_hold_48h():
-    sig = strategy.evaluate_position(_pos(), price=1.0, liquidity_usd=20_000.0, now_ts=49 * 3600)
-    assert sig.action == "exit" and "48 jam" in sig.reason
+def test_max_hold_15_minutes():
+    sig = strategy.evaluate_position(_pos(), price=1.0, liquidity_usd=20_000.0, now_ts=16 * 60)
+    assert sig.action == "exit" and "scalp timeout" in sig.reason
 
 
-def test_tp_first_sells_half():
-    sig = strategy.evaluate_position(_pos(), price=2.1, liquidity_usd=20_000.0, now_ts=3600)
-    assert sig.action == "partial_exit" and sig.fraction == 0.5
+def test_scalp_take_profit_8pct():
+    sig = strategy.evaluate_position(_pos(), price=1.09, liquidity_usd=20_000.0, now_ts=300)
+    assert sig.action == "exit" and "take-profit" in sig.reason and sig.fraction == 1.0
 
 
-def test_trailing_stop_only_after_tp():
-    # sebelum TP: peak naik lalu turun 30% -> masih hold
-    pos = _pos(peak_price=1.4)
-    assert strategy.evaluate_position(pos, price=0.98, liquidity_usd=20_000.0, now_ts=3600).action == "hold"
-    # setelah TP: turun 30% dari peak -> exit
-    pos2 = _pos(peak_price=2.2, tp_done=True)
-    assert strategy.evaluate_position(pos2, price=1.5, liquidity_usd=20_000.0, now_ts=3600).action == "exit"
+def test_scalp_stop_5pct():
+    sig = strategy.evaluate_position(_pos(), price=0.94, liquidity_usd=20_000.0, now_ts=120)
+    assert sig.action == "exit" and "stop-loss" in sig.reason
+
+
+def test_scalp_trailing_3pct():
+    pos = _pos(peak_price=1.10)
+    sig = strategy.evaluate_position(pos, price=1.06, liquidity_usd=20_000.0, now_ts=240)
+    assert sig.action == "exit" and "trailing" in sig.reason
+
+
+def test_scalp_hold_when_quiet_but_young():
+    sig = strategy.evaluate_position(_pos(), price=1.01, liquidity_usd=20_000.0, now_ts=240)
+    assert sig.action == "hold"
+
+
+# (profil scalp: TP exit penuh +8%, trailing aktif sejak awal - test menggantikan versi swing)
 
 
 def test_update_peak_monotonic():
