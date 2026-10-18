@@ -13,6 +13,8 @@
 
 | web | ✅ LIVE | 2026-10-18 | Dashboard publik GitHub Pages: https://muhammadekonugroho4-spec.github.io/MEME-COIN-RADAR/ (job_publish statis + workflow pages 2x/jam; data.json terverifikasi 200 & sinkron) |
 
+| bot-a | ✅ LIVE | 2026-10-18 | Bot A Sentiment: CoinGecko trending (organik +55) + DexScreener boosts (berbayar +35, boost raksasa tanpa organik = dipatok & ditandai waspada); adjust skor maks ±10; badge hype di radar. Smoke: SOL hype 55, filter tetap menang. pytest 81/81 |
+
 ## Verifikasi sumber data (17 Okt 2026, Observed)
 - DexScreener: search 200 (30 pairs), token endpoint 200, token-profiles 200
 - Solana RPC publik: getHealth ok, getTokenSupply ok (apiVersion 4.3.0)
