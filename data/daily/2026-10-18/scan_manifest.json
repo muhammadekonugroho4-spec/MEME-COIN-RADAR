@@ -1,48 +1,32 @@
 {
-  "run_at": "2026-10-18T10:35:26",
+  "run_at": "2026-10-18T10:38:36",
   "pairs_scanned": 34,
   "known_before": 22,
   "fresh_candidates": 3,
   "zones": {
     "BUY": 0,
     "WATCH": 0,
-    "PASSIVE": 1,
-    "REJECT": 2
+    "PASSIVE": 0,
+    "REJECT": 3
   },
   "solana_rpc_ok": true,
-  "sol_price_usd": 104.14,
+  "sol_price_usd": 104.11,
   "results": [
     {
       "mint": "bdqGw6Tp3F3TkANoEYQbC2yVSoaoUcpvP2iLFmQpump",
       "symbol": "SOL",
       "zone": "REJECT",
       "score": 0.0,
-      "reasons": "likuiditas $0 < $5,000 | umur 6 menit < 30 menit minimum",
+      "reasons": "likuiditas $0 < $5,000 | umur 9 menit < 30 menit minimum",
       "parts": "{}",
       "ai_flag": "danger",
-      "ai_note": "gagal filter: likuiditas $0 < $5,000; umur 6 menit < 30 menit minimum; sangat baru (6 menit).",
+      "ai_note": "gagal filter: likuiditas $0 < $5,000; umur 9 menit < 30 menit minimum; sangat baru (9 menit).",
       "ai_engine": "mock",
-      "price_usd": 4.661e-06,
+      "price_usd": 5.034e-06,
       "liquidity_usd": 0.0,
-      "fdv": 4661.35,
-      "age_min": 5.9,
-      "chg_h1": 55.11
-    },
-    {
-      "mint": "8F8FLuwv7iL26ecsQ1yXmYKJ6us6Y55QEpJDMFk11Wau",
-      "symbol": "SOL",
-      "zone": "PASSIVE",
-      "score": 34.5,
-      "reasons": "",
-      "parts": "{\"momentum\": 0.0, \"volume_sustain\": 0.0, \"buy_sell_ratio\": 0.0, \"liq_vs_fdv\": 15.0, \"age_sweetspot\": 4.5, \"supply_known\": 15}",
-      "ai_flag": "ok",
-      "ai_note": "Metrik pasar dalam batas wajar untuk meme coin.",
-      "ai_engine": "mock",
-      "price_usd": 83.42,
-      "liquidity_usd": 951101.75,
-      "fdv": 1251414.0,
-      "age_min": 295116.2,
-      "chg_h1": 0.0
+      "fdv": 5034.31,
+      "age_min": 9.0,
+      "chg_h1": 67.52
     },
     {
       "mint": "SoxJYUPFUiwnNb6GyaBx8weEGVoB1RwtmiNzHNLz7u4",
@@ -57,7 +41,23 @@
       "price_usd": 91.1,
       "liquidity_usd": 1912926619.89,
       "fdv": 1913131759.0,
-      "age_min": 224641.2,
+      "age_min": 224644.3,
+      "chg_h1": 0.0
+    },
+    {
+      "mint": "S3vk9CkeztNnuhKMRPfjHG6939DQvFMXG2x5kvnYQY8",
+      "symbol": "SOL",
+      "zone": "REJECT",
+      "score": 0.0,
+      "reasons": "FDV $2,002,585,868 > $5,000,000",
+      "parts": "{}",
+      "ai_flag": "danger",
+      "ai_note": "gagal filter: FDV $2,002,585,868 > $5,000,000.",
+      "ai_engine": "mock",
+      "price_usd": 95.36,
+      "liquidity_usd": 2002432323.91,
+      "fdv": 2002585868.0,
+      "age_min": 228837.8,
       "chg_h1": 0.0
     }
   ]
