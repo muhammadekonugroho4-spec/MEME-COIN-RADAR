@@ -2,5 +2,6 @@
   "equity": 1000.0,
   "start_equity": 1000.0,
   "positions": {},
-  "pending": []
+  "pending": [],
+  "_applied": []
 }
