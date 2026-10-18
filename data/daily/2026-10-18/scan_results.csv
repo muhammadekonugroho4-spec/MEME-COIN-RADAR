@@ -1,0 +1,3 @@
+mint,symbol,zone,score,reasons,parts,ai_flag,ai_note,ai_engine,price_usd,liquidity_usd,fdv,age_min,chg_h1
+3eMs82ZbkAHUH7qAn1iRtdVKW2egWEwpc8CVXztAgjQo,SOL,REJECT,0.0,"FDV $1,494,144,611 > $5,000,000",{},danger,"gagal filter: FDV $1,494,144,611 > $5,000,000.",mock,71.14,1493930454.45,1494144611.0,175115.3,0.0
+8F8FLuwv7iL26ecsQ1yXmYKJ6us6Y55QEpJDMFk11Wau,SOL,PASSIVE,34.5,,"{""momentum"": 0.0, ""volume_sustain"": 0.0, ""buy_sell_ratio"": 0.0, ""liq_vs_fdv"": 15.0, ""age_sweetspot"": 4.5, ""supply_known"": 15}",ok,Metrik pasar dalam batas wajar untuk meme coin.,mock,83.42,951101.74,1251414.0,294557.1,0.0
