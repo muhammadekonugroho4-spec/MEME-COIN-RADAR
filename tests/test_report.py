@@ -74,3 +74,42 @@ def test_report_empty_portfolio(tmp_path, monkeypatch):
     text = Path(r["report_path"]).read_text()
     assert "Belum ada trade" in text
 
+
+
+def test_daily_pnl_aggregation(tmp_path, monkeypatch):
+    from backend.core import daily_stats
+
+    port = tmp_path / "portfolio"
+    port.mkdir(parents=True)
+    pd.DataFrame([
+        {"ts": "2026-10-17T10:00:00+00:00", "equity_cash": 1000.0, "unrealized": 0.0, "total": 1000.0},
+        {"ts": "2026-10-17T18:00:00+00:00", "equity_cash": 1050.0, "unrealized": 0.0, "total": 1050.0},
+        {"ts": "2026-10-18T10:00:00+00:00", "equity_cash": 1020.0, "unrealized": 0.0, "total": 1020.0},
+    ]).to_csv(port / pf.EQUITY_FILE, index=False)
+    pd.DataFrame([
+        {"ts": "2026-10-17T10:00:00+00:00", "mint": "A", "symbol": "A", "side": "buy", "qty": 1, "price": 1, "usd": 1, "slippage_pct": 0, "signal_price": 1, "reason": ""},
+        {"ts": "2026-10-17T11:00:00+00:00", "mint": "A", "symbol": "A", "side": "sell", "qty": 1, "price": 2, "usd": 2, "slippage_pct": 0, "signal_price": 2, "reason": ""},
+        {"ts": "2026-10-18T10:00:00+00:00", "mint": "B", "symbol": "B", "side": "buy", "qty": 1, "price": 1, "usd": 1, "slippage_pct": 0, "signal_price": 1, "reason": ""},
+    ]).to_csv(port / pf.TRADES_FILE, index=False)
+
+    monkeypatch.setattr(daily_stats.config, "PORTFOLIO_DIR", port)
+    d = daily_stats.daily_pnl()
+    assert d["2026-10-17"]["pnl"] == pytest.approx(50.0)  # 1050 - 1000 (vs start)
+    assert d["2026-10-17"]["trades"] == 2
+    assert d["2026-10-18"]["pnl"] == pytest.approx(-30.0)  # 1020 - 1050 (vs kemarin)
+    assert d["2026-10-18"]["trades"] == 1
+
+
+def test_calendar_api_and_render(tmp_path, monkeypatch):
+    import json as _json
+    from fastapi.testclient import TestClient
+    from backend import config as cfg
+    from backend.main import app
+
+    monkeypatch.setattr(cfg, "PORTFOLIO_DIR", tmp_path)
+    (tmp_path / "daily_pnl.json").write_text(_json.dumps({"2026-10-18": {"pnl": 12.5, "trades": 2}}))
+
+    c = TestClient(app)
+    body = c.get("/api/calendar").json()
+    assert body["days"]["2026-10-18"]["pnl"] == 12.5
+    assert c.get("/").status_code == 200

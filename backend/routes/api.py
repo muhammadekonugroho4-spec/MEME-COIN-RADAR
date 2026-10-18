@@ -107,6 +107,12 @@ def api_positions():
     }
 
 
+@router.get("/calendar")
+def api_calendar():
+    dpnl = config.PORTFOLIO_DIR / "daily_pnl.json"
+    return {"days": json.loads(dpnl.read_text()) if dpnl.exists() else {}}
+
+
 @router.get("/journal")
 def api_journal(day: str | None = None):
     d = Path(day) if day else _latest_day()

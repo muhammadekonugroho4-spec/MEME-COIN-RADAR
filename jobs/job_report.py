@@ -18,7 +18,7 @@ from pathlib import Path
 import pandas as pd
 
 from backend import config
-from backend.core import portfolio as pf
+from backend.core import daily_stats, portfolio as pf
 
 
 def _load_trades() -> pd.DataFrame | None:
@@ -191,6 +191,10 @@ def run() -> dict:
     day_dir.mkdir(parents=True, exist_ok=True)
     (day_dir / "report.md").write_text(text)
     (day_dir / "report_stats.json").write_text(json.dumps(stats, indent=2))
+    # kalender harian utk web (hijau/merah per hari)
+    config.PORTFOLIO_DIR.mkdir(parents=True, exist_ok=True)
+    (config.PORTFOLIO_DIR / "daily_pnl.json").write_text(
+        json.dumps(daily_stats.daily_pnl(), indent=2))
     return {"report_path": str(day_dir / "report.md"), "stats": stats}
 
 

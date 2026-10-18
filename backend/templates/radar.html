@@ -11,62 +11,87 @@
 body{background:var(--bg);color:var(--txt);font:15px/1.5 system-ui,sans-serif}
 .wrap{max-width:1080px;margin:0 auto;padding:16px}
 h1{font-size:19px;margin:8px 0 4px}
-h1 span{color:var(--acc)}
 .meta{color:var(--dim);font-size:13px;margin-bottom:14px}
-.zones{display:flex;gap:10px;margin-bottom:14px;flex-wrap:wrap}
-.z{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:8px 14px;font-size:13px}
-.z b{font-size:18px;display:block}
-.z.buy b{color:var(--buy)}.z.watch b{color:var(--watch)}.z.rej b{color:var(--rej)}
-table{width:100%;border-collapse:collapse;background:var(--card);border-radius:10px;overflow:hidden;margin-bottom:16px}
-th,td{padding:7px 10px;text-align:right;border-bottom:1px solid var(--line);font-variant-numeric:tabular-nums;font-size:13px}
-th{background:#0e1730;color:var(--dim);text-align:right}
-th:first-child,td:first-child{text-align:left}
-.zb{font-size:11px;padding:2px 8px;border-radius:6px;font-weight:700}
-.zb.BUY{background:#0e2e22;color:var(--buy)}.zb.WATCH{background:#33290f;color:var(--watch)}
-.zb.PASSIVE{background:#1a2236;color:var(--dim)}.zb.REJECT{background:#331a1a;color:var(--rej)}.zb.SKIP{background:#1a2236;color:var(--dim)}
-.rj{color:var(--rej);font-size:12px;text-align:left;max-width:320px}
+nav{display:flex;gap:10px;margin:10px 0 16px;flex-wrap:wrap}
+nav a{color:var(--acc);text-decoration:none;padding:6px 12px;border:1px solid var(--line);border-radius:8px;background:var(--card)}
+.card{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:10px 14px;margin-bottom:10px}
+.sig{font-size:12px;padding:2px 8px;border-radius:6px;background:#0e1730;color:var(--warn,#f5b942);margin-right:8px}
+.t{font-weight:700}
+.d{color:var(--dim);font-size:13px}
 .empty{padding:24px;text-align:center;color:var(--dim)}
-.dis{color:var(--dim);font-size:11px;text-align:center;margin-top:10px}
+/* kalender */
+.cal-head{display:grid;grid-template-columns:repeat(7,1fr);gap:4px;margin-bottom:4px}
+.cal-head div{text-align:center;color:var(--dim);font-size:11px;padding:2px 0}
+.cal{display:grid;grid-template-columns:repeat(7,1fr);gap:4px}
+.cal .day{aspect-ratio:1.4;border-radius:8px;display:flex;flex-direction:column;align-items:center;justify-content:center;border:1px solid var(--line);background:var(--card);font-size:11px}
+.cal .day .pnl{font-weight:700;font-size:11px}
+.cal .day.win{background:#0e2e22;border-color:#1d5c40}
+.cal .day.loss{background:#331a1a;border-color:#6b2424}
+.cal .day.flat{opacity:.55}
+.cal .day .num{color:var(--dim)}
+.pos{color:var(--buy)}.neg{color:var(--rej)}
+.legend{display:flex;gap:12px;margin:8px 0 14px;font-size:12px;color:var(--dim)}
+.legend span{display:inline-flex;align-items:center;gap:5px}
+.dot{width:12px;height:12px;border-radius:4px;display:inline-block}
 </style>
 </head>
 <body>
 <div class="wrap">
-<h1>MEME-COIN-<span>RADAR</span></h1>
-<div class="meta"><a href="/positions" style="color:var(--acc)">Lihat Posisi Paper →</a></div>
-<nav><a href="/">Radar</a><a href="/positions">Posisi</a><a href="/journal">Jurnal</a><a href="/stats">Statistik</a></nav>
+<h1>Radar Detektif</h1>
+<nav><a href="/">Screener</a><a href="/radar">Radar Detektif</a><a href="/positions">Posisi</a><a href="/journal">Jurnal</a><a href="/stats">Statistik</a></nav>
 <div class="meta" id="meta">memuat...</div>
-<div class="zones" id="zones"></div>
-<table><thead><tr>
-<th>Coin</th><th>Zona</th><th>Skor</th><th>Harga</th><th>Likuid</th><th>FDV</th><th>Umur</th><th>AI</th><th>Alasan/Reject</th>
-</tr></thead><tbody id="tb"></tbody></table>
-<div class="dis">Simulasi virtual — bukan saran finansial. Meme coin berisiko total loss.</div>
+
+<h2 style="font-size:15px;color:var(--acc)">Kalender PnL harian</h2>
+<div class="legend">
+  <span><i class="dot" style="background:#0e2e22;border:1px solid #1d5c40"></i> untung</span>
+  <span><i class="dot" style="background:#331a1a;border:1px solid #6b2424"></i> rugi</span>
+  <span><i class="dot" style="background:var(--card);border:1px solid var(--line)"></i> netral / tanpa trade</span>
+</div>
+<div class="cal-head"><div>Sen</div><div>Sel</div><div>Rab</div><div>Kam</div><div>Jum</div><div>Sab</div><div>Min</div></div>
+<div class="cal" id="cal"></div>
+
+<h2 style="font-size:15px;color:var(--acc);margin-top:18px">Temuan hari ini</h2>
+<div id="list"><div class="card empty">memuat...</div></div>
 </div>
 <script>
-const fmt$ = v => v==null ? '-' : Number(v)>=1 ? '$'+Number(v).toLocaleString('en',{maximumFractionDigits:0}) : '$'+Number(v).toPrecision(3);
-fetch('/api/scan').then(r=>r.json()).then(d=>{
+const MONTHS=["Jan","Feb","Mar","Apr","Mei","Jun","Jul","Agu","Sep","Okt","Nov","Des"];
+function renderCalendar(days){
+  const el=document.getElementById('cal'); el.innerHTML='';
+  const today=new Date();
+  const y=today.getFullYear(), m=today.getMonth();
+  const first=new Date(y,m,1);
+  const offset=(first.getDay()+6)%7; // Senin=0
+  const dim=new Date(y,m+1,0).getDate();
+  for(let i=0;i<offset;i++){el.insertAdjacentHTML('beforeend','<div></div>');}
+  for(let d=1;d<=dim;d++){
+    const key=`${y}-${String(m+1).padStart(2,'0')}-${String(d).padStart(2,'0')}`;
+    const rec=days[key];
+    let cls='day flat', txt='·';
+    if(rec){
+      const pnl=Number(rec.pnl);
+      if(pnl>0.0001){cls='day win'; txt=`+$${pnl.toFixed(2)}`;}
+      else if(pnl<-0.0001){cls='day loss'; txt=`-$${Math.abs(pnl).toFixed(2)}`;}
+      else {cls='day flat'; txt='±$0';}
+    }
+    el.insertAdjacentHTML('beforeend',`<div class="${cls}"><span class="num">${d}</span><span class="pnl">${txt}</span></div>`);
+  }
+}
+fetch('/api/radar').then(r=>r.json()).then(d=>{
   const m=d.manifest||{};
-  const z=m.zones||{};
-  document.getElementById('meta').textContent =
-    `Scan: ${m.run_at||'-'} | ${m.pairs_scanned??'-'} pair diperiksa | RPC Solana: ${m.solana_rpc_ok?'OK':'GAGAL'} | SOL $${m.sol_price_usd??'-'}`;
-  document.getElementById('zones').innerHTML =
-    `<div class="z buy"><b>${z.BUY??0}</b>BUY</div>
-     <div class="z watch"><b>${z.WATCH??0}</b>WATCH</div>
-     <div class="z"><b>${z.PASSIVE??0}</b>PASSIVE</div>
-     <div class="z rej"><b>${z.REJECT??0}</b>REJECT</div>`;
-  const tb=document.getElementById('tb');
-  if(!d.results.length){tb.innerHTML='<tr><td colspan="8" class="empty">Belum ada hasil scan.</td></tr>';return;}
-  tb.innerHTML=d.results.map(r=>`<tr>
-    <td><b>${(r.symbol||'?').slice(0,12)}</b><div style="color:var(--dim);font-size:10px">${(r.mint||'').slice(0,8)}…</div></td>
-    <td><span class="zb ${r.zone}">${r.zone}</span></td>
-    <td>${r.score??'-'}</td>
-    <td>${fmt$(r.price_usd)}</td>
-    <td>${fmt$(r.liquidity_usd)}</td>
-    <td>${fmt$(r.fdv)}</td>
-    <td>${r.age_min!=null?r.age_min+'m':'?'}</td>
-    <td class="rj" style="color:${r.ai_flag==='danger'?'var(--rej)':r.ai_flag==='caution'?'var(--watch)':'var(--up)'}">${r.ai_flag||''}: ${r.ai_note||''}${r.hype_score?`<div style="margin-top:3px"><span style="background:#33290f;color:var(--watch);padding:1px 6px;border-radius:4px;font-size:10px">hype ${r.hype_score}</span>${r.hype_paid?' <span style="font-size:10px;color:var(--rej)">paid</span>':''}</div>`:''}</td>
-    <td class="rj">${r.reasons||''}</td>
-  </tr>`).join('');
-}).catch(()=>document.getElementById('meta').textContent='gagal memuat API');
+  document.getElementById('meta').textContent=`Data: ${d.day} | ${d.findings.length} temuan`;
+  const el=document.getElementById('list');
+  if(!d.findings.length){el.innerHTML='<div class="card empty">Tidak ada temuan hari ini.</div>';}
+  else{
+    el.innerHTML=d.findings.map(f=>`<div class="card">
+      <span class="sig">${(f.signal||'').toUpperCase()}</span>
+      <span class="t">${f.ticker||f.symbol||''}</span> <span>$${f.close??''}</span>
+      <div class="d">${f.detail||''}</div></div>`).join('');
+  }
+  return fetch('/api/calendar').then(r=>r.json());
+}).then(cal=>{
+  renderCalendar(cal.days||{});
+  document.getElementById('meta').textContent+=' | kalender diperbarui';
+}).catch(e=>document.getElementById('meta').textContent='gagal memuat API');
 </script>
 </body>
 </html>

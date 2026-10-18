@@ -137,6 +137,9 @@ def build(publish_dir: Path | None = None) -> Path:
         "report_md": _read_report(day)[-4000:],  # ekor laporan (bagian paling relevan)
     }
     data = _clean_nans(data)
+    dpnl = config.PORTFOLIO_DIR / "daily_pnl.json"
+    data["daily_pnl"] = json.loads(dpnl.read_text()) if dpnl.exists() else {}
+    data = _clean_nans(data)
     (publish_dir / "data.json").write_text(json.dumps(data, ensure_ascii=False, default=str, allow_nan=False))
     (publish_dir / "index.html").write_text(INDEX_HTML)
     return publish_dir
@@ -173,6 +176,18 @@ td.why{text-align:left;max-width:280px;color:var(--dim);font-size:12px}
 .fill{height:100%;background:var(--rej);border-radius:4px}
 pre.report{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:14px;font-size:12px;white-space:pre-wrap;color:var(--txt);max-height:420px;overflow:auto}
 .empty{padding:14px;text-align:center;color:var(--dim)}
+.cal-head{display:grid;grid-template-columns:repeat(7,1fr);gap:4px;margin-bottom:4px}
+.cal-head div{text-align:center;color:var(--dim);font-size:11px;padding:2px 0}
+.cal{display:grid;grid-template-columns:repeat(7,1fr);gap:4px;margin-bottom:14px}
+.cal .day{aspect-ratio:1.5;border-radius:8px;display:flex;flex-direction:column;align-items:center;justify-content:center;border:1px solid var(--line);background:var(--card);font-size:11px}
+.cal .day .pnl{font-weight:700;font-size:11px}
+.cal .day.win{background:#0e2e22;border-color:#1d5c40}
+.cal .day.loss{background:#331a1a;border-color:#6b2424}
+.cal .day.flat{opacity:.55}
+.cal .day .num{color:var(--dim)}
+.legend{display:flex;gap:12px;margin:8px 0 10px;font-size:12px;color:var(--dim)}
+.legend span{display:inline-flex;align-items:center;gap:5px}
+.dot{width:12px;height:12px;border-radius:4px;display:inline-block}
 .dis{color:var(--dim);font-size:11px;text-align:center;margin-top:14px}
 </style>
 </head>
@@ -196,6 +211,15 @@ pre.report{background:var(--card);border:1px solid var(--line);border-radius:10p
 
 <h2>Statistik filter (kumulatif)</h2>
 <div id="stats"></div>
+
+<h2>Kalender PnL harian</h2>
+<div class="legend">
+  <span><i class="dot" style="background:#0e2e22;border:1px solid #1d5c40"></i> untung</span>
+  <span><i class="dot" style="background:#331a1a;border:1px solid #6b2424"></i> rugi</span>
+  <span><i class="dot" style="background:var(--card);border:1px solid var(--line)"></i> netral</span>
+</div>
+<div class="cal-head"><div>Sen</div><div>Sel</div><div>Rab</div><div>Kam</div><div>Jum</div><div>Sab</div><div>Min</div></div>
+<div class="cal" id="cal"></div>
 
 <h2>Laporan terakhir</h2>
 <pre class="report" id="report"></pre>
@@ -240,6 +264,22 @@ fetch('data.json').then(r=>r.json()).then(d=>{
     +`<div class="bar" style="border-color:var(--acc)"><span><b>Total ditolak</b></span><b style="color:var(--acc)">${tot}</b></div>`
     :'<div class="empty">Belum ada coin ditolak.</div>';
   document.getElementById('report').textContent=d.report_md||'Belum ada laporan.';
+  // kalender PnL harian
+  const days=d.daily_pnl||{};
+  const cal=document.getElementById('cal'); cal.innerHTML='';
+  const now=new Date(), y=now.getFullYear(), m=now.getMonth();
+  const offset=(new Date(y,m,1).getDay()+6)%7;
+  const dim=new Date(y,m+1,0).getDate();
+  for(let i=0;i<offset;i++)cal.insertAdjacentHTML('beforeend','<div></div>');
+  for(let dd=1;dd<=dim;dd++){
+    const key=`${y}-${String(m+1).padStart(2,'0')}-${String(dd).padStart(2,'0')}`;
+    const rec=days[key]; let cls='day flat', txt='·';
+    if(rec){const pnl=Number(rec.pnl);
+      if(pnl>0.0001){cls='day win';txt=`+$${pnl.toFixed(2)}`;}
+      else if(pnl<-0.0001){cls='day loss';txt=`-$${Math.abs(pnl).toFixed(2)}`;}
+      else{txt='±$0';}}
+    cal.insertAdjacentHTML('beforeend',`<div class="${cls}"><span class="num">${dd}</span><span class="pnl">${txt}</span></div>`);
+  }
 }).catch(e=>{document.getElementById('gen').textContent='gagal memuat data: '+e});
 </script>
 </body>
