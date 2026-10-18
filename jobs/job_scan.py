@@ -19,6 +19,7 @@ from backend import config
 from backend.adapters.base import DataSourceError
 from backend.adapters.coingecko import CoinGeckoAdapter
 from backend.adapters.dexscreener import DexScreenerAdapter
+from backend.adapters.pumpfun import PumpFunAdapter
 from backend.adapters.solana_rpc import SolanaRpcAdapter
 from backend.core import coin_store, risk_filter, scorer
 from backend.adapters.sentiment import SentimentAdapter
@@ -27,9 +28,9 @@ from backend.core.sentiment import adjust_technical_score, hype_for
 from backend.core.onchain_filter import onchain_reasons, top10_pct_from_accounts
 
 
-def _evaluate(row: dict, age_min: float | None, supply: float | None) -> dict:
+def _evaluate(row: dict, age_min: float | None, supply: float | None, min_age_minutes: float = 30.0) -> dict:
     """Filter keras dulu (REJECT), lalu skor untuk yang lolos."""
-    reasons = risk_filter.reject_reasons(row, age_min, chg_m5_low=row.get("chg_m5"))
+    reasons = risk_filter.reject_reasons(row, age_min, chg_m5_low=row.get("chg_m5"), min_age_minutes=min_age_minutes)
     if reasons:
         return {"zone": "REJECT", "score": 0.0, "reasons": reasons, "parts": {}}
     s = scorer.score(row, age_min, supply)
@@ -40,11 +41,15 @@ def _evaluate_onchain(mint_authority, freeze_authority, top10_pct) -> list[str]:
     return onchain_reasons(mint_authority, freeze_authority, top10_pct)
 
 
-def run(queries: tuple[str, ...] = ("pump", "sol"), max_new: int = 15) -> dict:
+def run(queries: tuple[str, ...] = ("pump", "sol"), max_new: int = 15, min_age: float = 5.0) -> dict:
     started = time.strftime("%Y-%m-%dT%H:%M:%S")
     dx = DexScreenerAdapter()
+    pf_adapter = PumpFunAdapter()
     sol = SolanaRpcAdapter()
     cg = CoinGeckoAdapter()
+
+    sol_ok = sol.health()
+    sol_price = cg.price_sol()
 
     pairs = dx.scan_new_pairs(queries=queries)
     seen = coin_store.known_mints(config.COINS_DIR)
@@ -52,10 +57,43 @@ def run(queries: tuple[str, ...] = ("pump", "sol"), max_new: int = 15) -> dict:
     by_mint: dict[str, dict] = {}
     for p in pairs:
         by_mint.setdefault(p["mint"], p)
-    fresh = [p for m, p in by_mint.items() if m not in seen][:max_new]
 
-    sol_ok = sol.health()
-    sol_price = cg.price_sol()
+    # Sumber UTAMA coin baru: pump.fun newest (search DexScreener tidak menampilkan
+    # coin umur menit karena sort likuiditas). Untuk mint baru pump.fun yang belum
+    # ada detail pair, tetap masuk kandidat (harga bisa None -> SKIP dgn jurnal).
+    for nc in pf_adapter.newest_coins(limit=20):
+        if nc["mint"] in seen:
+            continue
+        # Harga real-time dari bonding curve: usd_mcap / 1e9 (supply pump.fun konstan)
+        # Likuiditas efektif = real SOL di curve x harga SOL (untuk scalp, pool belum terbentuk)
+        mcap = nc.get("usd_market_cap") or 0.0
+        sol_in_curve = nc.get("real_sol_reserves") or 0.0
+        liq_eff = sol_in_curve * (sol_price or 100.0)
+        existing = by_mint.get(nc["mint"])
+        if existing is not None:
+            # search sudah punya pair-nya; tapi curve lebih segar utk likuiditas kecil:
+            # ambil likuiditas terbesar, harga curve tetap dipakai bila search tidak punya harga
+            if liq_eff > (existing.get("liquidity_usd") or 0):
+                existing["liquidity_usd"] = liq_eff
+            if existing.get("price_usd") is None and mcap > 0:
+                existing["price_usd"] = mcap / 1e9
+                existing["fdv"] = mcap
+                existing["market_cap"] = mcap
+            if not existing.get("pair_created_at") and nc.get("created_ms"):
+                existing["pair_created_at"] = nc["created_ms"]
+            continue
+        by_mint[nc["mint"]] = {
+                "mint": nc["mint"], "pair_address": "", "symbol": nc["symbol"],
+                "name": nc["name"], "dex": "pumpfun",
+                "price_usd": mcap / 1e9 if mcap > 0 else None,
+                "liquidity_usd": liq_eff, "fdv": mcap, "market_cap": mcap,
+                "vol_m5": 0.0, "vol_h1": 0.0, "vol_h24": 0.0,
+                "buys_m5": 0, "sells_m5": 0, "buys_h1": 0, "sells_h1": 0,
+                "buys_h24": 0, "sells_h24": 0,
+                "chg_m5": 0.0, "chg_h1": 0.0, "chg_h24": 0.0,
+                "pair_created_at": nc.get("created_ms"),
+            }
+    fresh = [p for m, p in by_mint.items() if m not in seen][:max_new]
 
     # Bot A - sentiment: SEKALI per run (hemat quota), dipakai semua kandidat
     sent = SentimentAdapter()
@@ -71,11 +109,19 @@ def run(queries: tuple[str, ...] = ("pump", "sol"), max_new: int = 15) -> dict:
             detail = dx.token_detail(mint)
         except DataSourceError:
             detail = None
-        best = detail or p
+        # Prioritas: kalau kandidat datang dari pump.fun (curve aktif), harga/likuiditas
+        # curve lebih segar; DexScreener detail dipakai bila likuiditasnya lebih besar.
+        p_row = by_mint[mint]
+        d_row = detail or {}
+        if d_row and (d_row.get("liquidity_usd") or 0) > (p_row.get("liquidity_usd") or 0):
+            best = d_row
+        else:
+            best = p_row
         supply_info = sol.token_supply(mint) if sol_ok else None
         age_min = coin_store.age_minutes(best["pair_created_at"])
         row = {
             "ts": time.time(),
+            "dex": best.get("dex", ""),
             "mint": mint,
             "price_usd": best["price_usd"],
             "liquidity_usd": best["liquidity_usd"],
@@ -99,7 +145,7 @@ def run(queries: tuple[str, ...] = ("pump", "sol"), max_new: int = 15) -> dict:
             zone_counts["SKIP"] = zone_counts.get("SKIP", 0) + 1
             continue
 
-        verdict = _evaluate(row, age_min, row["supply"])
+        verdict = _evaluate(row, age_min, row["supply"], min_age_minutes=min_age)
 
         # Lapisan on-chain (Fase 4): authority + konsentrasi holder, hanya untuk yang lolos filter API
         if verdict["zone"] != "REJECT":

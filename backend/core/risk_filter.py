@@ -6,8 +6,10 @@ itu kontrak jurnal (tidak ada penolakan siluman).
 """
 from __future__ import annotations
 
-MIN_LIQUIDITY_USD = 10_000.0  # scalp: butuh likuiditas utk keluar-masuk cepat
-MIN_AGE_MINUTES = 30.0
+MIN_LIQUIDITY_USD = 10_000.0       # pool DEX (DexScreener)
+MIN_LIQUIDITY_CURVE_USD = 500.0    # bonding curve pump.fun (likuiditas efektif via reserve SOL)
+MIN_AGE_MINUTES = 30.0          # default swing-mode
+# scalp: coin pump.fun umur 5-30 menit diizinkan lewat parameter (di job_scan)
 MAX_FDV = 5_000_000.0
 MAX_VOL_TO_LIQ_24H = 15.0
 MAX_DROP_FROM_5M_HIGH = -60.0  # persen; di bawah ini dianggap sudah rug
@@ -17,6 +19,7 @@ def reject_reasons(
     row: dict,
     age_min: float | None,
     chg_m5_low: float | None = None,
+    min_age_minutes: float = MIN_AGE_MINUTES,
 ) -> list[str]:
     """Evaluasi semua filter keras. Kembalikan daftar alasan REJECT (kosong = lolos).
 
@@ -27,13 +30,15 @@ def reject_reasons(
     reasons: list[str] = []
 
     liq = row.get("liquidity_usd") or 0.0
-    if liq < MIN_LIQUIDITY_USD:
-        reasons.append(f"likuiditas ${liq:,.0f} < ${MIN_LIQUIDITY_USD:,.0f}")
+    is_curve = row.get("dex") == "pumpfun"  # bonding curve: ambang berbeda
+    liq_min = MIN_LIQUIDITY_CURVE_USD if is_curve else MIN_LIQUIDITY_USD
+    if liq < liq_min:
+        reasons.append(f"likuiditas ${liq:,.0f} < ${liq_min:,.0f}")
 
     if age_min is None:
         reasons.append("umur pair tidak diketahui (API tidak memberi pairCreatedAt)")
-    elif age_min < MIN_AGE_MINUTES:
-        reasons.append(f"umur {age_min:.0f} menit < {MIN_AGE_MINUTES:.0f} menit minimum")
+    elif age_min < min_age_minutes:
+        reasons.append(f"umur {age_min:.0f} menit < {min_age_minutes:.0f} menit minimum")
 
     fdv = row.get("fdv") or 0.0
     if fdv > MAX_FDV:

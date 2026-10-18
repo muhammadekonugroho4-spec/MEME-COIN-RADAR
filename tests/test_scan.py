@@ -125,6 +125,11 @@ class FakeCg:
         return 210.5
 
 
+class FakePf:
+    def newest_coins(self, limit=20):
+        return []  # test offline: tanpa pump.fun
+
+
 def test_job_scan_offline(tmp_path, monkeypatch):
     import jobs.job_scan as job
 
@@ -133,6 +138,7 @@ def test_job_scan_offline(tmp_path, monkeypatch):
     monkeypatch.setattr(job, "DexScreenerAdapter", lambda: FakeDx())
     monkeypatch.setattr(job, "SolanaRpcAdapter", lambda: FakeSol())
     monkeypatch.setattr(job, "CoinGeckoAdapter", lambda: FakeCg())
+    monkeypatch.setattr(job, "PumpFunAdapter", lambda: FakePf())
 
     m = job.run()
     assert m["pairs_scanned"] >= 1
@@ -146,3 +152,27 @@ def test_job_scan_offline(tmp_path, monkeypatch):
 
     hist = coin_store.load_history(tmp_path / "coins", "NEWCOIN1" + "X" * 30)
     assert hist is not None and len(hist) == 1
+
+
+# ---------- pump.fun adapter (offline) ----------
+
+def test_pumpfun_parse_coins():
+    from backend.adapters.pumpfun import parse_coins
+
+    items = [
+        {"mint": "A" * 44, "symbol": "NEW", "name": "New Coin", "created_timestamp": 1760000000000},
+        {"mint": "short", "symbol": "BAD"},  # mint tidak valid -> dibuang
+    ]
+    out = parse_coins(items)
+    assert len(out) == 1 and out[0]["symbol"] == "NEW"
+
+
+def test_pumpfun_newest_best_effort():
+    from backend.adapters.pumpfun import PumpFunAdapter
+
+    class ErrSession:
+        def get(self, *a, **k):
+            raise OSError("network down")
+
+    s = PumpFunAdapter(session=ErrSession())
+    assert s.newest_coins() == []  # gagal = kosong, bukan crash
