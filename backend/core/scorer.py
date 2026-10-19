@@ -16,6 +16,11 @@ WEIGHTS = {
     "supply_known": 15,    # data onchain tersedia (placeholder AI fase 5)
 }
 
+# Kalibrasi live 19 Okt 2026: syarat momentum realistis utk scalp pump.fun
+MIN_CHG_PER_MIN_PCT = 0.1   # naik >=0.1% per menit = tren hidup
+MIN_VOL_M5 = 300.0          # ada aksi minimal $300 dalam 5 menit
+M5_MINUTES = 5.0            # durasi window chg_m5
+
 MIN_BUY_SELL = 1.1
 MAX_BUY_SELL_HEALTHY = 3.0
 MAX_BUY_SELL_BOT = 5.0
@@ -41,12 +46,14 @@ def score(row: dict, age_min: float | None, supply: float | None) -> SkorResult:
 
     # 1. Momentum: naik = baik, tapi >200%/jam = vertikal (pump) -> dicoret
     chg_h1 = row.get("chg_h1") or 0.0
-    if chg_h1 <= 0:
+    chg_pm = row.get("chg_m5", 0.0) or 0.0
+    chg_pm = chg_pm / M5_MINUTES  # normalisasi ke per-menit
+    if chg_pm <= 0:
         parts["momentum"] = 0.0
-    elif chg_h1 > MAX_VERTICAL_PCT_H1:
+    elif chg_pm > MAX_VERTICAL_PCT_H1 / 60.0:
         parts["momentum"] = 0.0  # vertikal = bahkan berbahaya
     else:
-        parts["momentum"] = WEIGHTS["momentum"] * _clamp01(chg_h1 / 100.0)
+        parts["momentum"] = WEIGHTS["momentum"] * _clamp01(chg_pm / (100.0 / 60.0))
 
     # 2. Keberlanjutan volume: h1/h24 tinggi = masih ramah sekarang
     vol_h1, vol_h24 = row.get("vol_h1") or 0.0, row.get("vol_h24") or 0.0
@@ -86,8 +93,11 @@ def score(row: dict, age_min: float | None, supply: float | None) -> SkorResult:
     parts["supply_known"] = WEIGHTS["supply_known"] if supply else 0.0
 
     total = round(sum(parts.values()), 1)
-    # scalp: momentum 5 menit WAJIB hidup + volume aktif - tanpa itu tidak masuk BUY apa pun skornya
-    has_momentum = (row.get("chg_m5") or 0.0) > 0 and (row.get("vol_m5") or 0.0) >= 2_000.0
+    # scalp: momentum WAJIB hidup - ukur per MENIT (tahan thd jeda observasi apa pun)
+    chg_m5 = row.get("chg_m5") or 0.0
+    vol_m5 = row.get("vol_m5") or 0.0
+    chg_per_min = chg_m5 / M5_MINUTES
+    has_momentum = chg_per_min >= MIN_CHG_PER_MIN_PCT and vol_m5 >= MIN_VOL_M5
     if total >= 65 and has_momentum:
         zone = "BUY"
     elif total >= 65:

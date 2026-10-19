@@ -2,7 +2,7 @@ name: scan-mcr
 
 on:
   schedule:
-    - cron: "*/2 * * * *"   # scalp: scan tiap 2 menit (momentum m5 harus fresh)
+    - cron: "*/10 * * * *"   # 1 run = 10 siklus x 1 menit (loop internal, melewati throttle)
   workflow_dispatch:
 
 permissions:
@@ -15,7 +15,7 @@ concurrency:
 jobs:
   scan:
     runs-on: ubuntu-latest
-    timeout-minutes: 8
+    timeout-minutes: 18
     steps:
       - uses: actions/checkout@v4
 

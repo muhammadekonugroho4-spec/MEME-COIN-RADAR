@@ -185,13 +185,20 @@ def run(dry_run: bool = False) -> dict:
 
 
 def main() -> int:
-    ap = argparse.ArgumentParser(description="MCR paper trader")
+    import argparse
+    from backend.core.cycle_runner import run_cycles
+
+    ap = argparse.ArgumentParser(description="MCR paper trader (multi-siklus)")
     ap.add_argument("--dry-run", action="store_true")
+    ap.add_argument("--cycles", type=int, default=10, help="jumlah siklus dalam 1 run (Solusi A)")
+    ap.add_argument("--interval", type=int, default=60, help="jeda antar siklus (detik)")
     args = ap.parse_args()
-    m = run(dry_run=args.dry_run)
-    print(json.dumps({k: v for k, v in m.items() if k != "actions"}, indent=2))
-    print("actions:", json.dumps(m["actions"], indent=1))
-    return 0
+
+    results = run_cycles(lambda: run(dry_run=args.dry_run),
+                         cycles=args.cycles, interval_seconds=args.interval, deadline_min=14.0)
+    last = results[-1] if results else {}
+    print(json.dumps({k: v for k, v in last.items() if k != "actions"}, indent=2))
+    return 0 if results else 1
 
 
 if __name__ == "__main__":

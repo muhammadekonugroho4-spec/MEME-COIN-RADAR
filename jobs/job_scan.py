@@ -96,15 +96,17 @@ def run(queries: tuple[str, ...] = ("pump", "sol"), max_new: int = 15, min_age: 
                 "chg_m5": 0.0, "chg_h1": 0.0, "chg_h24": 0.0,
                 "pair_created_at": nc.get("created_ms"),
             }
-    # Scalp-friendly: kandidat baru + kandidat pumpfun "graduating" yang sudah dikenal
-    # tetap dinilai ulang (mcap/curve mereka berubah tiap menit).
-    # PRIORITAS: graduating (curve besar, sehat) dulu, baru coin lahiran - supaya slot
-    # max_new tidak habis dimakan coin umur 10 detik yang hampir pasti rug.
-    pumpfun_all = [p for p in by_mint.values() if p.get("dex") == "pumpfun"]
-    graduating = [p for p in pumpfun_all
-                  if (p.get("liquidity_usd") or 0) >= 300 and coin_store.age_minutes(p.get("pair_created_at")) is not None
-                  and coin_store.age_minutes(p.get("pair_created_at")) > 10]
-    fresh = (graduating + [p for p in by_mint.values() if p not in graduating])[:max_new]
+    # Scalp-friendly: PRIORITAS kandidat = yang SEDANG ADA AKSI (vol m5 terbesar),
+    # lalu graduating pump.fun (curve sehat), lalu lahiran. Slot max_new diisi dengan urutan itu.
+    def _prioritas(p: dict) -> tuple:
+        vol = p.get("vol_m5") or 0.0
+        age = coin_store.age_minutes(p.get("pair_created_at"))
+        is_curve_sehat = (p.get("dex") == "pumpfun" and (p.get("liquidity_usd") or 0) >= 300
+                          and age is not None and age > 10)
+        tier = 0 if vol >= 300 else (1 if is_curve_sehat else 2)
+        return (tier, -vol)
+
+    fresh = sorted(by_mint.values(), key=_prioritas)[:max_new]
 
     # Bot A - sentiment: SEKALI per run (hemat quota), dipakai semua kandidat
     sent = SentimentAdapter()
@@ -165,9 +167,12 @@ def run(queries: tuple[str, ...] = ("pump", "sol"), max_new: int = 15, min_age: 
                 dt_min = (row["ts"] - float(prev["ts"])) / 60.0
                 if dt_min >= 3 and float(prev["price_usd"] or 0) > 0:
                     chg = (row["price_usd"] - float(prev["price_usd"])) / float(prev["price_usd"]) * 100.0
-                    row["chg_m5"] = chg
-                    row["chg_h1"] = row.get("chg_h1") or chg  # fallback info
-                    row["vol_m5"] = max(row.get("vol_m5") or 0, 2000.0 if chg != 0 else 0)
+                    # normalisasi ke ekuivalen 5-menit agar scorer konsisten: chg5 = chg/dt*5
+                    chg5_equiv = chg / dt_min * 5.0
+                    row["chg_m5"] = chg5_equiv
+                    row["chg_h1"] = row.get("chg_h1") or chg5_equiv
+                    # aksi minimal tercatat -> lolos ambang vol scalper
+                    row["vol_m5"] = max(row.get("vol_m5") or 0, 500.0 if chg != 0 else 0)
 
         verdict = _evaluate(row, age_min, row["supply"], min_age_minutes=min_age)
 

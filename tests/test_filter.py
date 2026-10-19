@@ -73,7 +73,8 @@ def test_scorer_healthy_coin_high_score():
 
 
 def test_scorer_vertical_pump_gets_zero_momentum():
-    s = scorer.score(row(chg_h1=350.0), 90.0, 1e9)  # vertikal
+    # chg_m5 = 25% = 5%/menit > 200%/60 = 3.33%/mnt -> vertikal, momentum 0
+    s = scorer.score(row(chg_m5=25.0), 90.0, 1e9)
     assert s.parts["momentum"] == 0.0
 
 
