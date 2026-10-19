@@ -202,9 +202,10 @@ def run(queries: tuple[str, ...] = ("pump", "sol"), max_new: int = 15, min_age: 
             row, verdict["score"], verdict["zone"], verdict["reasons"], top10_for_ai, age_min
         )
 
-        # simpan observasi hanya untuk yang layak dipantau (hemat ruang git);
-        # REJECT diarsipkan cukup di jurnal harian.
-        if verdict["zone"] in ("BUY", "WATCH"):
+        # Simpan observasi utk SEMUA non-REJECT: history inilah bahan ukur momentum
+        # per-menit di run berikutnya (tanpa ini fallback momentum tidak pernah punya data).
+        # REJECT tidak perlu (sudah gugur).
+        if verdict["zone"] != "REJECT":
             coin_store.append_observation(config.COINS_DIR, row)
 
         results.append({
@@ -246,13 +247,35 @@ def run(queries: tuple[str, ...] = ("pump", "sol"), max_new: int = 15, min_age: 
     return manifest
 
 
+def active_hours_utc() -> bool:
+    """Scalp hanya masuk akal saat pasar ramai (US+EU). Di luar itu pasar tidur."""
+    import datetime as _dt
+    return 12 <= _dt.datetime.now(_dt.timezone.utc).hour < 22
+
+
 def main() -> int:
-    ap = argparse.ArgumentParser(description="MCR scan + filter + skor")
+    import argparse
+    from backend.core.cycle_runner import run_cycles
+
+    ap = argparse.ArgumentParser(description="MCR scan + filter + skor (multi-siklus)")
     ap.add_argument("--max-new", type=int, default=15)
+    ap.add_argument("--min-age", type=float, default=5.0)
+    ap.add_argument("--cycles", type=int, default=10, help="jumlah siklus dalam 1 run (Solusi A)")
+    ap.add_argument("--interval", type=int, default=60, help="jeda antar siklus (detik)")
+    ap.add_argument("--force", action="store_true", help="abaikan jam aktif")
     args = ap.parse_args()
-    m = run(max_new=args.max_new)
-    print(json.dumps({k: v for k, v in m.items() if k != "results"}, indent=2, ensure_ascii=False))
-    return 0 if m["pairs_scanned"] > 0 else 1
+
+    if not args.force and not active_hours_utc():
+        print("di luar jam aktif (UTC 12:00-22:00) - pasar tidur, siklus dilewati")
+        return 0
+
+    results = run_cycles(lambda: run(max_new=args.max_new, min_age=args.min_age),
+                         cycles=args.cycles, interval_seconds=args.interval)
+    last = results[-1] if results else {}
+    print(json.dumps({"cycles_run": len(results),
+                      "last_zones": (last.get("zones") or {}),
+                      "last_fresh": last.get("fresh_candidates")}, indent=2))
+    return 0 if results else 1
 
 
 if __name__ == "__main__":
