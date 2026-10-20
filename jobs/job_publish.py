@@ -240,8 +240,9 @@ fetch('data.json').then(r=>r.json()).then(d=>{
    <div class="k"><b>${(P.positions||[]).length}</b><span>Posisi terbuka</span></div>
    <div class="k"><b>${(d.stats||{}).total_rejected??'-'}</b><span>Reject filter total</span></div>`;
   const r=(d.scan&&d.scan.results)||[];
+  const lnk=m=>`<a href="https://gmgn.ai/sol/token/${m}" target="_blank" rel="noopener" style="color:var(--acc);font-size:11px;margin-right:6px">GMGN</a><a href="https://photon-sol.com/tinyap/${m}" target="_blank" rel="noopener" style="color:var(--acc);font-size:11px;margin-right:6px">Photon</a><a href="https://dexscreener.com/solana/${m}" target="_blank" rel="noopener" style="color:var(--dim);font-size:11px">Chart</a>`;
   document.getElementById('radar').innerHTML=r.length?r.map(x=>`<tr>
-    <td><b>${(x.symbol||'?').slice(0,10)}</b><div style="color:var(--dim);font-size:10px">${(x.mint||'').slice(0,8)}…</div></td>
+    <td><b>${(x.symbol||'?').slice(0,10)}</b><div style="color:var(--dim);font-size:10px">${(x.mint||'').slice(0,8)}…</div><div>${lnk(x.mint||'')}</div></td>
     <td><span class="zb ${x.zone}">${x.zone}</span></td><td>${x.score??'-'}</td><td>${fmt$(x.price_usd)}</td>
     <td>${fmt$(x.liquidity_usd)}</td><td>${x.age_min!=null?x.age_min+'m':'?'}</td>
     <td class="why" style="color:${x.ai_flag==='danger'?'var(--rej)':x.ai_flag==='caution'?'var(--watch)':'var(--buy)'}">${x.ai_flag||''} ${x.ai_note||''}</td>
