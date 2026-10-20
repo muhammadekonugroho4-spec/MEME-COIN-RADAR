@@ -182,3 +182,12 @@ def test_pumpfun_newest_best_effort():
 
     s = PumpFunAdapter(session=ErrSession())
     assert s.newest_coins() == []  # gagal = kosong, bukan crash
+
+
+def test_scan_runs_at_any_hour():
+    """Regresi 20 Okt: gate jam aktif pernah memblokir 7/10 run -> web diam 2 hari.
+    Scan harus jalan di jam UTC berapa pun."""
+    from jobs.job_scan import main
+    import inspect
+    src = inspect.getsource(main)
+    assert "di luar jam aktif" not in src  # gate sudah dihapus dari jalur eksekusi

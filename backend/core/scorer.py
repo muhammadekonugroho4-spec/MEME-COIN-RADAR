@@ -17,8 +17,8 @@ WEIGHTS = {
 }
 
 # Kalibrasi live 19 Okt 2026: syarat momentum realistis utk scalp pump.fun
-MIN_CHG_PER_MIN_PCT = 0.1   # naik >=0.1% per menit = tren hidup
-MIN_VOL_M5 = 300.0          # ada aksi minimal $300 dalam 5 menit
+MIN_CHG_PER_MIN_PCT = 0.05  # kalibrasi 20 Okt: 0.05%/mnt (pasar sepi pun terdeteksi)
+MIN_VOL_M5 = 100.0          # kalibrasi 20 Okt: $100 cukup sebagai bukti aksi
 M5_MINUTES = 5.0            # durasi window chg_m5
 
 MIN_BUY_SELL = 1.1
@@ -98,9 +98,9 @@ def score(row: dict, age_min: float | None, supply: float | None) -> SkorResult:
     vol_m5 = row.get("vol_m5") or 0.0
     chg_per_min = chg_m5 / M5_MINUTES
     has_momentum = chg_per_min >= MIN_CHG_PER_MIN_PCT and vol_m5 >= MIN_VOL_M5
-    if total >= 65 and has_momentum:
+    if total >= 60 and has_momentum:
         zone = "BUY"
-    elif total >= 65:
+    elif total >= 60:
         zone = "WATCH"  # skor cukup tapi pasar diam -> tunggu momentum
     elif total >= 40:
         zone = "WATCH"

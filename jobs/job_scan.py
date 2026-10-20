@@ -265,9 +265,8 @@ def main() -> int:
     ap.add_argument("--force", action="store_true", help="abaikan jam aktif")
     args = ap.parse_args()
 
-    if not args.force and not active_hours_utc():
-        print("di luar jam aktif (UTC 12:00-22:00) - pasar tidur, siklus dilewati")
-        return 0
+    # Jam aktif DIHAPUS (20 Okt): crypto 24/7 dan web harus selalu update.
+    # --force tetap dipertahankan utk kompatibilitas.
 
     results = run_cycles(lambda: run(max_new=args.max_new, min_age=args.min_age),
                          cycles=args.cycles, interval_seconds=args.interval)

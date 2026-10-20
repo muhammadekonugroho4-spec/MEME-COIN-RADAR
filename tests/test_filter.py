@@ -169,8 +169,8 @@ def test_buy_requires_live_momentum():
 
 
 def test_buy_requires_active_volume_m5():
-    # momentum naik tapi volume m5 sepi -> bukan BUY
-    s = scorer.score(row(chg_m5=0.5, vol_m5=100.0), 90.0, 1e9)
+    # momentum naik tapi volume m5 di bawah ambang kalibrasi -> bukan BUY
+    s = scorer.score(row(chg_m5=0.5, vol_m5=50.0), 90.0, 1e9)
     assert s.zone == "WATCH"
 
 
