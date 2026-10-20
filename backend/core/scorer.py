@@ -16,18 +16,19 @@ WEIGHTS = {
     "supply_known": 15,    # data onchain tersedia (placeholder AI fase 5)
 }
 
-# Kalibrasi live 19 Okt 2026: syarat momentum realistis utk scalp pump.fun
-MIN_CHG_PER_MIN_PCT = 0.05  # kalibrasi 20 Okt: 0.05%/mnt (pasar sepi pun terdeteksi)
-MIN_VOL_M5 = 100.0          # kalibrasi 20 Okt: $100 cukup sebagai bukti aksi
-M5_MINUTES = 5.0            # durasi window chg_m5
+# Kalibrasi live 20 Okt 2026 - MODE LONGGAR (uji siklus buy/sell lancar):
+MIN_CHG_PER_MIN_PCT = 0.02   # 0.05 -> 0.02%/mnt: hampir semua tren hidup terdeteksi
+MIN_VOL_M5 = 50.0            # $100 -> $50: bukti aksi minimal
+M5_MINUTES = 5.0             # durasi window chg_m5
 
-MIN_BUY_SELL = 1.1
+MIN_BUY_SELL = 1.05
 MAX_BUY_SELL_HEALTHY = 3.0
 MAX_BUY_SELL_BOT = 5.0
-MAX_VERTICAL_PCT_H1 = 200.0
-SWEETSPOT_MIN = 30.0
-SWEETSPOT_MAX = 360.0  # 6 jam
+MAX_VERTICAL_PCT_H1 = 400.0  # 200 -> 400: pump 6%/mnt masih dianggap sinyal, bukan vertikal
+SWEETSPOT_MIN = 10.0         # 30 -> 10 mnt: selaras dgn umur minimum filter
+SWEETSPOT_MAX = 480.0        # 6 -> 8 jam
 MIN_LIQ_FDV_PCT = 2.0
+BUY_THRESHOLD = 55.0         # 65 -> 55: zona BUY lebih mudah tercapai (kalibrasi)
 
 
 @dataclass
@@ -98,11 +99,11 @@ def score(row: dict, age_min: float | None, supply: float | None) -> SkorResult:
     vol_m5 = row.get("vol_m5") or 0.0
     chg_per_min = chg_m5 / M5_MINUTES
     has_momentum = chg_per_min >= MIN_CHG_PER_MIN_PCT and vol_m5 >= MIN_VOL_M5
-    if total >= 60 and has_momentum:
+    if total >= BUY_THRESHOLD and has_momentum:
         zone = "BUY"
-    elif total >= 60:
+    elif total >= BUY_THRESHOLD:
         zone = "WATCH"  # skor cukup tapi pasar diam -> tunggu momentum
-    elif total >= 40:
+    elif total >= 35:   # kalibrasi: 40 -> 35
         zone = "WATCH"
     else:
         zone = "PASSIVE"

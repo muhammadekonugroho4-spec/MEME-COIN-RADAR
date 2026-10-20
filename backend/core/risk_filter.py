@@ -6,12 +6,12 @@ itu kontrak jurnal (tidak ada penolakan siluman).
 """
 from __future__ import annotations
 
-MIN_LIQUIDITY_USD = 10_000.0       # pool DEX (DexScreener)
-MIN_LIQUIDITY_CURVE_USD = 300.0    # bonding curve pump.fun (≈3 SOL, santai utk scalp)
-MIN_AGE_MINUTES = 30.0          # default swing-mode
+MIN_LIQUIDITY_USD = 5_000.0        # pool DEX (DexScreener) - kalibrasi: 20k -> 5k
+MIN_LIQUIDITY_CURVE_USD = 150.0    # bonding curve pump.fun - kalibrasi: 300 -> 150
+MIN_AGE_MINUTES = 10.0          # kalibrasi: 30 -> 10 menit (biar coin muda lolos)
 # scalp: coin pump.fun umur 5-30 menit diizinkan lewat parameter (di job_scan)
 MAX_FDV = 5_000_000.0
-MAX_VOL_TO_LIQ_24H = 15.0
+MAX_VOL_TO_LIQ_24H = 40.0       # kalibrasi: 15x -> 40x (wash cap santai dulu)
 MAX_DROP_FROM_5M_HIGH = -60.0  # persen; di bawah ini dianggap sudah rug
 
 

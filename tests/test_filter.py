@@ -73,8 +73,8 @@ def test_scorer_healthy_coin_high_score():
 
 
 def test_scorer_vertical_pump_gets_zero_momentum():
-    # chg_m5 = 25% = 5%/menit > 200%/60 = 3.33%/mnt -> vertikal, momentum 0
-    s = scorer.score(row(chg_m5=25.0), 90.0, 1e9)
+    # chg_m5 = 40% = 8%/menit > 400%/60 = 6.67%/mnt -> vertikal, momentum 0
+    s = scorer.score(row(chg_m5=40.0), 90.0, 1e9)
     assert s.parts["momentum"] == 0.0
 
 
@@ -169,8 +169,8 @@ def test_buy_requires_live_momentum():
 
 
 def test_buy_requires_active_volume_m5():
-    # momentum naik tapi volume m5 di bawah ambang kalibrasi -> bukan BUY
-    s = scorer.score(row(chg_m5=0.5, vol_m5=50.0), 90.0, 1e9)
+    # momentum naik tapi volume m5 di bawah ambang kalibrasi ($50) -> bukan BUY
+    s = scorer.score(row(chg_m5=0.5, vol_m5=20.0), 90.0, 1e9)
     assert s.zone == "WATCH"
 
 
@@ -180,7 +180,8 @@ def test_buy_with_full_momentum():
     assert s.zone == "BUY"
 
 
-def test_min_liquidity_10k_scalp():
-    # likuiditas $8k: dulu lolos ($5k), sekarang ditolak ($10k)
-    r = risk_filter.reject_reasons(row(liquidity_usd=8_000.0), age_min=90.0)
+def test_min_liquidity_5k_scalp():
+    # kalibrasi: likuiditas $3k ditolak (ambang $5k), $8k lolos
+    r = risk_filter.reject_reasons(row(liquidity_usd=3_000.0), age_min=90.0)
     assert any("likuiditas" in x for x in r)
+    assert risk_filter.reject_reasons(row(liquidity_usd=8_000.0), age_min=90.0) == []

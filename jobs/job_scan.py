@@ -42,6 +42,7 @@ def _evaluate_onchain(mint_authority, freeze_authority, top10_pct) -> list[str]:
 
 
 def run(queries: tuple[str, ...] = ("pump", "sol"), max_new: int = 15, min_age: float = 5.0) -> dict:
+    # min_age 5 mnt: dipakai job_trader/panggilan manual; workflow memakai default argparse (10)
     started = time.strftime("%Y-%m-%dT%H:%M:%S")
     dx = DexScreenerAdapter()
     pf_adapter = PumpFunAdapter()
@@ -165,7 +166,7 @@ def run(queries: tuple[str, ...] = ("pump", "sol"), max_new: int = 15, min_age: 
             if hist_prev is not None and len(hist_prev) >= 1 and row["price_usd"]:
                 prev = hist_prev.iloc[-1]
                 dt_min = (row["ts"] - float(prev["ts"])) / 60.0
-                if dt_min >= 3 and float(prev["price_usd"] or 0) > 0:
+                if dt_min >= 2 and float(prev["price_usd"] or 0) > 0:  # kalibrasi: 3 -> 2 mnt
                     chg = (row["price_usd"] - float(prev["price_usd"])) / float(prev["price_usd"]) * 100.0
                     # normalisasi ke ekuivalen 5-menit agar scorer konsisten: chg5 = chg/dt*5
                     chg5_equiv = chg / dt_min * 5.0
@@ -192,8 +193,8 @@ def run(queries: tuple[str, ...] = ("pump", "sol"), max_new: int = 15, min_age: 
         hype = hype_for(best["symbol"], mint, trending, boosts)
         if verdict["zone"] != "REJECT":
             verdict["score"] = adjust_technical_score(verdict["score"], hype)
-            # zona bisa berubah setelah adjust (65 ambang BUY)
-            if verdict["score"] < 65 and verdict["zone"] == "BUY":
+            # zona bisa berubah setelah adjust (ambang BUY = scorer.BUY_THRESHOLD)
+            if verdict["score"] < scorer.BUY_THRESHOLD and verdict["zone"] == "BUY":
                 verdict["zone"] = "WATCH"
 
         # Narasi AI (Fase 5): 1-2 kalimat risiko; mock bila key kosong
@@ -202,10 +203,11 @@ def run(queries: tuple[str, ...] = ("pump", "sol"), max_new: int = 15, min_age: 
             row, verdict["score"], verdict["zone"], verdict["reasons"], top10_for_ai, age_min
         )
 
-        # Simpan observasi utk SEMUA non-REJECT: history inilah bahan ukur momentum
-        # per-menit di run berikutnya (tanpa ini fallback momentum tidak pernah punya data).
-        # REJECT tidak perlu (sudah gugur).
-        if verdict["zone"] != "REJECT":
+        # Simpan observasi utk SEMUA non-REJECT + REJECT karena umur muda:
+        # history inilah bahan ukur momentum per-menit di run berikutnya.
+        # Coin muda yg ditolak hari ini harus bisa dinilai momentum-nya nanti.
+        age_too_young = any("umur" in r and "tidak diketahui" not in r for r in verdict["reasons"])
+        if verdict["zone"] != "REJECT" or age_too_young:
             coin_store.append_observation(config.COINS_DIR, row)
 
         results.append({
@@ -259,7 +261,7 @@ def main() -> int:
 
     ap = argparse.ArgumentParser(description="MCR scan + filter + skor (multi-siklus)")
     ap.add_argument("--max-new", type=int, default=15)
-    ap.add_argument("--min-age", type=float, default=5.0)
+    ap.add_argument("--min-age", type=float, default=10.0)  # kalibrasi: 5 -> 10 (selaras filter)
     ap.add_argument("--cycles", type=int, default=10, help="jumlah siklus dalam 1 run (Solusi A)")
     ap.add_argument("--interval", type=int, default=60, help="jeda antar siklus (detik)")
     ap.add_argument("--force", action="store_true", help="abaikan jam aktif")
