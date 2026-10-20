@@ -9,6 +9,7 @@ import pandas as pd
 from fastapi import APIRouter
 
 from backend import config
+from backend.core.links import all_links
 
 router = APIRouter(prefix="/api")
 
@@ -28,6 +29,9 @@ def api_scan(day: str | None = None):
     df = pd.read_csv(d / "scan_results.csv").astype(object)
     df = df.where(pd.notna(df), None)
     rows = [{k: (None if isinstance(v, float) and v != v else v) for k, v in r.items()} for r in df.to_dict(orient="records")]
+    # deep link terminal trading (GMGN/Photon/Jupiter/...) per kandidat
+    for r in rows:
+        r["links"] = all_links(str(r.get("mint") or ""))
     return {"day": d.name, "manifest": manifest, "results": rows}
 
 
@@ -88,8 +92,11 @@ def api_positions():
             "qty": pos.get("qty"), "entry_price": pos.get("entry_price"),
             "price_now": info["price"] if info else None,
             "tp_done": pos.get("tp_done", False),
+            "links": all_links(mint),
         })
     pending = state.get("pending", [])
+    for o in pending:
+        o["links"] = all_links(str(o.get("mint") or ""))
     equity_df = pd.read_csv(config.PORTFOLIO_DIR / pf.EQUITY_FILE).tail(50).to_dict(orient="records") \
         if (config.PORTFOLIO_DIR / pf.EQUITY_FILE).exists() else []
 
@@ -111,6 +118,41 @@ def api_positions():
 def api_calendar():
     dpnl = config.PORTFOLIO_DIR / "daily_pnl.json"
     return {"days": json.loads(dpnl.read_text()) if dpnl.exists() else {}}
+
+
+@router.get("/radar")
+def api_radar():
+    """Ringkasan untuk halaman utama: temuan terbaru + kalender PnL.
+
+    Temuan = semua kandidat non-REJECT hari terakhir, terurut skor.
+    """
+    d = _latest_day()
+    findings: list[dict] = []
+    if d is not None and (d / "scan_results.csv").exists():
+        df = pd.read_csv(d / "scan_results.csv").astype(object)
+        df = df.where(pd.notna(df), None)
+        for r in df.to_dict(orient="records"):
+            if str(r.get("zone") or "").upper() == "REJECT":
+                continue
+            findings.append({
+                "signal": r.get("zone"),
+                "symbol": r.get("symbol"),
+                "mint": r.get("mint"),
+                "score": r.get("score"),
+                "price_usd": r.get("price_usd"),
+                "liquidity_usd": r.get("liquidity_usd"),
+                "fdv": r.get("fdv"),
+                "age_min": r.get("age_min"),
+                "chg_h1": r.get("chg_h1"),
+                "hype_score": r.get("hype_score"),
+                "hype_paid": r.get("hype_paid"),
+                "ai_flag": r.get("ai_flag"),
+                "ai_note": r.get("ai_note"),
+                "links": all_links(str(r.get("mint") or "")),
+            })
+        findings.sort(key=lambda x: float(x.get("score") or 0.0), reverse=True)
+    cal = api_calendar()
+    return {"day": d.name if d else None, "findings": findings, **cal}
 
 
 @router.get("/journal")
