@@ -9,6 +9,7 @@ from backend.core import coin_store
 
 
 def make_pair(mint="HKdmDxcaRtxLNu7msz1h5f8NUZQqLNDiN3FLUDu1pump", chain="solana", **over):
+    import time as _time
     base = {
         "chainId": chain,
         "dexId": "pumpfun",
@@ -26,7 +27,8 @@ def make_pair(mint="HKdmDxcaRtxLNu7msz1h5f8NUZQqLNDiN3FLUDu1pump", chain="solana
             "h24": {"buys": 900, "sells": 700},
         },
         "priceChange": {"m5": -0.3, "h1": 22.0, "h24": 40.0},
-        "pairCreatedAt": 1760000000000,
+        # coin uji dibuat "60 menit lalu" agar selalu lolos pra-filter umur 24 jam
+        "pairCreatedAt": int((_time.time() - 3600) * 1000),
     }
     base.update(over)
     return base
@@ -41,7 +43,9 @@ def test_norm_pair_full():
     assert n["liquidity_usd"] == pytest.approx(8200.5)
     assert n["buys_h1"] == 100 and n["sells_m5"] == 4
     assert n["chg_h1"] == 22.0
-    assert n["pair_created_at"] == 1760000000000
+    # pair dibuat 60 menit lalu (segar, lolos pra-filter umur) -> ts dalam 2 jam terakhir
+    import time as _t
+    assert abs(n["pair_created_at"] / 1000 - (_t.time() - 3600)) < 120
 
 
 def test_norm_pair_rejects_non_solana():

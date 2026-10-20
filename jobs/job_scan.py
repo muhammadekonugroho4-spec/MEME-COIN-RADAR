@@ -99,15 +99,23 @@ def run(queries: tuple[str, ...] = ("pump", "sol"), max_new: int = 15, min_age: 
             }
     # Scalp-friendly: PRIORITAS kandidat = yang SEDANG ADA AKSI (vol m5 terbesar),
     # lalu graduating pump.fun (curve sehat), lalu lahiran. Slot max_new diisi dengan urutan itu.
-    def _prioritas(p: dict) -> tuple:
-        vol = p.get("vol_m5") or 0.0
+    MAX_AGE_MINUTES = 24 * 60.0  # pra-filter: coin >24 jam dibuang SEBELUM dinilai.
+    # Ini yang membuat radar bersih - pair mapan (SOL, PUMP, dsb) dari query
+    # DexScreener tidak lagi makan slot kandidat & REJECT-FDV siluman.
+
+    def _prioritas(p: dict) -> tuple | None:
         age = coin_store.age_minutes(p.get("pair_created_at"))
+        if age is not None and age > MAX_AGE_MINUTES:
+            return None  # terlalu tua: bukan kandidat scalp
+        vol = p.get("vol_m5") or 0.0
         is_curve_sehat = (p.get("dex") == "pumpfun" and (p.get("liquidity_usd") or 0) >= 300
                           and age is not None and age > 10)
         tier = 0 if vol >= 300 else (1 if is_curve_sehat else 2)
         return (tier, -vol)
 
-    fresh = sorted(by_mint.values(), key=_prioritas)[:max_new]
+    candidates = [(p, _prioritas(p)) for p in by_mint.values()]
+    fresh = sorted((p for p, pr in candidates if pr is not None),
+                   key=lambda p: _prioritas(p))[:max_new]
 
     # Bot A - sentiment: SEKALI per run (hemat quota), dipakai semua kandidat
     sent = SentimentAdapter()
