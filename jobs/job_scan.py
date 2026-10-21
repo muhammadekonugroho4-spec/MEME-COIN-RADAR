@@ -208,20 +208,15 @@ def run(queries: tuple[str, ...] = ("pump", "sol"), max_new: int = 15, min_age: 
             if verdict["score"] < scorer.BUY_THRESHOLD and verdict["zone"] == "BUY":
                 verdict["zone"] = "WATCH"
 
-        # MODE PENGUJIAN SIKLUS (MCR_TEST_BUY=1): paksa kandidat terbaik jadi BUY
-        # supaya alur buy->fill->exit->sell terbukti jalan end-to-end.
-        # Kandidat boleh REJECT-umur (kasus normal coin muda), TAPI harus punya
-        # harga + likuiditas > $150 + on-chain aman + bukan rug, agar simulasi realistis.
-        # Semua mekanisme nyata tetap jalan (slippage, next-scan fill, exit rules).
-        # MATIKAN dgn MCR_TEST_BUY=0 (atau hapus env) setelah trade tercatat.
-        if os.environ.get("MCR_TEST_BUY") == "1" and len(test_forced) < 1:
-            hard_reject = any(("likuiditas" in r) or ("rug" in r) or ("wash" in r) for r in verdict["reasons"])
-            oc_reject = any("authority" in r or "holder" in r for r in verdict["reasons"])
-            can_force = (row["price_usd"] and (row["liquidity_usd"] or 0) >= 150
-                         and not hard_reject and not oc_reject)
-            if can_force:
+        # MODE PENGUJIAN SIKLUS (MCR_TEST_BUY=1): SEMUA kandidat yang punya harga
+        # dipaksa BUY (tanpa batas jumlah) supaya alur buy->fill->exit->sell
+        # teruji massal. Satu-satunya syarat teknis: harga ada & likuiditas > 0
+        # (slippage tidak bisa dihitung tanpa itu). MATIKAN dgn hapus env
+        # MCR_TEST_BUY di workflow scan setelah beberapa hari data terkumpul.
+        if os.environ.get("MCR_TEST_BUY") == "1":
+            if row["price_usd"] and (row["liquidity_usd"] or 0) > 0:
                 test_forced.append(mint)
-                verdict = {"zone": "BUY", "score": 60.0, "parts": verdict["parts"], "reasons": []}
+                verdict = {"zone": "BUY", "score": 60.0, "parts": verdict.get("parts", {}), "reasons": []}
 
         # Narasi AI (Fase 5): 1-2 kalimat risiko; mock bila key kosong
         top10_for_ai = sol.top10_holders_pct(mint, row["supply"]) if row["supply"] else None

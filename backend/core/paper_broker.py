@@ -11,8 +11,8 @@ from __future__ import annotations
 from dataclasses import asdict, dataclass, field
 
 BASE_SLIPPAGE_PCT = 0.5
-MAX_POSITIONS = 3          # scalp: fokus 3 posisi
-POSITION_PCT_EQUITY = 0.15 # scalp: 15% per posisi
+MAX_POSITIONS = 20         # MODE UJI: longgar agar semua scan bisa di-buy (dulu 3)
+POSITION_PCT_EQUITY = 0.05 # 5% per posisi (dulu 15%) - muat banyak posisi uji
 MIN_ORDER_USD = 5.0
 
 

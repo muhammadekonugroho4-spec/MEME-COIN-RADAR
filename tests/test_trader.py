@@ -18,8 +18,8 @@ def test_slippage_model():
 
 
 def test_position_size_limits():
-    assert paper_broker.position_size(1000.0, 0) == pytest.approx(150.0)  # 15% (scalp)
-    assert paper_broker.position_size(1000.0, 3) is None                   # slot penuh (3)
+    assert paper_broker.position_size(1000.0, 0) == pytest.approx(50.0)   # 5% (mode uji)
+    assert paper_broker.position_size(1000.0, 20) is None                  # slot penuh (20)
     assert paper_broker.position_size(20.0, 0) is None                     # < $5 minimum
 
 
