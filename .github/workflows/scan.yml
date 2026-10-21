@@ -31,6 +31,7 @@ jobs:
         env:
           GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
           GROQ_API_KEY: ${{ secrets.GROQ_API_KEY }}
+          MCR_TEST_BUY: "1"  # uji siklus: paksa 1 BUY/run. SETELAH beberapa trade tercatat, hapus baris ini.
         run: python -m jobs.job_scan --max-new 15
 
       - name: Commit data

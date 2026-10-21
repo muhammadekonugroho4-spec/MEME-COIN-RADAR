@@ -1,0 +1,22 @@
+{
+  "run_at": "2026-10-21T07:50:43",
+  "equity_cash": 983.0628,
+  "unrealized": 0.0,
+  "total": 983.0628,
+  "open_positions": 0,
+  "pending": 1,
+  "actions": [
+    {
+      "mint": "FwnUVxaYQPpX5WyQd3ELm3SAjVL4NHgSLzRkdw81pump",
+      "action": "sell_fill",
+      "fraction": 1.0,
+      "price": 5.852124253599256e-06,
+      "reason": "stop-loss -10.8% dari entry"
+    },
+    {
+      "mint": "FwnUVxaYQPpX5WyQd3ELm3SAjVL4NHgSLzRkdw81pump",
+      "action": "queue_buy",
+      "reason": "zona BUY skor 60.0"
+    }
+  ]
+}

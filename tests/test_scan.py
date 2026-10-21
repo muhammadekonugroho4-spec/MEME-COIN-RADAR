@@ -136,6 +136,9 @@ class FakePf:
     def graduating_coins(self, limit=20):
         return []
 
+    def king_of_the_hill(self, limit=20):
+        return []
+
 
 def test_job_scan_offline(tmp_path, monkeypatch):
     import jobs.job_scan as job

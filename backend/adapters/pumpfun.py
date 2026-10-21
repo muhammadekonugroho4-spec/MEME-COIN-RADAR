@@ -66,3 +66,12 @@ class PumpFunAdapter:
         """
         return self._fetch({"offset": 0, "limit": limit, "sort": "market_cap",
                             "order": "DESC", "includeNsfw": "false", "complete": "false"})
+
+    def king_of_the_hill(self, limit: int = 20) -> list[dict]:
+        """Coin paling AKTIF sekarang (sort last_trade desc) - punya aksi nyata.
+
+        Berbeda dgn newest (umur 0 mnt, likuiditas nol) & graduating (mcap tinggi
+        tapi bisa sepi). Inilah sumber kandidat scalp paling relevan.
+        """
+        return self._fetch({"offset": 0, "limit": limit, "sort": "last_trade_timestamp",
+                            "order": "DESC", "includeNsfw": "false", "complete": "false"})

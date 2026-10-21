@@ -9,6 +9,7 @@ from __future__ import annotations
 
 import argparse
 import json
+import os
 import sys
 import time
 from pathlib import Path
@@ -62,12 +63,13 @@ def run(queries: tuple[str, ...] = ("pump", "sol"), max_new: int = 15, min_age: 
     # Sumber UTAMA coin baru: pump.fun newest (search DexScreener tidak menampilkan
     # coin umur menit karena sort likuiditas). Untuk mint baru pump.fun yang belum
     # ada detail pair, tetap masuk kandidat (harga bisa None -> SKIP dgn jurnal).
-    pf_sources = [("newest", pf_adapter.newest_coins(limit=20)),
-                  ("graduating", pf_adapter.graduating_coins(limit=20))]
+    pf_sources = [("koth", pf_adapter.king_of_the_hill(limit=20)),
+                  ("newest", pf_adapter.newest_coins(limit=10)),
+                  ("graduating", pf_adapter.graduating_coins(limit=10))]
     for src_name, coins_list in pf_sources:
         for nc in coins_list:
-            if nc["mint"] in seen and src_name != "graduating":
-                continue  # newest yang sudah tercatat = lewat; graduating tetap di-track
+            if nc["mint"] in seen and src_name != "koth":
+                continue  # newest/graduating yang sudah tercatat = lewat; koth tetap di-track
             # Harga real-time dari bonding curve: usd_mcap / 1e9 (supply pump.fun konstan)
             # Likuiditas efektif = real SOL di curve x harga SOL (untuk scalp, pool belum terbentuk)
             mcap = nc.get("usd_market_cap") or 0.0
@@ -124,6 +126,7 @@ def run(queries: tuple[str, ...] = ("pump", "sol"), max_new: int = 15, min_age: 
     boosts = {b["mint"]: b for b in boosts_list}
 
     results: list[dict] = []
+    test_forced: list[str] = []
     zone_counts = {"BUY": 0, "WATCH": 0, "PASSIVE": 0, "REJECT": 0}
     for p in fresh:
         mint = p["mint"]
@@ -205,6 +208,21 @@ def run(queries: tuple[str, ...] = ("pump", "sol"), max_new: int = 15, min_age: 
             if verdict["score"] < scorer.BUY_THRESHOLD and verdict["zone"] == "BUY":
                 verdict["zone"] = "WATCH"
 
+        # MODE PENGUJIAN SIKLUS (MCR_TEST_BUY=1): paksa kandidat terbaik jadi BUY
+        # supaya alur buy->fill->exit->sell terbukti jalan end-to-end.
+        # Kandidat boleh REJECT-umur (kasus normal coin muda), TAPI harus punya
+        # harga + likuiditas > $150 + on-chain aman + bukan rug, agar simulasi realistis.
+        # Semua mekanisme nyata tetap jalan (slippage, next-scan fill, exit rules).
+        # MATIKAN dgn MCR_TEST_BUY=0 (atau hapus env) setelah trade tercatat.
+        if os.environ.get("MCR_TEST_BUY") == "1" and len(test_forced) < 1:
+            hard_reject = any(("likuiditas" in r) or ("rug" in r) or ("wash" in r) for r in verdict["reasons"])
+            oc_reject = any("authority" in r or "holder" in r for r in verdict["reasons"])
+            can_force = (row["price_usd"] and (row["liquidity_usd"] or 0) >= 150
+                         and not hard_reject and not oc_reject)
+            if can_force:
+                test_forced.append(mint)
+                verdict = {"zone": "BUY", "score": 60.0, "parts": verdict["parts"], "reasons": []}
+
         # Narasi AI (Fase 5): 1-2 kalimat risiko; mock bila key kosong
         top10_for_ai = sol.top10_holders_pct(mint, row["supply"]) if row["supply"] else None
         ai = analyze_risk(
@@ -248,6 +266,7 @@ def run(queries: tuple[str, ...] = ("pump", "sol"), max_new: int = 15, min_age: 
         "solana_rpc_ok": sol_ok,
         "sentiment": {"trending_symbols": trending[:10], "boosts_tracked": len(boosts)},
         "sol_price_usd": sol_price,
+        "test_buy_forced": test_forced,
         "results": results,
     }
     day_dir = config.DAILY_DIR / time.strftime("%Y-%m-%d")
