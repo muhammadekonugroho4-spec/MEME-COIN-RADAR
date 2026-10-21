@@ -29,9 +29,12 @@ from backend.core.sentiment import adjust_technical_score, hype_for
 from backend.core.onchain_filter import onchain_reasons, top10_pct_from_accounts
 
 
-def _evaluate(row: dict, age_min: float | None, supply: float | None, min_age_minutes: float = 30.0) -> dict:
+def _evaluate(row: dict, age_min: float | None, supply: float | None, min_age_minutes: float = 30.0,
+              allow_popular_fdv: bool = False) -> dict:
     """Filter keras dulu (REJECT), lalu skor untuk yang lolos."""
-    reasons = risk_filter.reject_reasons(row, age_min, chg_m5_low=row.get("chg_m5"), min_age_minutes=min_age_minutes)
+    reasons = risk_filter.reject_reasons(row, age_min, chg_m5_low=row.get("chg_m5"),
+                                         min_age_minutes=min_age_minutes,
+                                         allow_popular_fdv=allow_popular_fdv)
     if reasons:
         return {"zone": "REJECT", "score": 0.0, "reasons": reasons, "parts": {}}
     s = scorer.score(row, age_min, supply)
@@ -59,6 +62,16 @@ def run(queries: tuple[str, ...] = ("pump", "sol"), max_new: int = 15, min_age: 
     by_mint: dict[str, dict] = {}
     for p in pairs:
         by_mint.setdefault(p["mint"], p)
+
+    # MODE "SEMUA MEME COIN" (MCR_ALL_MEME=1): tambahkan coin meme MAPAN Solana
+    # (semua umur) dari query populernya. Dedup: pair paling likuid yang menang.
+    popular_mints: set[str] = set()
+    if os.environ.get("MCR_ALL_MEME") == "1":
+        for p in dx.scan_popular_pairs():
+            old = by_mint.get(p["mint"])
+            if old is None or (p.get("liquidity_usd") or 0) > (old.get("liquidity_usd") or 0):
+                by_mint[p["mint"]] = p
+            popular_mints.add(p["mint"])
 
     # Sumber UTAMA coin baru: pump.fun newest (search DexScreener tidak menampilkan
     # coin umur menit karena sort likuiditas). Untuk mint baru pump.fun yang belum
@@ -99,20 +112,24 @@ def run(queries: tuple[str, ...] = ("pump", "sol"), max_new: int = 15, min_age: 
                 "chg_m5": 0.0, "chg_h1": 0.0, "chg_h24": 0.0,
                 "pair_created_at": nc.get("created_ms"),
             }
-    # Scalp-friendly: PRIORITAS kandidat = yang SEDANG ADA AKSI (vol m5 terbesar),
-    # lalu graduating pump.fun (curve sehat), lalu lahiran. Slot max_new diisi dengan urutan itu.
-    MAX_AGE_MINUTES = 24 * 60.0  # pra-filter: coin >24 jam dibuang SEBELUM dinilai.
-    # Ini yang membuat radar bersih - pair mapan (SOL, PUMP, dsb) dari query
-    # DexScreener tidak lagi makan slot kandidat & REJECT-FDV siluman.
+    # PRIORITAS kandidat = yang SEDANG ADA AKSI (vol m5 terbesar), lalu curve sehat,
+    # lalu lahiran. Mode "semua meme" (popular_mints) TANPA batas umur; sisanya
+    # (coin lahiran) tetap dibatasi 24 jam supaya slot tidak dimakan coin mati.
+    MAX_AGE_MINUTES = 24 * 60.0
 
     def _prioritas(p: dict) -> tuple | None:
         age = coin_store.age_minutes(p.get("pair_created_at"))
-        if age is not None and age > MAX_AGE_MINUTES:
-            return None  # terlalu tua: bukan kandidat scalp
+        is_popular = p["mint"] in popular_mints
+        if not is_popular and age is not None and age > MAX_AGE_MINUTES:
+            return None  # coin lahiran yang sudah mati >24 jam: buang
         vol = p.get("vol_m5") or 0.0
         is_curve_sehat = (p.get("dex") == "pumpfun" and (p.get("liquidity_usd") or 0) >= 300
                           and age is not None and age > 10)
-        tier = 0 if vol >= 300 else (1 if is_curve_sehat else 2)
+        # popular yang likuid masuk tier 0 juga (sedang ada aksi = dulu disurvei)
+        if is_popular and (p.get("vol_h24") or 0) >= 50_000:
+            tier = 0
+        else:
+            tier = 0 if vol >= 300 else (1 if is_curve_sehat else 2)
         return (tier, -vol)
 
     candidates = [(p, _prioritas(p)) for p in by_mint.values()]
@@ -186,7 +203,17 @@ def run(queries: tuple[str, ...] = ("pump", "sol"), max_new: int = 15, min_age: 
                     # aksi minimal tercatat -> lolos ambang vol scalper
                     row["vol_m5"] = max(row.get("vol_m5") or 0, 500.0 if chg != 0 else 0)
 
-        verdict = _evaluate(row, age_min, row["supply"], min_age_minutes=min_age)
+        is_popular = mint in popular_mints
+        # FILTER DIPERKETAT utk popular (sedikit saja): buang klon spam/mati -
+        # wajib likuiditas >= $50k DAN volume 24j >= $10k. Coin lahiran tak kena ini.
+        if is_popular and ((row["liquidity_usd"] or 0) < 50_000 or (row["vol_h24"] or 0) < 10_000):
+            results.append({"mint": mint, "symbol": best["symbol"], "zone": "SKIP", "score": 0.0,
+                            "reasons": "popular lemah (liq < $50k atau vol24 < $10k)",
+                            "parts": json.dumps({})})
+            zone_counts["SKIP"] = zone_counts.get("SKIP", 0) + 1
+            continue
+        verdict = _evaluate(row, age_min, row["supply"], min_age_minutes=min_age,
+                            allow_popular_fdv=is_popular)
 
         # Lapisan on-chain (Fase 4): authority + konsentrasi holder, hanya untuk yang lolos filter API
         if verdict["zone"] != "REJECT":

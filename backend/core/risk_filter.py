@@ -11,6 +11,7 @@ MIN_LIQUIDITY_CURVE_USD = 150.0    # bonding curve pump.fun - kalibrasi: 300 -> 
 MIN_AGE_MINUTES = 10.0          # kalibrasi: 30 -> 10 menit (biar coin muda lolos)
 # scalp: coin pump.fun umur 5-30 menit diizinkan lewat parameter (di job_scan)
 MAX_FDV = 5_000_000.0
+MAX_FDV_POPULAR = 2_000_000_000.0  # mode "semua meme": coin mapan WIF/BONK $M ratusan juta
 MAX_VOL_TO_LIQ_24H = 40.0       # kalibrasi: 15x -> 40x (wash cap santai dulu)
 MAX_DROP_FROM_5M_HIGH = -60.0  # persen; di bawah ini dianggap sudah rug
 
@@ -20,12 +21,14 @@ def reject_reasons(
     age_min: float | None,
     chg_m5_low: float | None = None,
     min_age_minutes: float = MIN_AGE_MINUTES,
+    allow_popular_fdv: bool = False,
 ) -> list[str]:
     """Evaluasi semua filter keras. Kembalikan daftar alasan REJECT (kosong = lolos).
 
     row: observasi ternormalisasi (price_usd, liquidity_usd, fdv, vol_h24, ...)
     age_min: umur pair dalam menit (None = API tidak memberi data -> tidak bisa dinilai umur)
     chg_m5_low: perubahan harga 5 menit paling dalam yang terlihat (persen) - pakai chg_m5.
+    allow_popular_fdv: True utk coin meme mapan (FDV cap diperlonggar jadi MAX_FDV_POPULAR).
     """
     reasons: list[str] = []
 
@@ -41,8 +44,9 @@ def reject_reasons(
         reasons.append(f"umur {age_min:.0f} menit < {min_age_minutes:.0f} menit minimum")
 
     fdv = row.get("fdv") or 0.0
-    if fdv > MAX_FDV:
-        reasons.append(f"FDV ${fdv:,.0f} > ${MAX_FDV:,.0f}")
+    fdv_cap = MAX_FDV_POPULAR if allow_popular_fdv else MAX_FDV
+    if fdv > fdv_cap:
+        reasons.append(f"FDV ${fdv:,.0f} > ${fdv_cap:,.0f}")
 
     vol24 = row.get("vol_h24") or 0.0
     if liq > 0 and vol24 / liq > MAX_VOL_TO_LIQ_24H:

@@ -2,18 +2,6 @@
   "equity": 1000.0,
   "start_equity": 1000.0,
   "positions": {},
-  "pending": [
-    {
-      "mint": "ASrtXSVHrdrb2rmiW1otMES2LbTChE4EUF3ozPjMpump",
-      "symbol": "OTTR",
-      "side": "buy",
-      "signal_ts": 1792579613.9513674,
-      "signal_price": 2.169865658516169e-05,
-      "signal_score": 60.0,
-      "usd_size": 150.0,
-      "reason": "zona BUY skor 60.0",
-      "tries": 1
-    }
-  ],
+  "pending": [],
   "_applied": []
 }

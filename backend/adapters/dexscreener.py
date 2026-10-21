@@ -94,6 +94,25 @@ class DexScreenerAdapter:
                 break
         return rows
 
+    def scan_popular_pairs(self, queries: tuple[str, ...] = ("WIF", "BONK", "POPCAT", "PENGU", "Fartcoin", "TRUMP", "GOAT", "PNUT"), per_query: int = 30) -> list[dict]:
+        """Pair coin meme MAPAN Solana (semua umur) - mode 'semua meme coin'.
+
+        Query per symbol karena API search tidak punya filter chain/rank.
+        Caller yang dedup & memilih pair paling likuid per mint.
+        """
+        rows: list[dict] = []
+        for q in queries:
+            self.rate.wait_turn(self.source)
+            try:
+                data = _get(self.session, f"{SEARCH_URL}?q={requests.utils.quote(q)}")
+            except DataSourceError:
+                continue  # 1 query gagal tidak boleh mematikan seluruh scan
+            for p in data.get("pairs") or []:
+                n = _norm_pair(p)
+                if n:
+                    rows.append(n)
+        return rows
+
     def token_detail(self, mint: str) -> dict | None:
         """Detail pair terbaik untuk 1 mint (paling likuid). None bila tidak ada."""
         self.rate.wait_turn(self.source)
