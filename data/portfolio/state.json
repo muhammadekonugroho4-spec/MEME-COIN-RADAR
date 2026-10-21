@@ -2,6 +2,161 @@
   "equity": 1000.0,
   "start_equity": 1000.0,
   "positions": {},
-  "pending": [],
+  "pending": [
+    {
+      "mint": "5DieBsX3Aw4fBpSU4D8HNjsFpJdsjCZszkNEqmpypump",
+      "symbol": "Azalea",
+      "side": "buy",
+      "signal_ts": 1792597512.7640212,
+      "signal_price": 2.609227890362461e-05,
+      "signal_score": 60.0,
+      "usd_size": 50.0,
+      "reason": "zona BUY skor 60.0",
+      "tries": 1
+    },
+    {
+      "mint": "3wzpc6Cd5X4E11mnY4GqQzWXrZEYYWQ8zoD5eFz3Cksp",
+      "symbol": "Datacenter",
+      "side": "buy",
+      "signal_ts": 1792597512.7640212,
+      "signal_price": 2.101542613049644e-05,
+      "signal_score": 60.0,
+      "usd_size": 50.0,
+      "reason": "zona BUY skor 60.0",
+      "tries": 1
+    },
+    {
+      "mint": "HXuAgtMSuuv3sJH6UPg2cG4Txqovc19kD6PtyHxmpump",
+      "symbol": "Humor",
+      "side": "buy",
+      "signal_ts": 1792597512.7640212,
+      "signal_price": 7.72627463925178e-06,
+      "signal_score": 60.0,
+      "usd_size": 50.0,
+      "reason": "zona BUY skor 60.0",
+      "tries": 1
+    },
+    {
+      "mint": "7u2vv7Ufdixk1oiyECECRX2yNRivM8hZTNSH4yGVpaid",
+      "symbol": "NICE",
+      "side": "buy",
+      "signal_ts": 1792597512.7640212,
+      "signal_price": 7.794865031233643e-06,
+      "signal_score": 60.0,
+      "usd_size": 50.0,
+      "reason": "zona BUY skor 60.0",
+      "tries": 1
+    },
+    {
+      "mint": "Dr9jsPhy5dTEgnM98QgXLyuY5994NP7kctzJQnySpump",
+      "symbol": "neuralink",
+      "side": "buy",
+      "signal_ts": 1792597512.7640212,
+      "signal_price": 4.47813632095524e-06,
+      "signal_score": 60.0,
+      "usd_size": 50.0,
+      "reason": "zona BUY skor 60.0",
+      "tries": 1
+    },
+    {
+      "mint": "KbvJNYgKtoMG8oQQKCMAAfCM2p6YvMi5Me3SVrWpump",
+      "symbol": "Inu",
+      "side": "buy",
+      "signal_ts": 1792597512.7640212,
+      "signal_price": 1.4535220010488332e-05,
+      "signal_score": 60.0,
+      "usd_size": 50.0,
+      "reason": "zona BUY skor 60.0",
+      "tries": 1
+    },
+    {
+      "mint": "2v9Lmb8vkx2v6C4iMLSyw6RLBpge9eWnoRFeW75gpump",
+      "symbol": "GEMI",
+      "side": "buy",
+      "signal_ts": 1792597512.7640212,
+      "signal_price": 1.4363596522437644e-07,
+      "signal_score": 60.0,
+      "usd_size": 50.0,
+      "reason": "zona BUY skor 60.0",
+      "tries": 1
+    },
+    {
+      "mint": "4eTcQsm1Seb3cj3T6h2L943XMgJu8VQkRU8W54y1pump",
+      "symbol": "PUPUY",
+      "side": "buy",
+      "signal_ts": 1792597512.7640212,
+      "signal_price": 1.0556179861121803e-06,
+      "signal_score": 60.0,
+      "usd_size": 50.0,
+      "reason": "zona BUY skor 60.0",
+      "tries": 1
+    },
+    {
+      "mint": "5oZbPNuem8ZMHmnaYBEgaAqem1tPejiz1MYtJ1bTpump",
+      "symbol": "MAPSI",
+      "side": "buy",
+      "signal_ts": 1792597512.7640212,
+      "signal_price": 1.0747506371745898e-05,
+      "signal_score": 60.0,
+      "usd_size": 50.0,
+      "reason": "zona BUY skor 60.0",
+      "tries": 1
+    },
+    {
+      "mint": "JARPYrSoHmiKbZAwnyLQF5uveEBT7ubpUfqzPaXQpump",
+      "symbol": "$DUP",
+      "side": "buy",
+      "signal_ts": 1792597512.7640212,
+      "signal_price": 1.3491146297140409e-06,
+      "signal_score": 60.0,
+      "usd_size": 50.0,
+      "reason": "zona BUY skor 60.0",
+      "tries": 1
+    },
+    {
+      "mint": "6Bo65DyXcg9JR5gtkdiKYZHyzgc6z2muwCgrwNVmduve",
+      "symbol": "HANDLE",
+      "side": "buy",
+      "signal_ts": 1792597512.7640212,
+      "signal_price": 2.3251822627588944e-05,
+      "signal_score": 60.0,
+      "usd_size": 50.0,
+      "reason": "zona BUY skor 60.0",
+      "tries": 1
+    },
+    {
+      "mint": "2csnABgWegJxUm6j8EkkLR6d8NVoP4t31F7SYQfCpump",
+      "symbol": "Gertrude",
+      "side": "buy",
+      "signal_ts": 1792597512.7640212,
+      "signal_price": 1.4154495828957784e-05,
+      "signal_score": 60.0,
+      "usd_size": 50.0,
+      "reason": "zona BUY skor 60.0",
+      "tries": 1
+    },
+    {
+      "mint": "FUReW8JzxSAWVRVhnBCyLXJrzqaxqEA1BzymjoEspump",
+      "symbol": "Inu",
+      "side": "buy",
+      "signal_ts": 1792597512.7640212,
+      "signal_price": 1.187104727833548e-05,
+      "signal_score": 60.0,
+      "usd_size": 50.0,
+      "reason": "zona BUY skor 60.0",
+      "tries": 1
+    },
+    {
+      "mint": "4x16wQaJG4M8EUtXAJxEKTHwYnP25NB3KdijEyaNpump",
+      "symbol": "$USNY",
+      "side": "buy",
+      "signal_ts": 1792597512.7640212,
+      "signal_price": 1.5538690109043435e-06,
+      "signal_score": 60.0,
+      "usd_size": 50.0,
+      "reason": "zona BUY skor 60.0",
+      "tries": 1
+    }
+  ],
   "_applied": []
 }
