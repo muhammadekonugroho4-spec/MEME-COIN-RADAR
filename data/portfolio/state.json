@@ -1,22 +1,7 @@
 {
-  "equity": 983.062845,
+  "equity": 1000.0,
   "start_equity": 1000.0,
   "positions": {},
-  "pending": [
-    {
-      "mint": "FwnUVxaYQPpX5WyQd3ELm3SAjVL4NHgSLzRkdw81pump",
-      "symbol": "DAD",
-      "side": "buy",
-      "signal_ts": 1792543843.0649042,
-      "signal_price": 5.8860980396455344e-06,
-      "signal_score": 60.0,
-      "usd_size": 147.45942675,
-      "reason": "zona BUY skor 60.0",
-      "tries": 0
-    }
-  ],
-  "_applied": [
-    "FwnUVxaYQPpX5WyQd3ELm3SAjVL4NHgSLzRkdw81pump:1792543798.9486115",
-    "sell:FwnUVxaYQPpX5WyQd3ELm3SAjVL4NHgSLzRkdw81pump:1792543830.198845"
-  ]
+  "pending": [],
+  "_applied": []
 }
