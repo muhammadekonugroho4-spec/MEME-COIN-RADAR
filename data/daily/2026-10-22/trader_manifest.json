@@ -1,18 +1,28 @@
 {
-  "run_at": "2026-10-22T19:43:03",
-  "equity_cash": 589.7027,
-  "unrealized": -3.5814,
-  "total": 586.1214,
-  "open_positions": 8,
-  "pending": 2,
+  "run_at": "2026-10-22T22:53:51",
+  "equity_cash": 635.4496,
+  "unrealized": -2.0888,
+  "total": 633.3608,
+  "open_positions": 7,
+  "pending": 5,
   "actions": [
     {
-      "mint": "J1Q78bTTz48TdgLGg8vTkYiL7CfjmycumLBE6gpKpump",
+      "mint": "334j9dCg9WBfvC56tzRsp7RVFcYzpF5R2zC54zJdpump",
       "action": "queue_buy",
       "reason": "zona BUY skor 60.0"
     },
     {
-      "mint": "FveFhQF1RnFnWseDv6Pq716aH3aQNWNRCESfaL3Gpump",
+      "mint": "ween2khNidoDMVRKMxiECFjv81MRpT3EyrPyNATNcSd",
+      "action": "queue_buy",
+      "reason": "zona BUY skor 60.0"
+    },
+    {
+      "mint": "Htg467R28meKnERuin4W374LS5jDxr3cCD2Bf5PLpump",
+      "action": "queue_buy",
+      "reason": "zona BUY skor 60.0"
+    },
+    {
+      "mint": "4bpt2qjbAUAXUAXVjRdbCnh3j4pka1n9hAFi7zHfpump",
       "action": "queue_buy",
       "reason": "zona BUY skor 60.0"
     }
