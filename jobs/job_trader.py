@@ -25,22 +25,48 @@ from backend.core import paper_broker, portfolio, strategy
 from backend.core.paper_broker import PendingOrder
 
 PRICE_STALE_SECONDS = 360   # scalp: observasi >6 menit = basi (SL/TP harus reaksi cepat)
+MAX_ORDER_TRIES = 10        # kalibrasi: 3 -> 10 (jadwal Actions sering delay; jangan buru2 batal)
 
 
 def latest_prices(coins_dir: Path, mints: list[str]) -> dict[str, dict]:
-    """{'mint': {'price':..., 'liquidity':..., 'ts':...}} dari baris terakhir parquet."""
+    """{'mint': {'price':..., 'liquidity':..., 'ts':...}} untuk semua mint.
+
+    Urutan sumber:
+    1. Parquet lokal (baris terakhir) - bila usia <= PRICE_STALE_SECONDS.
+    2. Harga LIVE DexScreener - trader tidak boleh bergantung jadwal scan;
+       scan & trade di Actions sering meleset beberapa puluh menit, dan dengan
+       harga basi order pending tidak pernah fill (bug 22 Okt).
+    """
     out: dict[str, dict] = {}
+    need_live: list[str] = []
     for mint in mints:
         df = portfolio_load(coins_dir, mint)
-        if df is None or df.empty:
-            continue
-        last = df.iloc[-1].to_dict()
-        if last.get("price_usd") and last.get("ts"):
-            out[mint] = {
-                "price": float(last["price_usd"]),
-                "liquidity": float(last.get("liquidity_usd") or 0.0),
-                "ts": float(last["ts"]),
-            }
+        if df is not None and not df.empty:
+            last = df.iloc[-1].to_dict()
+            if last.get("price_usd") and last.get("ts") \
+                    and time.time() - float(last["ts"]) <= PRICE_STALE_SECONDS:
+                out[mint] = {
+                    "price": float(last["price_usd"]),
+                    "liquidity": float(last.get("liquidity_usd") or 0.0),
+                    "ts": float(last["ts"]),
+                }
+                continue
+        need_live.append(mint)
+    if need_live:
+        from backend.adapters.base import DataSourceError
+        from backend.adapters.dexscreener import DexScreenerAdapter
+        dx = DexScreenerAdapter()
+        for mint in need_live:
+            try:
+                d = dx.token_detail(mint)
+            except (DataSourceError, Exception):
+                d = None  # lembut: tanpa harga live, order tetap pending
+            if d and d.get("price_usd"):
+                out[mint] = {
+                    "price": float(d["price_usd"]),
+                    "liquidity": float(d.get("liquidity_usd") or 0.0),
+                    "ts": time.time(),
+                }
     return out
 
 
@@ -87,7 +113,7 @@ def run(dry_run: bool = False) -> dict:
         if not pinfo or now - pinfo["ts"] > PRICE_STALE_SECONDS:
             # belum ada harga baru -> tetap pending (max 6 run, lalu batal)
             o["tries"] = o.get("tries", 0) + 1
-            if o["tries"] <= 3:
+            if o["tries"] <= MAX_ORDER_TRIES:
                 remaining.append(o)
             else:
                 journal.append({"mint": o["mint"], "action": "cancel", "reason": "tidak ada fill 6 run"})

@@ -1,9 +1,114 @@
 {
-  "run_at": "2026-10-22T10:51:27",
-  "equity_cash": 1000.0,
-  "unrealized": 0.0,
-  "total": 1000.0,
-  "open_positions": 0,
+  "run_at": "2026-10-22T18:38:31",
+  "equity_cash": 650.0,
+  "unrealized": -1.7641,
+  "total": 648.2359,
+  "open_positions": 7,
   "pending": 11,
-  "actions": []
+  "actions": [
+    {
+      "mint": "6p6xgHyF7AeE6TZkSmFsko444wqoP15icUSqi2jfGiPN",
+      "action": "buy_fill",
+      "price": 1.7691793596942913,
+      "slippage_pct": 0.522,
+      "reason": "zona BUY skor 60.0"
+    },
+    {
+      "mint": "2zMMhcVQEXDtdE6vsFS7S7D5oUodfJHE8vd1gnBouauv",
+      "action": "buy_fill",
+      "price": 0.007846146428326687,
+      "slippage_pct": 0.501,
+      "reason": "zona BUY skor 60.0"
+    },
+    {
+      "mint": "DezXAZ8z7PnrnRJjz3wXBoRgixCa6xjnB7YaB1pPB263",
+      "action": "buy_fill",
+      "price": 3.0777991086587313e-06,
+      "slippage_pct": 0.516,
+      "reason": "zona BUY skor 60.0"
+    },
+    {
+      "mint": "9BB6NFEcjBCtnNLFko2FqVQBq8HHM13kCyYcdQbgpump",
+      "action": "buy_fill",
+      "price": 0.14532396312022436,
+      "slippage_pct": 0.501,
+      "reason": "zona BUY skor 60.0"
+    },
+    {
+      "mint": "CzLSujWBLFsSjncfkh59rUFqvafWcY5tzedWJSuypump",
+      "action": "buy_fill",
+      "price": 0.014572991462956288,
+      "slippage_pct": 0.503,
+      "reason": "zona BUY skor 60.0"
+    },
+    {
+      "mint": "7GCihgDB8fe6KNjn2MYtkzZcRjQy3t9GHdC8uHYmW2hr",
+      "action": "buy_fill",
+      "price": 0.04511508472901793,
+      "slippage_pct": 0.501,
+      "reason": "zona BUY skor 60.0"
+    },
+    {
+      "mint": "2qEHjDLDLbuBgRYvsxhc5D6uDWAivNFZGan56P1tpump",
+      "action": "buy_fill",
+      "price": 0.04354734645318557,
+      "slippage_pct": 0.502,
+      "reason": "zona BUY skor 60.0"
+    },
+    {
+      "mint": "6p6xgHyF7AeE6TZkSmFsko444wqoP15icUSqi2jfGiPN",
+      "action": "queue_exit",
+      "reason": "scalp timeout: 48 menit >= 15 menit"
+    },
+    {
+      "mint": "2zMMhcVQEXDtdE6vsFS7S7D5oUodfJHE8vd1gnBouauv",
+      "action": "queue_exit",
+      "reason": "scalp timeout: 48 menit >= 15 menit"
+    },
+    {
+      "mint": "DezXAZ8z7PnrnRJjz3wXBoRgixCa6xjnB7YaB1pPB263",
+      "action": "queue_exit",
+      "reason": "scalp timeout: 48 menit >= 15 menit"
+    },
+    {
+      "mint": "9BB6NFEcjBCtnNLFko2FqVQBq8HHM13kCyYcdQbgpump",
+      "action": "queue_exit",
+      "reason": "scalp timeout: 48 menit >= 15 menit"
+    },
+    {
+      "mint": "CzLSujWBLFsSjncfkh59rUFqvafWcY5tzedWJSuypump",
+      "action": "queue_exit",
+      "reason": "scalp timeout: 48 menit >= 15 menit"
+    },
+    {
+      "mint": "7GCihgDB8fe6KNjn2MYtkzZcRjQy3t9GHdC8uHYmW2hr",
+      "action": "queue_exit",
+      "reason": "scalp timeout: 48 menit >= 15 menit"
+    },
+    {
+      "mint": "2qEHjDLDLbuBgRYvsxhc5D6uDWAivNFZGan56P1tpump",
+      "action": "queue_exit",
+      "reason": "scalp timeout: 48 menit >= 15 menit"
+    },
+    {
+      "mint": "4x6fUAeGwiR9P78GCDtsHFV86ZML8rvS6vYkm4fYpump",
+      "action": "queue_buy",
+      "reason": "zona BUY skor 60.0"
+    },
+    {
+      "mint": "273SmMFs7jcrrtDa4b5nyDD5uUdE1FY2ZjUhSMXGpump",
+      "action": "queue_buy",
+      "reason": "zona BUY skor 60.0"
+    },
+    {
+      "mint": "6F7wJ8CSEKFiahPemiVCdQfbaqbJQWiLShBdUhtvpump",
+      "action": "queue_buy",
+      "reason": "zona BUY skor 60.0"
+    },
+    {
+      "mint": "FNYypaetZfYxzckihZRWuX9Kimf1DVxV2ogXWXvLpump",
+      "action": "queue_buy",
+      "reason": "zona BUY skor 60.0"
+    }
+  ]
 }
