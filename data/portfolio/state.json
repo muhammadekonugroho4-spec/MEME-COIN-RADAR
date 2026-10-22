@@ -1,78 +1,78 @@
 {
-  "equity": 595.045362,
+  "equity": 589.702734,
   "start_equity": 1000.0,
   "positions": {
     "6p6xgHyF7AeE6TZkSmFsko444wqoP15icUSqi2jfGiPN": {
       "symbol": "TRUMP",
-      "qty": 28.51441839039848,
-      "entry_price": 1.7390189419643654,
-      "entry_ts": 1792683686.2131722,
-      "peak_price": 1.74,
+      "qty": 28.096045570996218,
+      "entry_price": 1.749068002321636,
+      "entry_ts": 1792697703.530306,
+      "peak_price": 1.749068002321636,
       "tp_done": false,
-      "entry_liquidity": 232518.16
+      "entry_liquidity": 232354.23
     },
     "9BB6NFEcjBCtnNLFko2FqVQBq8HHM13kCyYcdQbgpump": {
       "symbol": "Fartcoin ",
-      "qty": 347.2208610050163,
-      "entry_price": 0.14281144732051,
-      "entry_ts": 1792683686.2131722,
-      "peak_price": 0.14281144732051,
+      "qty": 343.3784063191553,
+      "entry_price": 0.14311294302625643,
+      "entry_ts": 1792697703.530306,
+      "peak_price": 0.14311294302625643,
       "tp_done": false,
-      "entry_liquidity": 7438167.74
+      "entry_liquidity": 7420584.21
     },
     "7GCihgDB8fe6KNjn2MYtkzZcRjQy3t9GHdC8uHYmW2hr": {
       "symbol": "POPCAT",
-      "qty": 1112.7586568636375,
-      "entry_price": 0.044562325706603456,
-      "entry_ts": 1792683686.2131722,
-      "peak_price": 0.044562325706603456,
+      "qty": 1103.016568875778,
+      "entry_price": 0.04455227209332554,
+      "entry_ts": 1792697703.530306,
+      "peak_price": 0.04456,
       "tp_done": false,
-      "entry_liquidity": 3513935.46
+      "entry_liquidity": 3501822.13
     },
     "2zMMhcVQEXDtdE6vsFS7S7D5oUodfJHE8vd1gnBouauv": {
       "symbol": "PENGU",
-      "qty": 6412.7515345134025,
-      "entry_price": 0.007732579912557404,
-      "entry_ts": 1792683686.2131722,
-      "peak_price": 0.007732579912557404,
+      "qty": 6301.935851378734,
+      "entry_price": 0.0077979045580492175,
+      "entry_ts": 1792697703.530306,
+      "peak_price": 0.0077979045580492175,
       "tp_done": false,
-      "entry_liquidity": 3471152.54
+      "entry_liquidity": 3480273.34
     },
     "DezXAZ8z7PnrnRJjz3wXBoRgixCa6xjnB7YaB1pPB263": {
       "symbol": "Bonk",
-      "qty": 16211830.633109668,
-      "entry_price": 3.0586992192434757e-06,
-      "entry_ts": 1792683686.2131722,
-      "peak_price": 3.0586992192434757e-06,
+      "qty": 16145894.91837341,
+      "entry_price": 3.0436153925465233e-06,
+      "entry_ts": 1792697703.530306,
+      "peak_price": 3.0436153925465233e-06,
       "tp_done": false,
-      "entry_liquidity": 311622.45
+      "entry_liquidity": 313007.97
     },
     "2qEHjDLDLbuBgRYvsxhc5D6uDWAivNFZGan56P1tpump": {
       "symbol": "Pnut ",
-      "qty": 1155.4947098260304,
-      "entry_price": 0.042914184961924895,
-      "entry_ts": 1792683686.2131722,
-      "peak_price": 0.042914184961924895,
+      "qty": 1152.1354016611683,
+      "entry_price": 0.042652881101601765,
+      "entry_ts": 1792697703.530306,
+      "peak_price": 0.042652881101601765,
       "tp_done": false,
-      "entry_liquidity": 3091222.56
+      "entry_liquidity": 3062071.78
     },
     "CzLSujWBLFsSjncfkh59rUFqvafWcY5tzedWJSuypump": {
       "symbol": "GOAT",
-      "qty": 3443.039076183703,
-      "entry_price": 0.014402135033263354,
-      "entry_ts": 1792683686.2131722,
-      "peak_price": 0.014402135033263354,
+      "qty": 3395.5398814989253,
+      "entry_price": 0.014472483320769254,
+      "entry_ts": 1792697703.530306,
+      "peak_price": 0.014472483320769254,
       "tp_done": false,
-      "entry_liquidity": 1465019.81
+      "entry_liquidity": 1464127.6
     },
     "3iCWDZKyMoJ1QMGjtHrnW1wZpkYJxS7dbbv3Amwfpump": {
       "symbol": "Attention",
-      "qty": 20187947.133860707,
-      "entry_price": 2.4562732095146443e-06,
-      "entry_ts": 1792683686.2131722,
-      "peak_price": 2.4562732095146443e-06,
+      "qty": 22004067.861619793,
+      "entry_price": 2.2333095229957405e-06,
+      "entry_ts": 1792697703.530306,
+      "peak_price": 2.2333095229957405e-06,
       "tp_done": false,
-      "entry_liquidity": 2359.92
+      "entry_liquidity": 2159.7
     }
   },
   "pending": [
@@ -80,10 +80,10 @@
       "mint": "J1Q78bTTz48TdgLGg8vTkYiL7CfjmycumLBE6gpKpump",
       "symbol": "Screwworm",
       "side": "buy",
-      "signal_ts": 1792684286.213519,
+      "signal_ts": 1792698183.5303135,
       "signal_price": 4.743098767765474e-06,
       "signal_score": 60.0,
-      "usd_size": 29.629032721073273,
+      "usd_size": 29.306068228196114,
       "reason": "zona BUY skor 60.0",
       "tries": 0
     },
@@ -91,10 +91,10 @@
       "mint": "FveFhQF1RnFnWseDv6Pq716aH3aQNWNRCESfaL3Gpump",
       "symbol": "XMR",
       "side": "buy",
-      "signal_ts": 1792684286.213519,
+      "signal_ts": 1792698183.5303135,
       "signal_price": 9.293404533567327e-06,
       "signal_score": 60.0,
-      "usd_size": 29.629032721073273,
+      "usd_size": 29.306068228196114,
       "reason": "zona BUY skor 60.0",
       "tries": 0
     }
@@ -121,6 +121,22 @@
     "DezXAZ8z7PnrnRJjz3wXBoRgixCa6xjnB7YaB1pPB263:1792683686.2131722",
     "2qEHjDLDLbuBgRYvsxhc5D6uDWAivNFZGan56P1tpump:1792683686.2131722",
     "CzLSujWBLFsSjncfkh59rUFqvafWcY5tzedWJSuypump:1792683686.2131722",
-    "3iCWDZKyMoJ1QMGjtHrnW1wZpkYJxS7dbbv3Amwfpump:1792683686.2131722"
+    "3iCWDZKyMoJ1QMGjtHrnW1wZpkYJxS7dbbv3Amwfpump:1792683686.2131722",
+    "sell:6p6xgHyF7AeE6TZkSmFsko444wqoP15icUSqi2jfGiPN:1792697583.529966",
+    "sell:9BB6NFEcjBCtnNLFko2FqVQBq8HHM13kCyYcdQbgpump:1792697583.529966",
+    "sell:7GCihgDB8fe6KNjn2MYtkzZcRjQy3t9GHdC8uHYmW2hr:1792697583.529966",
+    "sell:2zMMhcVQEXDtdE6vsFS7S7D5oUodfJHE8vd1gnBouauv:1792697583.529966",
+    "sell:DezXAZ8z7PnrnRJjz3wXBoRgixCa6xjnB7YaB1pPB263:1792697583.529966",
+    "sell:2qEHjDLDLbuBgRYvsxhc5D6uDWAivNFZGan56P1tpump:1792697583.529966",
+    "sell:CzLSujWBLFsSjncfkh59rUFqvafWcY5tzedWJSuypump:1792697583.529966",
+    "sell:3iCWDZKyMoJ1QMGjtHrnW1wZpkYJxS7dbbv3Amwfpump:1792697583.529966",
+    "6p6xgHyF7AeE6TZkSmFsko444wqoP15icUSqi2jfGiPN:1792697703.530306",
+    "9BB6NFEcjBCtnNLFko2FqVQBq8HHM13kCyYcdQbgpump:1792697703.530306",
+    "7GCihgDB8fe6KNjn2MYtkzZcRjQy3t9GHdC8uHYmW2hr:1792697703.530306",
+    "2zMMhcVQEXDtdE6vsFS7S7D5oUodfJHE8vd1gnBouauv:1792697703.530306",
+    "DezXAZ8z7PnrnRJjz3wXBoRgixCa6xjnB7YaB1pPB263:1792697703.530306",
+    "2qEHjDLDLbuBgRYvsxhc5D6uDWAivNFZGan56P1tpump:1792697703.530306",
+    "CzLSujWBLFsSjncfkh59rUFqvafWcY5tzedWJSuypump:1792697703.530306",
+    "3iCWDZKyMoJ1QMGjtHrnW1wZpkYJxS7dbbv3Amwfpump:1792697703.530306"
   ]
 }
