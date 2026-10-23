@@ -1,25 +1,33 @@
 {
-  "run_at": "2026-10-23T01:10:00",
-  "equity_cash": 524.8785,
-  "unrealized": -23.7728,
-  "total": 501.1057,
-  "open_positions": 8,
-  "pending": 4,
+  "run_at": "2026-10-23T06:03:23",
+  "equity_cash": 506.8276,
+  "unrealized": -8.2867,
+  "total": 498.5409,
+  "open_positions": 9,
+  "pending": 5,
   "actions": [
     {
-      "mint": "96ZJnMXo4zE5EYrzNZYXHp7Zz3ofKY1saXoHdGrYpump",
-      "action": "buy_fill",
-      "price": 4.455222791862677e-08,
-      "slippage_pct": 400.137,
+      "mint": "CmoAaGFrJfLTysDfjt3q7NY4ExCL8Vd1CxDbuZA6pump",
+      "action": "queue_exit",
+      "reason": "stop-loss -20.2% dari entry"
+    },
+    {
+      "mint": "Dgc7ZeiCtDj4X5hoBpyZhig2BS7tekccZzKGBsm7pump",
+      "action": "queue_exit",
+      "reason": "stop-loss -5.0% dari entry"
+    },
+    {
+      "mint": "teQAKaBGKTzjWpi6DABZj8jZv2CuFXEHxz6QSVJpump",
+      "action": "queue_buy",
       "reason": "zona BUY skor 60.0"
     },
     {
-      "mint": "96ZJnMXo4zE5EYrzNZYXHp7Zz3ofKY1saXoHdGrYpump",
-      "action": "queue_exit",
-      "reason": "stop-loss -80.0% dari entry"
+      "mint": "7ApeUeU583FEoZUXzqEofRga7w6V3etxM5R4EPKRyHqW",
+      "action": "queue_buy",
+      "reason": "zona BUY skor 60.0"
     },
     {
-      "mint": "A8Zfm6gWTLRoNM8Bp93RJipU77rFqUzwCkoTR9Qgpump",
+      "mint": "CA84MZkHub57JnFrwTVp7XHnNvhFM79Hcu5qHaAdpump",
       "action": "queue_buy",
       "reason": "zona BUY skor 60.0"
     }

@@ -1,123 +1,144 @@
 {
-  "equity": 524.878495,
+  "equity": 506.827631,
   "start_equity": 1000.0,
   "positions": {
-    "2zMMhcVQEXDtdE6vsFS7S7D5oUodfJHE8vd1gnBouauv": {
-      "symbol": "PENGU",
-      "qty": 5866.955192943389,
-      "entry_price": 0.007852167892728948,
-      "entry_ts": 1792717320.3624065,
-      "peak_price": 0.007852167892728948,
+    "9BB6NFEcjBCtnNLFko2FqVQBq8HHM13kCyYcdQbgpump": {
+      "symbol": "Fartcoin ",
+      "qty": 271.05957124197363,
+      "entry_price": 0.1471327730863225,
+      "entry_ts": 1792734922.786773,
+      "peak_price": 0.1471327730863225,
       "tp_done": false,
-      "entry_liquidity": 3498126.31
+      "entry_liquidity": 7552439.49
     },
     "7GCihgDB8fe6KNjn2MYtkzZcRjQy3t9GHdC8uHYmW2hr": {
       "symbol": "POPCAT",
-      "qty": 1016.8262460489519,
-      "entry_price": 0.0453059875009281,
-      "entry_ts": 1792717320.3624065,
-      "peak_price": 0.0453059875009281,
+      "qty": 863.0467550931081,
+      "entry_price": 0.04621041230161233,
+      "entry_ts": 1792734922.786773,
+      "peak_price": 0.04621041230161233,
       "tp_done": false,
-      "entry_liquidity": 3534904.61
+      "entry_liquidity": 3579459.16
     },
     "DezXAZ8z7PnrnRJjz3wXBoRgixCa6xjnB7YaB1pPB263": {
       "symbol": "Bonk",
-      "qty": 14948622.229080388,
-      "entry_price": 3.081776801108144e-06,
-      "entry_ts": 1792717320.3624065,
-      "peak_price": 3.081776801108144e-06,
+      "qty": 12564425.514998559,
+      "entry_price": 3.174179857313257e-06,
+      "entry_ts": 1792734922.786773,
+      "peak_price": 3.174179857313257e-06,
       "tp_done": false,
-      "entry_liquidity": 316126.03
-    },
-    "9BB6NFEcjBCtnNLFko2FqVQBq8HHM13kCyYcdQbgpump": {
-      "symbol": "Fartcoin ",
-      "qty": 319.65718170048945,
-      "entry_price": 0.1441178857582317,
-      "entry_ts": 1792717320.3624065,
-      "peak_price": 0.1441178857582317,
-      "tp_done": false,
-      "entry_liquidity": 7458239.11
+      "entry_liquidity": 323058.08
     },
     "2qEHjDLDLbuBgRYvsxhc5D6uDWAivNFZGan56P1tpump": {
       "symbol": "Pnut ",
-      "qty": 1069.7419045616718,
-      "entry_price": 0.043064889762345064,
-      "entry_ts": 1792717320.3624065,
-      "peak_price": 0.043064889762345064,
+      "qty": 911.6201391409403,
+      "entry_price": 0.043748206820006734,
+      "entry_ts": 1792734922.786773,
+      "peak_price": 0.043748206820006734,
       "tp_done": false,
-      "entry_liquidity": 3085563.58
+      "entry_liquidity": 3117798.21
+    },
+    "2zMMhcVQEXDtdE6vsFS7S7D5oUodfJHE8vd1gnBouauv": {
+      "symbol": "PENGU",
+      "qty": 4997.844434270093,
+      "entry_price": 0.00797978946982684,
+      "entry_ts": 1792734922.786773,
+      "peak_price": 0.00797978946982684,
+      "tp_done": false,
+      "entry_liquidity": 3539305.68
     },
     "6p6xgHyF7AeE6TZkSmFsko444wqoP15icUSqi2jfGiPN": {
       "symbol": "TRUMP",
-      "qty": 26.339124186514166,
-      "entry_price": 1.7490451416640795,
-      "entry_ts": 1792717320.3624065,
-      "peak_price": 1.7490451416640795,
+      "qty": 22.29027939737713,
+      "entry_price": 1.7891990350338096,
+      "entry_ts": 1792734922.786773,
+      "peak_price": 1.7891990350338096,
       "tp_done": false,
-      "entry_liquidity": 232249.19
+      "entry_liquidity": 237395.29
     },
     "CzLSujWBLFsSjncfkh59rUFqvafWcY5tzedWJSuypump": {
       "symbol": "GOAT",
-      "qty": 3192.0393672944906,
-      "entry_price": 0.014432252204068538,
-      "entry_ts": 1792717320.3624065,
-      "peak_price": 0.014432252204068538,
+      "qty": 2710.5373610375336,
+      "entry_price": 0.014713594050279138,
+      "entry_ts": 1792734922.786773,
+      "peak_price": 0.014713594050279137,
       "tp_done": false,
-      "entry_liquidity": 1462925.88
+      "entry_liquidity": 1481711.34
     },
-    "96ZJnMXo4zE5EYrzNZYXHp7Zz3ofKY1saXoHdGrYpump": {
-      "symbol": "SOL",
-      "qty": 618038852.768049,
-      "entry_price": 4.455222791862677e-08,
-      "entry_ts": 1792717740.3622837,
-      "peak_price": 4.455222791862677e-08,
+    "CmoAaGFrJfLTysDfjt3q7NY4ExCL8Vd1CxDbuZA6pump": {
+      "symbol": "OI",
+      "qty": 2731743.8149349554,
+      "entry_price": 9.717790708478906e-06,
+      "entry_ts": 1792735222.7863252,
+      "peak_price": 9.717790708478906e-06,
       "tp_done": false,
-      "entry_liquidity": 6.89
+      "entry_liquidity": 6617.44
+    },
+    "Dgc7ZeiCtDj4X5hoBpyZhig2BS7tekccZzKGBsm7pump": {
+      "symbol": "BRAIN",
+      "qty": 1975252.779993655,
+      "entry_price": 1.3459442522903124e-05,
+      "entry_ts": 1792735282.7862644,
+      "peak_price": 1.3459442522903124e-05,
+      "tp_done": false,
+      "entry_liquidity": 8313.41
     }
   },
   "pending": [
     {
-      "mint": "9q57S439caJTTZZPQbcBWfUcLTgCJ2ofDYrjqHJMpump",
-      "symbol": "PUMP",
-      "side": "buy",
-      "signal_ts": 1792717200.3619459,
-      "signal_price": 1.4245586766472567e-05,
-      "signal_score": 60.0,
-      "usd_size": 30.164522479842944,
-      "reason": "zona BUY skor 60.0",
-      "tries": 9
-    },
-    {
-      "mint": "8Yp288EhssRgNhVrTyvUm2KUaXAJ9GBzraQmanUhpump",
-      "symbol": "GRIMACE",
-      "side": "buy",
-      "signal_ts": 1792717200.3619459,
-      "signal_price": 2.29700654988568e-05,
-      "signal_score": 60.0,
-      "usd_size": 30.164522479842944,
-      "reason": "zona BUY skor 60.0",
-      "tries": 9
-    },
-    {
-      "mint": "96ZJnMXo4zE5EYrzNZYXHp7Zz3ofKY1saXoHdGrYpump",
-      "symbol": "SOL",
+      "mint": "CmoAaGFrJfLTysDfjt3q7NY4ExCL8Vd1CxDbuZA6pump",
+      "symbol": "OI",
       "side": "sell",
-      "signal_ts": 1792717800.3622572,
-      "signal_price": 8.908e-09,
+      "signal_ts": 1792735402.7862902,
+      "signal_price": 7.753e-06,
       "signal_score": 0.0,
-      "qty": 618038852.768049,
+      "qty": 2731743.8149349554,
       "fraction": 1.0,
-      "reason": "stop-loss -80.0% dari entry",
+      "reason": "stop-loss -20.2% dari entry",
       "tries": 0
     },
     {
-      "mint": "A8Zfm6gWTLRoNM8Bp93RJipU77rFqUzwCkoTR9Qgpump",
-      "symbol": "SQUAD",
+      "mint": "Dgc7ZeiCtDj4X5hoBpyZhig2BS7tekccZzKGBsm7pump",
+      "symbol": "BRAIN",
+      "side": "sell",
+      "signal_ts": 1792735402.7862902,
+      "signal_price": 1.278e-05,
+      "signal_score": 0.0,
+      "qty": 1975252.779993655,
+      "fraction": 1.0,
+      "reason": "stop-loss -5.0% dari entry",
+      "tries": 0
+    },
+    {
+      "mint": "teQAKaBGKTzjWpi6DABZj8jZv2CuFXEHxz6QSVJpump",
+      "symbol": "KAREN",
       "side": "buy",
-      "signal_ts": 1792717800.3622572,
-      "signal_price": 6.2321103298673496e-06,
+      "signal_ts": 1792735402.7862902,
+      "signal_price": 5.007515273796383e-06,
       "signal_score": 60.0,
-      "usd_size": 25.05528668233428,
+      "usd_size": 24.927045227605134,
+      "reason": "zona BUY skor 60.0",
+      "tries": 0
+    },
+    {
+      "mint": "7ApeUeU583FEoZUXzqEofRga7w6V3etxM5R4EPKRyHqW",
+      "symbol": "POOTCAT",
+      "side": "buy",
+      "signal_ts": 1792735402.7862902,
+      "signal_price": 1.1153664980300386e-05,
+      "signal_score": 60.0,
+      "usd_size": 24.927045227605134,
+      "reason": "zona BUY skor 60.0",
+      "tries": 0
+    },
+    {
+      "mint": "CA84MZkHub57JnFrwTVp7XHnNvhFM79Hcu5qHaAdpump",
+      "symbol": "Gato",
+      "side": "buy",
+      "signal_ts": 1792735402.7862902,
+      "signal_price": 7.426587351266125e-06,
+      "signal_score": 60.0,
+      "usd_size": 24.927045227605134,
       "reason": "zona BUY skor 60.0",
       "tries": 0
     }
@@ -200,6 +221,31 @@
     "sell:96ZJnMXo4zE5EYrzNZYXHp7Zz3ofKY1saXoHdGrYpump:1792717560.3622544",
     "96ZJnMXo4zE5EYrzNZYXHp7Zz3ofKY1saXoHdGrYpump:1792717620.3622851",
     "sell:96ZJnMXo4zE5EYrzNZYXHp7Zz3ofKY1saXoHdGrYpump:1792717680.3622732",
-    "96ZJnMXo4zE5EYrzNZYXHp7Zz3ofKY1saXoHdGrYpump:1792717740.3622837"
+    "96ZJnMXo4zE5EYrzNZYXHp7Zz3ofKY1saXoHdGrYpump:1792717740.3622837",
+    "sell:96ZJnMXo4zE5EYrzNZYXHp7Zz3ofKY1saXoHdGrYpump:1792717800.3622572",
+    "sell:2zMMhcVQEXDtdE6vsFS7S7D5oUodfJHE8vd1gnBouauv:1792734802.786037",
+    "sell:7GCihgDB8fe6KNjn2MYtkzZcRjQy3t9GHdC8uHYmW2hr:1792734802.786037",
+    "sell:DezXAZ8z7PnrnRJjz3wXBoRgixCa6xjnB7YaB1pPB263:1792734802.786037",
+    "sell:9BB6NFEcjBCtnNLFko2FqVQBq8HHM13kCyYcdQbgpump:1792734802.786037",
+    "sell:2qEHjDLDLbuBgRYvsxhc5D6uDWAivNFZGan56P1tpump:1792734802.786037",
+    "sell:6p6xgHyF7AeE6TZkSmFsko444wqoP15icUSqi2jfGiPN:1792734802.786037",
+    "sell:CzLSujWBLFsSjncfkh59rUFqvafWcY5tzedWJSuypump:1792734802.786037",
+    "CmoAaGFrJfLTysDfjt3q7NY4ExCL8Vd1CxDbuZA6pump:1792734802.786037",
+    "Dgc7ZeiCtDj4X5hoBpyZhig2BS7tekccZzKGBsm7pump:1792734802.786037",
+    "9BB6NFEcjBCtnNLFko2FqVQBq8HHM13kCyYcdQbgpump:1792734922.786773",
+    "7GCihgDB8fe6KNjn2MYtkzZcRjQy3t9GHdC8uHYmW2hr:1792734922.786773",
+    "DezXAZ8z7PnrnRJjz3wXBoRgixCa6xjnB7YaB1pPB263:1792734922.786773",
+    "2qEHjDLDLbuBgRYvsxhc5D6uDWAivNFZGan56P1tpump:1792734922.786773",
+    "2zMMhcVQEXDtdE6vsFS7S7D5oUodfJHE8vd1gnBouauv:1792734922.786773",
+    "6p6xgHyF7AeE6TZkSmFsko444wqoP15icUSqi2jfGiPN:1792734922.786773",
+    "CzLSujWBLFsSjncfkh59rUFqvafWcY5tzedWJSuypump:1792734922.786773",
+    "sell:CmoAaGFrJfLTysDfjt3q7NY4ExCL8Vd1CxDbuZA6pump:1792734982.7862916",
+    "sell:Dgc7ZeiCtDj4X5hoBpyZhig2BS7tekccZzKGBsm7pump:1792735042.786252",
+    "CmoAaGFrJfLTysDfjt3q7NY4ExCL8Vd1CxDbuZA6pump:1792735042.786252",
+    "Dgc7ZeiCtDj4X5hoBpyZhig2BS7tekccZzKGBsm7pump:1792735102.7862678",
+    "sell:CmoAaGFrJfLTysDfjt3q7NY4ExCL8Vd1CxDbuZA6pump:1792735162.7862985",
+    "sell:Dgc7ZeiCtDj4X5hoBpyZhig2BS7tekccZzKGBsm7pump:1792735222.7863252",
+    "CmoAaGFrJfLTysDfjt3q7NY4ExCL8Vd1CxDbuZA6pump:1792735222.7863252",
+    "Dgc7ZeiCtDj4X5hoBpyZhig2BS7tekccZzKGBsm7pump:1792735282.7862644"
   ]
 }
