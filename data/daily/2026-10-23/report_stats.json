@@ -1,0 +1,12 @@
+{
+  "round_trips": 35,
+  "wins": 2,
+  "win_rate_pct": 5.7,
+  "total_pnl": -125.1083,
+  "avg_pnl": -3.5745,
+  "avg_hold_hours": 2.9,
+  "best_trade": 0.0887,
+  "worst_trade": -26.5338,
+  "rug_exits": 5,
+  "avg_rug_hold_hours": 0.8
+}
