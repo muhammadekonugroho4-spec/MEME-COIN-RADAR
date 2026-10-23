@@ -26,6 +26,26 @@ from backend.core.paper_broker import PendingOrder
 
 PRICE_STALE_SECONDS = 360   # scalp: observasi >6 menit = basi (SL/TP harus reaksi cepat)
 MAX_ORDER_TRIES = 10        # kalibrasi: 3 -> 10 (jadwal Actions sering delay; jangan buru2 batal)
+REENTRY_COOLDOWN_SEC = 7200  # pengaman 23 Okt: 2 jam tanpa re-entry setelah stop-loss.
+                             # Kasus nyata: SOL fake di-rebuy 4x beruntun -> -$101.
+
+
+def _cooldown_load(state: dict) -> dict:
+    return state.setdefault("cooldown_until", {})
+
+
+def _cooldown_on(state: dict, mint: str, now: float, reason: str) -> None:
+    if "stop-loss" in (reason or ""):
+        _cooldown_load(state)[mint] = now + REENTRY_COOLDOWN_SEC
+
+
+def _cooldown_active(state: dict, mint: str, now: float) -> bool:
+    until = _cooldown_load(state).get(mint, 0)
+    if now < until:
+        return True
+    if until:
+        _cooldown_load(state).pop(mint, None)  # kedaluwarsa: bersihkan
+    return False
 
 
 def latest_prices(coins_dir: Path, mints: list[str]) -> dict[str, dict]:
@@ -132,12 +152,16 @@ def run(dry_run: bool = False) -> dict:
                 portfolio.log_trade(config.PORTFOLIO_DIR, fill)
                 journal.append({"mint": fill.mint, "action": "buy_fill", "price": fill.price,
                                 "slippage_pct": fill.slippage_pct, "reason": fill.reason})
+            else:
+                journal.append({"mint": o["mint"], "action": "cancel_buy",
+                                "reason": f"slippage model > {paper_broker.MAX_SLIPPAGE_PCT}% (likuiditas mikro)"})
         else:  # sell
             fill = paper_broker.fill_sell(order, pinfo["price"], pinfo["liquidity"], now)
             if fill:
                 frac = o.get("fraction", 1.0)
                 state = portfolio.apply_sell_fill(state, fill, fraction=frac)
                 portfolio.log_trade(config.PORTFOLIO_DIR, fill)
+                _cooldown_on(state, fill.mint, now, fill.reason)  # SL -> cooldown re-entry
                 journal.append({"mint": fill.mint, "action": "sell_fill", "fraction": frac,
                                 "price": fill.price, "reason": fill.reason})
     state["pending"] = remaining
@@ -169,6 +193,10 @@ def run(dry_run: bool = False) -> dict:
         mint = b["mint"]
         if mint in state["positions"] or mint in pending_buy_mints:
             continue  # sudah punya posisi/order (idempotent)
+        if _cooldown_active(state, mint, now):
+            journal.append({"mint": mint, "action": "skip_buy",
+                            "reason": "cooldown 2 jam setelah stop-loss"})
+            continue
         pinfo = prices.get(mint)
         order = paper_broker.queue_buy(
             mint, str(b.get("symbol", mint[:8])), now,

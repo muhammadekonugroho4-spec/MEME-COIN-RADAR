@@ -31,8 +31,9 @@ jobs:
         env:
           GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
           GROQ_API_KEY: ${{ secrets.GROQ_API_KEY }}
-          MCR_TEST_BUY: "1"   # uji siklus: semua kandidat berharga di-BUY. Hapus setelah uji selesai.
           MCR_ALL_MEME: "1"   # mode semua meme coin: popular (WIF/BONK/dll) ikut discan. Hapus utk kembali coin-baru-saja.
+          # MCR_TEST_BUY sudah DIMATIKAN (23 Okt): uji siklus buy/sell selesai
+          # (118 trade tervifikasi). Aktifkan lagi hanya untuk debug alur.
         run: python -m jobs.job_scan --max-new 15
 
       - name: Commit data

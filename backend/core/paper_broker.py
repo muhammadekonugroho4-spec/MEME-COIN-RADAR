@@ -14,6 +14,9 @@ BASE_SLIPPAGE_PCT = 0.5
 MAX_POSITIONS = 20         # MODE UJI: longgar agar semua scan bisa di-buy (dulu 3)
 POSITION_PCT_EQUITY = 0.05 # 5% per posisi (dulu 15%) - muat banyak posisi uji
 MIN_ORDER_USD = 5.0
+MAX_SLIPPAGE_PCT = 10.0    # pengaman 23 Okt: slippage model >10% = likuiditas mikro
+                           # (kasus nyata: token "SOL" liq $3.5 -> slippage 438% ->
+                           # beli 5x lebih mahal -> stop-loss -81%. Kerugian $101 bukan pasar.)
 
 
 @dataclass
@@ -70,10 +73,12 @@ def queue_buy(mint: str, symbol: str, now: float, price: float | None, score: fl
 
 
 def fill_buy(order: PendingOrder, next_price: float, liquidity_usd: float, now: float) -> Fill | None:
-    """Fill buy di harga NEXT scan dengan slippage model."""
+    """Fill buy di harga NEXT scan dengan slippage model. None = ditolak pengaman."""
     slip = slippage_pct(order.usd_size or 0.0, liquidity_usd)
     if slip == float("inf") or next_price <= 0:
         return None
+    if slip > MAX_SLIPPAGE_PCT:
+        return None  # likuiditas terlalu tipis utk order ini - jangan buat simulasi bohong
     fill_price = next_price * (1 + slip / 100.0)
     qty = (order.usd_size or 0.0) / fill_price
     return Fill(
