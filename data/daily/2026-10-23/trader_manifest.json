@@ -1,30 +1,9 @@
 {
-  "run_at": "2026-10-23T15:46:24",
-  "equity_cash": 700.0,
-  "unrealized": -1.2288,
-  "total": 698.7712,
-  "open_positions": 6,
-  "pending": 2,
-  "actions": [
-    {
-      "mint": "CqzFbJ94VhgU4vVcZBcTSGsMxvKbKiAqCxhKQf5gpump",
-      "action": "cancel_buy",
-      "reason": "slippage model > 10.0% (likuiditas mikro)"
-    },
-    {
-      "mint": "2FpUDR9zUA6jEW19wjBZSd4z3YzCgryfojqRZXpMpump",
-      "action": "cancel_buy",
-      "reason": "slippage model > 10.0% (likuiditas mikro)"
-    },
-    {
-      "mint": "CqzFbJ94VhgU4vVcZBcTSGsMxvKbKiAqCxhKQf5gpump",
-      "action": "queue_buy",
-      "reason": "zona BUY skor 60.0"
-    },
-    {
-      "mint": "2FpUDR9zUA6jEW19wjBZSd4z3YzCgryfojqRZXpMpump",
-      "action": "queue_buy",
-      "reason": "zona BUY skor 60.0"
-    }
-  ]
+  "run_at": "2026-10-23T19:42:01",
+  "equity_cash": 992.1782,
+  "unrealized": 0.0,
+  "total": 992.1782,
+  "open_positions": 0,
+  "pending": 0,
+  "actions": []
 }
