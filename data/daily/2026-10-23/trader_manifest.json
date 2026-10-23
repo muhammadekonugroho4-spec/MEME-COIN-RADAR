@@ -1,0 +1,27 @@
+{
+  "run_at": "2026-10-23T01:10:00",
+  "equity_cash": 524.8785,
+  "unrealized": -23.7728,
+  "total": 501.1057,
+  "open_positions": 8,
+  "pending": 4,
+  "actions": [
+    {
+      "mint": "96ZJnMXo4zE5EYrzNZYXHp7Zz3ofKY1saXoHdGrYpump",
+      "action": "buy_fill",
+      "price": 4.455222791862677e-08,
+      "slippage_pct": 400.137,
+      "reason": "zona BUY skor 60.0"
+    },
+    {
+      "mint": "96ZJnMXo4zE5EYrzNZYXHp7Zz3ofKY1saXoHdGrYpump",
+      "action": "queue_exit",
+      "reason": "stop-loss -80.0% dari entry"
+    },
+    {
+      "mint": "A8Zfm6gWTLRoNM8Bp93RJipU77rFqUzwCkoTR9Qgpump",
+      "action": "queue_buy",
+      "reason": "zona BUY skor 60.0"
+    }
+  ]
+}

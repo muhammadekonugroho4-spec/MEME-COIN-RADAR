@@ -1,124 +1,123 @@
 {
-  "equity": 635.449574,
+  "equity": 524.878495,
   "start_equity": 1000.0,
   "positions": {
-    "DezXAZ8z7PnrnRJjz3wXBoRgixCa6xjnB7YaB1pPB263": {
-      "symbol": "Bonk",
-      "qty": 16001976.912235059,
-      "entry_price": 3.054668605516232e-06,
-      "entry_ts": 1792709151.0739343,
-      "peak_price": 3.054668605516232e-06,
+    "2zMMhcVQEXDtdE6vsFS7S7D5oUodfJHE8vd1gnBouauv": {
+      "symbol": "PENGU",
+      "qty": 5866.955192943389,
+      "entry_price": 0.007852167892728948,
+      "entry_ts": 1792717320.3624065,
+      "peak_price": 0.007852167892728948,
       "tp_done": false,
-      "entry_liquidity": 313654.62
-    },
-    "9BB6NFEcjBCtnNLFko2FqVQBq8HHM13kCyYcdQbgpump": {
-      "symbol": "Fartcoin ",
-      "qty": 343.24085281962766,
-      "entry_price": 0.14240943669280162,
-      "entry_ts": 1792709151.0739343,
-      "peak_price": 0.14240943669280162,
-      "tp_done": false,
-      "entry_liquidity": 7394527.16
+      "entry_liquidity": 3498126.31
     },
     "7GCihgDB8fe6KNjn2MYtkzZcRjQy3t9GHdC8uHYmW2hr": {
       "symbol": "POPCAT",
-      "qty": 1091.7367921215653,
-      "entry_price": 0.04477337106594198,
-      "entry_ts": 1792709151.0739343,
-      "peak_price": 0.04477337106594198,
+      "qty": 1016.8262460489519,
+      "entry_price": 0.0453059875009281,
+      "entry_ts": 1792717320.3624065,
+      "peak_price": 0.0453059875009281,
       "tp_done": false,
-      "entry_liquidity": 3506289.21
+      "entry_liquidity": 3534904.61
     },
-    "2zMMhcVQEXDtdE6vsFS7S7D5oUodfJHE8vd1gnBouauv": {
-      "symbol": "PENGU",
-      "qty": 6257.960516701819,
-      "entry_price": 0.0078109691439475545,
-      "entry_ts": 1792709151.0739343,
-      "peak_price": 0.007810969143947555,
+    "DezXAZ8z7PnrnRJjz3wXBoRgixCa6xjnB7YaB1pPB263": {
+      "symbol": "Bonk",
+      "qty": 14948622.229080388,
+      "entry_price": 3.081776801108144e-06,
+      "entry_ts": 1792717320.3624065,
+      "peak_price": 3.081776801108144e-06,
       "tp_done": false,
-      "entry_liquidity": 3480734.32
+      "entry_liquidity": 316126.03
     },
-    "6p6xgHyF7AeE6TZkSmFsko444wqoP15icUSqi2jfGiPN": {
-      "symbol": "TRUMP",
-      "qty": 28.271682684994456,
-      "entry_price": 1.7289645276736236,
-      "entry_ts": 1792709151.0739343,
-      "peak_price": 1.7289645276736236,
+    "9BB6NFEcjBCtnNLFko2FqVQBq8HHM13kCyYcdQbgpump": {
+      "symbol": "Fartcoin ",
+      "qty": 319.65718170048945,
+      "entry_price": 0.1441178857582317,
+      "entry_ts": 1792717320.3624065,
+      "peak_price": 0.1441178857582317,
       "tp_done": false,
-      "entry_liquidity": 230640.56
-    },
-    "CzLSujWBLFsSjncfkh59rUFqvafWcY5tzedWJSuypump": {
-      "symbol": "GOAT",
-      "qty": 3391.6267880733217,
-      "entry_price": 0.014412180217437084,
-      "entry_ts": 1792709151.0739343,
-      "peak_price": 0.014412180217437084,
-      "tp_done": false,
-      "entry_liquidity": 1459650.79
+      "entry_liquidity": 7458239.11
     },
     "2qEHjDLDLbuBgRYvsxhc5D6uDWAivNFZGan56P1tpump": {
       "symbol": "Pnut ",
-      "qty": 1144.1255534080378,
-      "entry_price": 0.04272322766884948,
-      "entry_ts": 1792709151.0739343,
-      "peak_price": 0.04272322766884948,
+      "qty": 1069.7419045616718,
+      "entry_price": 0.043064889762345064,
+      "entry_ts": 1792717320.3624065,
+      "peak_price": 0.043064889762345064,
       "tp_done": false,
-      "entry_liquidity": 3066276.56
+      "entry_liquidity": 3085563.58
+    },
+    "6p6xgHyF7AeE6TZkSmFsko444wqoP15icUSqi2jfGiPN": {
+      "symbol": "TRUMP",
+      "qty": 26.339124186514166,
+      "entry_price": 1.7490451416640795,
+      "entry_ts": 1792717320.3624065,
+      "peak_price": 1.7490451416640795,
+      "tp_done": false,
+      "entry_liquidity": 232249.19
+    },
+    "CzLSujWBLFsSjncfkh59rUFqvafWcY5tzedWJSuypump": {
+      "symbol": "GOAT",
+      "qty": 3192.0393672944906,
+      "entry_price": 0.014432252204068538,
+      "entry_ts": 1792717320.3624065,
+      "peak_price": 0.014432252204068538,
+      "tp_done": false,
+      "entry_liquidity": 1462925.88
+    },
+    "96ZJnMXo4zE5EYrzNZYXHp7Zz3ofKY1saXoHdGrYpump": {
+      "symbol": "SOL",
+      "qty": 618038852.768049,
+      "entry_price": 4.455222791862677e-08,
+      "entry_ts": 1792717740.3622837,
+      "peak_price": 4.455222791862677e-08,
+      "tp_done": false,
+      "entry_liquidity": 6.89
     }
   },
   "pending": [
     {
-      "mint": "A6Y5MF7WMmpWJ7c7JoyYq4qHzYmYRnwaDL9j5acXpump",
-      "symbol": "SAINTS",
+      "mint": "9q57S439caJTTZZPQbcBWfUcLTgCJ2ofDYrjqHJMpump",
+      "symbol": "PUMP",
       "side": "buy",
-      "signal_ts": 1792709031.0735316,
-      "signal_price": 1.3433382088561967e-05,
+      "signal_ts": 1792717200.3619459,
+      "signal_price": 1.4245586766472567e-05,
       "signal_score": 60.0,
-      "usd_size": 29.31288739966831,
+      "usd_size": 30.164522479842944,
       "reason": "zona BUY skor 60.0",
       "tries": 9
     },
     {
-      "mint": "334j9dCg9WBfvC56tzRsp7RVFcYzpF5R2zC54zJdpump",
-      "symbol": "Pioneer",
+      "mint": "8Yp288EhssRgNhVrTyvUm2KUaXAJ9GBzraQmanUhpump",
+      "symbol": "GRIMACE",
       "side": "buy",
-      "signal_ts": 1792709631.0738568,
-      "signal_price": 6.880431828044318e-06,
+      "signal_ts": 1792717200.3619459,
+      "signal_price": 2.29700654988568e-05,
       "signal_score": 60.0,
-      "usd_size": 31.668040817288393,
+      "usd_size": 30.164522479842944,
       "reason": "zona BUY skor 60.0",
+      "tries": 9
+    },
+    {
+      "mint": "96ZJnMXo4zE5EYrzNZYXHp7Zz3ofKY1saXoHdGrYpump",
+      "symbol": "SOL",
+      "side": "sell",
+      "signal_ts": 1792717800.3622572,
+      "signal_price": 8.908e-09,
+      "signal_score": 0.0,
+      "qty": 618038852.768049,
+      "fraction": 1.0,
+      "reason": "stop-loss -80.0% dari entry",
       "tries": 0
     },
     {
-      "mint": "ween2khNidoDMVRKMxiECFjv81MRpT3EyrPyNATNcSd",
-      "symbol": "LARPOWEEN",
+      "mint": "A8Zfm6gWTLRoNM8Bp93RJipU77rFqUzwCkoTR9Qgpump",
+      "symbol": "SQUAD",
       "side": "buy",
-      "signal_ts": 1792709631.0738568,
-      "signal_price": 6.528826190010798e-06,
+      "signal_ts": 1792717800.3622572,
+      "signal_price": 6.2321103298673496e-06,
       "signal_score": 60.0,
-      "usd_size": 31.668040817288393,
-      "reason": "zona BUY skor 60.0",
-      "tries": 0
-    },
-    {
-      "mint": "Htg467R28meKnERuin4W374LS5jDxr3cCD2Bf5PLpump",
-      "symbol": "POINTLESS",
-      "side": "buy",
-      "signal_ts": 1792709631.0738568,
-      "signal_price": 2.1168864934903225e-05,
-      "signal_score": 60.0,
-      "usd_size": 31.668040817288393,
-      "reason": "zona BUY skor 60.0",
-      "tries": 0
-    },
-    {
-      "mint": "4bpt2qjbAUAXUAXVjRdbCnh3j4pka1n9hAFi7zHfpump",
-      "symbol": "fomoworld",
-      "side": "buy",
-      "signal_ts": 1792709631.0738568,
-      "signal_price": 6.540516595112991e-06,
-      "signal_score": 60.0,
-      "usd_size": 31.668040817288393,
+      "usd_size": 25.05528668233428,
       "reason": "zona BUY skor 60.0",
       "tries": 0
     }
@@ -176,6 +175,31 @@
     "2zMMhcVQEXDtdE6vsFS7S7D5oUodfJHE8vd1gnBouauv:1792709151.0739343",
     "6p6xgHyF7AeE6TZkSmFsko444wqoP15icUSqi2jfGiPN:1792709151.0739343",
     "CzLSujWBLFsSjncfkh59rUFqvafWcY5tzedWJSuypump:1792709151.0739343",
-    "2qEHjDLDLbuBgRYvsxhc5D6uDWAivNFZGan56P1tpump:1792709151.0739343"
+    "2qEHjDLDLbuBgRYvsxhc5D6uDWAivNFZGan56P1tpump:1792709151.0739343",
+    "Htg467R28meKnERuin4W374LS5jDxr3cCD2Bf5PLpump:1792709631.0738568",
+    "sell:DezXAZ8z7PnrnRJjz3wXBoRgixCa6xjnB7YaB1pPB263:1792717200.3619459",
+    "sell:9BB6NFEcjBCtnNLFko2FqVQBq8HHM13kCyYcdQbgpump:1792717200.3619459",
+    "sell:7GCihgDB8fe6KNjn2MYtkzZcRjQy3t9GHdC8uHYmW2hr:1792717200.3619459",
+    "sell:2zMMhcVQEXDtdE6vsFS7S7D5oUodfJHE8vd1gnBouauv:1792717200.3619459",
+    "sell:6p6xgHyF7AeE6TZkSmFsko444wqoP15icUSqi2jfGiPN:1792717200.3619459",
+    "sell:CzLSujWBLFsSjncfkh59rUFqvafWcY5tzedWJSuypump:1792717200.3619459",
+    "sell:2qEHjDLDLbuBgRYvsxhc5D6uDWAivNFZGan56P1tpump:1792717200.3619459",
+    "sell:Htg467R28meKnERuin4W374LS5jDxr3cCD2Bf5PLpump:1792717200.3619459",
+    "96ZJnMXo4zE5EYrzNZYXHp7Zz3ofKY1saXoHdGrYpump:1792717200.3619459",
+    "sell:96ZJnMXo4zE5EYrzNZYXHp7Zz3ofKY1saXoHdGrYpump:1792717320.3624065",
+    "2zMMhcVQEXDtdE6vsFS7S7D5oUodfJHE8vd1gnBouauv:1792717320.3624065",
+    "7GCihgDB8fe6KNjn2MYtkzZcRjQy3t9GHdC8uHYmW2hr:1792717320.3624065",
+    "DezXAZ8z7PnrnRJjz3wXBoRgixCa6xjnB7YaB1pPB263:1792717320.3624065",
+    "9BB6NFEcjBCtnNLFko2FqVQBq8HHM13kCyYcdQbgpump:1792717320.3624065",
+    "2qEHjDLDLbuBgRYvsxhc5D6uDWAivNFZGan56P1tpump:1792717320.3624065",
+    "6p6xgHyF7AeE6TZkSmFsko444wqoP15icUSqi2jfGiPN:1792717320.3624065",
+    "CzLSujWBLFsSjncfkh59rUFqvafWcY5tzedWJSuypump:1792717320.3624065",
+    "96ZJnMXo4zE5EYrzNZYXHp7Zz3ofKY1saXoHdGrYpump:1792717380.3623178",
+    "sell:96ZJnMXo4zE5EYrzNZYXHp7Zz3ofKY1saXoHdGrYpump:1792717440.3623126",
+    "96ZJnMXo4zE5EYrzNZYXHp7Zz3ofKY1saXoHdGrYpump:1792717500.3622668",
+    "sell:96ZJnMXo4zE5EYrzNZYXHp7Zz3ofKY1saXoHdGrYpump:1792717560.3622544",
+    "96ZJnMXo4zE5EYrzNZYXHp7Zz3ofKY1saXoHdGrYpump:1792717620.3622851",
+    "sell:96ZJnMXo4zE5EYrzNZYXHp7Zz3ofKY1saXoHdGrYpump:1792717680.3622732",
+    "96ZJnMXo4zE5EYrzNZYXHp7Zz3ofKY1saXoHdGrYpump:1792717740.3622837"
   ]
 }
