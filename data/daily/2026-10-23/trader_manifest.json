@@ -1,11 +1,21 @@
 {
-  "run_at": "2026-10-23T11:02:43",
-  "equity_cash": 575.7632,
-  "unrealized": -2.3683,
-  "total": 573.3949,
+  "run_at": "2026-10-23T15:46:24",
+  "equity_cash": 700.0,
+  "unrealized": -1.2288,
+  "total": 698.7712,
   "open_positions": 6,
   "pending": 2,
   "actions": [
+    {
+      "mint": "CqzFbJ94VhgU4vVcZBcTSGsMxvKbKiAqCxhKQf5gpump",
+      "action": "cancel_buy",
+      "reason": "slippage model > 10.0% (likuiditas mikro)"
+    },
+    {
+      "mint": "2FpUDR9zUA6jEW19wjBZSd4z3YzCgryfojqRZXpMpump",
+      "action": "cancel_buy",
+      "reason": "slippage model > 10.0% (likuiditas mikro)"
+    },
     {
       "mint": "CqzFbJ94VhgU4vVcZBcTSGsMxvKbKiAqCxhKQf5gpump",
       "action": "queue_buy",

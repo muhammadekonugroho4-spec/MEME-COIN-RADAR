@@ -1,8 +1,93 @@
 {
-  "equity": 1000.0,
+  "equity": 700.0,
   "start_equity": 1000.0,
-  "positions": {},
-  "pending": [],
-  "_applied": [],
+  "positions": {
+    "DezXAZ8z7PnrnRJjz3wXBoRgixCa6xjnB7YaB1pPB263": {
+      "symbol": "Bonk",
+      "qty": 15254100.290087417,
+      "entry_price": 3.277807215709178e-06,
+      "entry_ts": 1792769783.610149,
+      "peak_price": 3.277807215709178e-06,
+      "tp_done": false,
+      "entry_liquidity": 324661.29
+    },
+    "2zMMhcVQEXDtdE6vsFS7S7D5oUodfJHE8vd1gnBouauv": {
+      "symbol": "PENGU",
+      "qty": 6209.504526106863,
+      "entry_price": 0.008052172244948537,
+      "entry_ts": 1792769783.610149,
+      "peak_price": 0.008052172244948537,
+      "tp_done": false,
+      "entry_liquidity": 3568980.21
+    },
+    "7GCihgDB8fe6KNjn2MYtkzZcRjQy3t9GHdC8uHYmW2hr": {
+      "symbol": "POPCAT",
+      "qty": 1076.3858535428242,
+      "entry_price": 0.046451743894096745,
+      "entry_ts": 1792769783.610149,
+      "peak_price": 0.04655,
+      "tp_done": false,
+      "entry_liquidity": 3589099.53
+    },
+    "9BB6NFEcjBCtnNLFko2FqVQBq8HHM13kCyYcdQbgpump": {
+      "symbol": "Fartcoin ",
+      "qty": 341.2271275050538,
+      "entry_price": 0.1465299677829966,
+      "entry_ts": 1792769783.610149,
+      "peak_price": 0.1465299677829966,
+      "tp_done": false,
+      "entry_liquidity": 7532680.39
+    },
+    "6p6xgHyF7AeE6TZkSmFsko444wqoP15icUSqi2jfGiPN": {
+      "symbol": "TRUMP",
+      "qty": 27.944277373814863,
+      "entry_price": 1.7892751110054617,
+      "entry_ts": 1792769783.610149,
+      "peak_price": 1.7892751110054617,
+      "tp_done": false,
+      "entry_liquidity": 237263.1
+    },
+    "2qEHjDLDLbuBgRYvsxhc5D6uDWAivNFZGan56P1tpump": {
+      "symbol": "Pnut ",
+      "qty": 1136.1144631486557,
+      "entry_price": 0.04400965010288555,
+      "entry_ts": 1792769783.610149,
+      "peak_price": 0.04400965010288555,
+      "tp_done": false,
+      "entry_liquidity": 3127397.48
+    }
+  },
+  "pending": [
+    {
+      "mint": "CqzFbJ94VhgU4vVcZBcTSGsMxvKbKiAqCxhKQf5gpump",
+      "symbol": "BENJAMIN",
+      "side": "buy",
+      "signal_ts": 1792770383.6104424,
+      "signal_price": 5.783638696804071e-06,
+      "signal_score": 60.0,
+      "usd_size": 34.938560725316286,
+      "reason": "zona BUY skor 60.0",
+      "tries": 0
+    },
+    {
+      "mint": "2FpUDR9zUA6jEW19wjBZSd4z3YzCgryfojqRZXpMpump",
+      "symbol": "HITLER",
+      "side": "buy",
+      "signal_ts": 1792770383.6104424,
+      "signal_price": 1.3852020444488649e-05,
+      "signal_score": 60.0,
+      "usd_size": 34.938560725316286,
+      "reason": "zona BUY skor 60.0",
+      "tries": 0
+    }
+  ],
+  "_applied": [
+    "DezXAZ8z7PnrnRJjz3wXBoRgixCa6xjnB7YaB1pPB263:1792769783.610149",
+    "2zMMhcVQEXDtdE6vsFS7S7D5oUodfJHE8vd1gnBouauv:1792769783.610149",
+    "7GCihgDB8fe6KNjn2MYtkzZcRjQy3t9GHdC8uHYmW2hr:1792769783.610149",
+    "9BB6NFEcjBCtnNLFko2FqVQBq8HHM13kCyYcdQbgpump:1792769783.610149",
+    "6p6xgHyF7AeE6TZkSmFsko444wqoP15icUSqi2jfGiPN:1792769783.610149",
+    "2qEHjDLDLbuBgRYvsxhc5D6uDWAivNFZGan56P1tpump:1792769783.610149"
+  ],
   "cooldown_until": {}
 }
