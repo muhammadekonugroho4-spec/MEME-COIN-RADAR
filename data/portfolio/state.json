@@ -1,5 +1,5 @@
 {
-  "equity": 992.178207,
+  "equity": 987.022191,
   "start_equity": 1000.0,
   "positions": {},
   "pending": [],
@@ -15,7 +15,13 @@
     "sell:7GCihgDB8fe6KNjn2MYtkzZcRjQy3t9GHdC8uHYmW2hr:1792783921.1445696",
     "sell:9BB6NFEcjBCtnNLFko2FqVQBq8HHM13kCyYcdQbgpump:1792783921.1445696",
     "sell:6p6xgHyF7AeE6TZkSmFsko444wqoP15icUSqi2jfGiPN:1792783921.1445696",
-    "sell:2qEHjDLDLbuBgRYvsxhc5D6uDWAivNFZGan56P1tpump:1792783921.1445696"
+    "sell:2qEHjDLDLbuBgRYvsxhc5D6uDWAivNFZGan56P1tpump:1792783921.1445696",
+    "3YYqFkPaob7SzUCyk59DGVhPZK1LN9odKMJc1uy3pump:1792835365.0561156",
+    "sell:3YYqFkPaob7SzUCyk59DGVhPZK1LN9odKMJc1uy3pump:1792835545.056428",
+    "3YYqFkPaob7SzUCyk59DGVhPZK1LN9odKMJc1uy3pump:1792835605.0564194",
+    "sell:3YYqFkPaob7SzUCyk59DGVhPZK1LN9odKMJc1uy3pump:1792835845.0564184"
   ],
-  "cooldown_until": {}
+  "cooldown_until": {
+    "3YYqFkPaob7SzUCyk59DGVhPZK1LN9odKMJc1uy3pump": 1792843105.0563967
+  }
 }
