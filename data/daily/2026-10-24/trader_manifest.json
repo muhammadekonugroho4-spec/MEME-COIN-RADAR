@@ -1,15 +1,9 @@
 {
-  "run_at": "2026-10-24T09:59:25",
+  "run_at": "2026-10-24T13:49:35",
   "equity_cash": 987.0222,
   "unrealized": 0.0,
   "total": 987.0222,
   "open_positions": 0,
   "pending": 0,
-  "actions": [
-    {
-      "mint": "3YYqFkPaob7SzUCyk59DGVhPZK1LN9odKMJc1uy3pump",
-      "action": "skip_buy",
-      "reason": "cooldown 2 jam setelah stop-loss"
-    }
-  ]
+  "actions": []
 }
