@@ -1,7 +1,17 @@
 {
-  "equity": 987.022191,
+  "equity": 937.671081,
   "start_equity": 1000.0,
-  "positions": {},
+  "positions": {
+    "BhPGFJfTWhmVRUFp7HJXwTMecMGJsKR6hpCxhd4Fpump": {
+      "symbol": "PUMP",
+      "qty": 23265047.762435883,
+      "entry_price": 2.121255458141938e-06,
+      "entry_ts": 1792955668.6858249,
+      "peak_price": 2.121255458141938e-06,
+      "tp_done": false,
+      "entry_liquidity": 2218.79
+    }
+  },
   "pending": [],
   "_applied": [
     "DezXAZ8z7PnrnRJjz3wXBoRgixCa6xjnB7YaB1pPB263:1792769783.610149",
@@ -19,7 +29,8 @@
     "3YYqFkPaob7SzUCyk59DGVhPZK1LN9odKMJc1uy3pump:1792835365.0561156",
     "sell:3YYqFkPaob7SzUCyk59DGVhPZK1LN9odKMJc1uy3pump:1792835545.056428",
     "3YYqFkPaob7SzUCyk59DGVhPZK1LN9odKMJc1uy3pump:1792835605.0564194",
-    "sell:3YYqFkPaob7SzUCyk59DGVhPZK1LN9odKMJc1uy3pump:1792835845.0564184"
+    "sell:3YYqFkPaob7SzUCyk59DGVhPZK1LN9odKMJc1uy3pump:1792835845.0564184",
+    "BhPGFJfTWhmVRUFp7HJXwTMecMGJsKR6hpCxhd4Fpump:1792955668.6858249"
   ],
   "cooldown_until": {
     "3YYqFkPaob7SzUCyk59DGVhPZK1LN9odKMJc1uy3pump": 1792843105.0563967
