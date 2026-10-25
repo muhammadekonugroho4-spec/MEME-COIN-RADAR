@@ -2,30 +2,7 @@
   "equity": 987.022191,
   "start_equity": 1000.0,
   "positions": {},
-  "pending": [
-    {
-      "mint": "FCRvz2TjKMph3GpMrtoFwxf4EuNCM2KcbkY7n3Kppump",
-      "symbol": "moncock",
-      "side": "buy",
-      "signal_ts": 1792885341.2917202,
-      "signal_price": 2.7688143270429676e-05,
-      "signal_score": 65.0,
-      "usd_size": 49.351109550000004,
-      "reason": "zona BUY skor 65.0",
-      "tries": 9
-    },
-    {
-      "mint": "9eJu4YxtGdyf2odSHipWLEhBQ1PqbkByVpt3gV7spump",
-      "symbol": "MONCAT",
-      "side": "buy",
-      "signal_ts": 1792885341.2917202,
-      "signal_price": 5.84702590320405e-06,
-      "signal_score": 65.0,
-      "usd_size": 49.351109550000004,
-      "reason": "zona BUY skor 65.0",
-      "tries": 9
-    }
-  ],
+  "pending": [],
   "_applied": [
     "DezXAZ8z7PnrnRJjz3wXBoRgixCa6xjnB7YaB1pPB263:1792769783.610149",
     "2zMMhcVQEXDtdE6vsFS7S7D5oUodfJHE8vd1gnBouauv:1792769783.610149",
