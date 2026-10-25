@@ -1,9 +1,20 @@
 {
-  "run_at": "2026-10-25T01:52:53",
+  "run_at": "2026-10-25T07:06:20",
   "equity_cash": 987.0222,
   "unrealized": 0.0,
   "total": 987.0222,
   "open_positions": 0,
-  "pending": 0,
-  "actions": []
+  "pending": 1,
+  "actions": [
+    {
+      "mint": "4iwYFoGp4rDdyG7FnxYwsB1tkUqnzJFHPeQUb2M1pump",
+      "action": "cancel_buy",
+      "reason": "slippage model > 10.0% (likuiditas mikro)"
+    },
+    {
+      "mint": "4iwYFoGp4rDdyG7FnxYwsB1tkUqnzJFHPeQUb2M1pump",
+      "action": "queue_buy",
+      "reason": "zona BUY skor 65.0"
+    }
+  ]
 }

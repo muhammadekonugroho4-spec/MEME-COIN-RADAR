@@ -2,7 +2,19 @@
   "equity": 987.022191,
   "start_equity": 1000.0,
   "positions": {},
-  "pending": [],
+  "pending": [
+    {
+      "mint": "4iwYFoGp4rDdyG7FnxYwsB1tkUqnzJFHPeQUb2M1pump",
+      "symbol": "SHARD",
+      "side": "buy",
+      "signal_ts": 1792911980.4360375,
+      "signal_price": 2.307488220264434e-05,
+      "signal_score": 65.0,
+      "usd_size": 49.351109550000004,
+      "reason": "zona BUY skor 65.0",
+      "tries": 0
+    }
+  ],
   "_applied": [
     "DezXAZ8z7PnrnRJjz3wXBoRgixCa6xjnB7YaB1pPB263:1792769783.610149",
     "2zMMhcVQEXDtdE6vsFS7S7D5oUodfJHE8vd1gnBouauv:1792769783.610149",
