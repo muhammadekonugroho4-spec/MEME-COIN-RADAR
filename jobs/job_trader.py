@@ -149,6 +149,11 @@ def run(dry_run: bool = False) -> dict:
                 pos = state["positions"].get(fill.mint)
                 if pos:
                     pos["entry_liquidity"] = pinfo["liquidity"]  # liq nyata saat fill
+                    # OPSI B: style exit dari umur coin saat sinyal (scan CSV punya
+                    # age_min). >= 24 jam = coin mapan -> swing; selain itu scalp.
+                    src = next((b for b in buys if b.get("mint") == fill.mint), None)
+                    age_min = float(src["age_min"]) if src and src.get("age_min") else 0.0
+                    pos["style"] = "swing" if age_min >= strategy.SCALP_AGE_LIMIT_MIN else "scalp"
                 portfolio.log_trade(config.PORTFOLIO_DIR, fill)
                 journal.append({"mint": fill.mint, "action": "buy_fill", "price": fill.price,
                                 "slippage_pct": fill.slippage_pct, "reason": fill.reason})

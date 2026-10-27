@@ -51,7 +51,8 @@ def _pos(**over):
 
 
 def test_stop_loss_35pct():
-    sig = strategy.evaluate_position(_pos(), price=0.64, liquidity_usd=20_000.0, now_ts=3600)
+    # entry 30 detik lalu: jauh dari timeout, harga -36% -> stop-loss
+    sig = strategy.evaluate_position(_pos(entry_ts=3540.0), price=0.64, liquidity_usd=20_000.0, now_ts=3600)
     assert sig.action == "exit" and "stop-loss" in sig.reason
 
 
