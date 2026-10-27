@@ -2,19 +2,7 @@
   "equity": 982.997881,
   "start_equity": 1000.0,
   "positions": {},
-  "pending": [
-    {
-      "mint": "AGhXfbJF12dhViY6XwvSgjSNezUjM6qJPFewqc6opump",
-      "symbol": "s8n",
-      "side": "buy",
-      "signal_ts": 1793111722.2121146,
-      "signal_price": 1.4514820456327882e-05,
-      "signal_score": 65.0,
-      "usd_size": 49.14989405,
-      "reason": "zona BUY skor 65.0",
-      "tries": 0
-    }
-  ],
+  "pending": [],
   "_applied": [
     "DezXAZ8z7PnrnRJjz3wXBoRgixCa6xjnB7YaB1pPB263:1792769783.610149",
     "2zMMhcVQEXDtdE6vsFS7S7D5oUodfJHE8vd1gnBouauv:1792769783.610149",
