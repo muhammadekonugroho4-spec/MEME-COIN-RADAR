@@ -21,6 +21,11 @@ MIN_CHG_PER_MIN_PCT = 0.02   # 0.05 -> 0.02%/mnt: hampir semua tren hidup terdet
 MIN_VOL_M5 = 50.0            # $100 -> $50: bukti aksi minimal
 M5_MINUTES = 5.0             # durasi window chg_m5
 
+# OPSI A (28 Okt): entry diperketat pasca-uji. Uji 24-27 Okt: 9 round-trip dgn
+# entry longgar = win rate 0%. Momentum & permintaan nyata wajib utk BUY.
+MIN_BUY_MOMENTUM_POINTS = 1.0   # skor momentum >= 1 dari 20 (tren hidup nyata, bukan noise)
+MIN_BUY_BUYS_M5 = 5             # minimal 5 pembelian nyata dalam 5 menit (ada permintaan)
+
 MIN_BUY_SELL = 1.05
 MAX_BUY_SELL_HEALTHY = 3.0
 MAX_BUY_SELL_BOT = 5.0
@@ -99,7 +104,11 @@ def score(row: dict, age_min: float | None, supply: float | None) -> SkorResult:
     vol_m5 = row.get("vol_m5") or 0.0
     chg_per_min = chg_m5 / M5_MINUTES
     has_momentum = chg_per_min >= MIN_CHG_PER_MIN_PCT and vol_m5 >= MIN_VOL_M5
-    if total >= BUY_THRESHOLD and has_momentum:
+    # OPSI A: syarat tambahan - tren harus memberi poin momentum nyata DAN
+    # ada pembeli aktif (bukan sekadar vol sisa). Mencegah entry di pasar mati.
+    strong_entry = (parts.get("momentum", 0.0) >= MIN_BUY_MOMENTUM_POINTS
+                    and (row.get("buys_m5") or 0) >= MIN_BUY_BUYS_M5)
+    if total >= BUY_THRESHOLD and has_momentum and strong_entry:
         zone = "BUY"
     elif total >= BUY_THRESHOLD:
         zone = "WATCH"  # skor cukup tapi pasar diam -> tunggu momentum

@@ -214,6 +214,12 @@ def run(queries: tuple[str, ...] = ("pump", "sol"), max_new: int = 15, min_age: 
             continue
         verdict = _evaluate(row, age_min, row["supply"], min_age_minutes=min_age,
                             allow_popular_fdv=is_popular)
+        # OPSI A (28 Okt): popular TIDAK PERNAH auto-BUY. Mereka masuk radar sebagai
+        # pantauan (WATCH/PASSIVE) - scalp 15 menit dgn stop -5% terbukti merugi
+        # untuk coin mapan (win rate 0% dlm 9 round-trip, 24-27 Okt).
+        if is_popular and verdict["zone"] == "BUY":
+            verdict["zone"] = "WATCH"
+            verdict["reasons"] = list(verdict.get("reasons") or []) + ["popular: pantau saja, tanpa auto-buy"]
 
         # Lapisan on-chain (Fase 4): authority + konsentrasi holder, hanya untuk yang lolos filter API
         if verdict["zone"] != "REJECT":
