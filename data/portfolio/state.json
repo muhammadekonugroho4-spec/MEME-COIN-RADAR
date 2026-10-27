@@ -4,15 +4,26 @@
   "positions": {},
   "pending": [
     {
-      "mint": "GMHmk46EDqA8dBF1L84JEbHKD6VMJJGz72AWbyNapump",
-      "symbol": "OB",
+      "mint": "4cU2SomZZMRxa5NMND8Uwfz5HwutLVQeRQk7PS11pump",
+      "symbol": "AEOS",
       "side": "buy",
-      "signal_ts": 1793067831.6100686,
-      "signal_price": 3.150546761243069e-06,
-      "signal_score": 57.0,
+      "signal_ts": 1793089153.2959325,
+      "signal_price": 7.065246034540146e-06,
+      "signal_score": 65.0,
       "usd_size": 49.14989405,
-      "reason": "zona BUY skor 57.0",
-      "tries": 9
+      "reason": "zona BUY skor 65.0",
+      "tries": 0
+    },
+    {
+      "mint": "7GWJnunhzg2ttwNF9ZH9LdDTjwNUY7waad7xTNqy7s9d",
+      "symbol": "Jenmuse",
+      "side": "buy",
+      "signal_ts": 1793089153.2959325,
+      "signal_price": 1.8380144200017012e-05,
+      "signal_score": 65.0,
+      "usd_size": 49.14989405,
+      "reason": "zona BUY skor 65.0",
+      "tries": 0
     }
   ],
   "_applied": [
