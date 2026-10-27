@@ -2,7 +2,19 @@
   "equity": 982.997881,
   "start_equity": 1000.0,
   "positions": {},
-  "pending": [],
+  "pending": [
+    {
+      "mint": "GMHmk46EDqA8dBF1L84JEbHKD6VMJJGz72AWbyNapump",
+      "symbol": "OB",
+      "side": "buy",
+      "signal_ts": 1793067831.6100686,
+      "signal_price": 3.150546761243069e-06,
+      "signal_score": 57.0,
+      "usd_size": 49.14989405,
+      "reason": "zona BUY skor 57.0",
+      "tries": 9
+    }
+  ],
   "_applied": [
     "DezXAZ8z7PnrnRJjz3wXBoRgixCa6xjnB7YaB1pPB263:1792769783.610149",
     "2zMMhcVQEXDtdE6vsFS7S7D5oUodfJHE8vd1gnBouauv:1792769783.610149",
