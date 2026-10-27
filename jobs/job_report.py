@@ -166,11 +166,20 @@ def run() -> dict:
 
             baseline = _random_baseline(df, scanned or 1)
             if baseline:
+                # OPSI C (28 Okt): kesimpulan jujur - sampel <30 round-trip tidak
+                # cukup untuk klaim unggul/kalah; sebutkan eksplisit.
+                n = stats.get("round_trips") or len(df)
+                if n < 30:
+                    verdict = ("BELUM BISA DINILAI - sampel terlalu kecil "
+                               f"({n} round-trip; minimal 30). Selisih vs acak masih noise statistik.")
+                else:
+                    verdict = ("strategi UNGGUL dari acak" if stats['avg_pnl'] > baseline['mean_pnl_per_trade_random']
+                               else "strategi TIDAK unggul dari acak")
                 report += [
                     "## Strategi vs acak (baseline konservatif)",
                     f"- PnL rata-rata/trade sistem: **${stats['avg_pnl']:,.4f}**",
                     f"- Perkiraan PnL/trade bila entry acak: **${baseline['mean_pnl_per_trade_random']:,.4f}**",
-                    f"- **Kesimpulan: strategi {'UNGGUL' if stats['avg_pnl'] > baseline['mean_pnl_per_trade_random'] else 'TIDAK UNGGUL'} dari acak** (berdasarkan sampel terbatas — bukan jaminan).",
+                    f"- **Kesimpulan: {verdict}**",
                     "",
                 ]
         else:
