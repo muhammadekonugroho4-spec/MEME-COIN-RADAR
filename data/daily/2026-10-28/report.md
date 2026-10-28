@@ -1,12 +1,41 @@
-# Laporan MEME-COIN-RADAR — 2026-10-28 06:12
+# Laporan MEME-COIN-RADAR — 2026-10-28 05:58
 
 ## Ringkasan akun paper
 - Equity awal: **$1,000.00**
-- Equity cash sekarang: **$1,000.00**
+- Equity cash sekarang: **$994.40**
 - Posisi terbuka: **0**
 
-## Belum ada trade
+## Performa trading (round-trip tertutup)
+- Jumlah trade tuntas: **8**
+- Win rate: **0.0%** (0 menang)
+- Total PnL: **$-5.60**
+- Rata-rata PnL/trade: **$-0.6995**
+- Hold rata-rata: **0.0 jam**
+- Trade terbaik: $-0.50 · terburuk: $-1.56
+- Exit karena rug/stop: **0**
 
-Bot belum pernah mengisi order (belum ada kandidat zona BUY yang lolos filter).
+### Detail round-trip
+
+| Coin | PnL | % | Hold (jam) | Alasan exit |
+|---|---|---|---|---|
+| Pnut  | $-0.62 | -1.2% | 0.0 | scalp timeout: 177 menit >= 15 menit |
+| PENGU | $-0.50 | -1.0% | 0.0 | scalp timeout: 177 menit >= 15 menit |
+| TRUMP | $-0.51 | -1.0% | 0.0 | scalp timeout: 177 menit >= 15 menit |
+| POPCAT | $-0.50 | -1.0% | 0.0 | scalp timeout: 177 menit >= 15 menit |
+| Fartcoin  | $-0.54 | -1.1% | 0.0 | scalp timeout: 177 menit >= 15 menit |
+| GOAT | $-0.81 | -1.6% | 0.0 | scalp timeout: 177 menit >= 15 menit |
+| Bonk | $-0.57 | -1.1% | 0.0 | scalp timeout: 177 menit >= 15 menit |
+| POINTLESS | $-1.56 | -3.1% | 0.0 | scalp timeout: 177 menit >= 15 menit |
+
+## Efektivitas filter
+- Kandidat diperiksa: **15**
+- Ditolak filter: **0** (0%)
+- Lolos ke antrian beli: **15**
+
+## Strategi vs acak (baseline konservatif)
+- PnL rata-rata/trade sistem: **$-0.6995**
+- Perkiraan PnL/trade bila entry acak: **$-0.7079**
+- **Kesimpulan: BELUM BISA DINILAI - sampel terlalu kecil (8 round-trip; minimal 30). Selisih vs acak masih noise statistik.**
+
 ---
 *Simulasi virtual — bukan saran finansial. Meme coin berisiko total loss. Angka hanya dari data yang tercatat di git.*
