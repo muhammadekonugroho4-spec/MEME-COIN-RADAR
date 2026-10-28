@@ -1,70 +1,9 @@
 {
-  "run_at": "2026-10-28T06:12:40",
-  "equity_cash": 1000.0,
+  "run_at": "2026-10-28T02:19:42",
+  "equity_cash": 994.4042,
   "unrealized": 0.0,
-  "total": 1000.0,
+  "total": 994.4042,
   "open_positions": 0,
-  "pending": 12,
-  "actions": [
-    {
-      "mint": "DezXAZ8z7PnrnRJjz3wXBoRgixCa6xjnB7YaB1pPB263",
-      "action": "queue_buy",
-      "reason": "zona BUY skor 60.0"
-    },
-    {
-      "mint": "9BB6NFEcjBCtnNLFko2FqVQBq8HHM13kCyYcdQbgpump",
-      "action": "queue_buy",
-      "reason": "zona BUY skor 60.0"
-    },
-    {
-      "mint": "7GCihgDB8fe6KNjn2MYtkzZcRjQy3t9GHdC8uHYmW2hr",
-      "action": "queue_buy",
-      "reason": "zona BUY skor 60.0"
-    },
-    {
-      "mint": "2zMMhcVQEXDtdE6vsFS7S7D5oUodfJHE8vd1gnBouauv",
-      "action": "queue_buy",
-      "reason": "zona BUY skor 60.0"
-    },
-    {
-      "mint": "6p6xgHyF7AeE6TZkSmFsko444wqoP15icUSqi2jfGiPN",
-      "action": "queue_buy",
-      "reason": "zona BUY skor 60.0"
-    },
-    {
-      "mint": "CzLSujWBLFsSjncfkh59rUFqvafWcY5tzedWJSuypump",
-      "action": "queue_buy",
-      "reason": "zona BUY skor 60.0"
-    },
-    {
-      "mint": "2qEHjDLDLbuBgRYvsxhc5D6uDWAivNFZGan56P1tpump",
-      "action": "queue_buy",
-      "reason": "zona BUY skor 60.0"
-    },
-    {
-      "mint": "334j9dCg9WBfvC56tzRsp7RVFcYzpF5R2zC54zJdpump",
-      "action": "queue_buy",
-      "reason": "zona BUY skor 60.0"
-    },
-    {
-      "mint": "ween2khNidoDMVRKMxiECFjv81MRpT3EyrPyNATNcSd",
-      "action": "queue_buy",
-      "reason": "zona BUY skor 60.0"
-    },
-    {
-      "mint": "Htg467R28meKnERuin4W374LS5jDxr3cCD2Bf5PLpump",
-      "action": "queue_buy",
-      "reason": "zona BUY skor 60.0"
-    },
-    {
-      "mint": "A6Y5MF7WMmpWJ7c7JoyYq4qHzYmYRnwaDL9j5acXpump",
-      "action": "queue_buy",
-      "reason": "zona BUY skor 60.0"
-    },
-    {
-      "mint": "4bpt2qjbAUAXUAXVjRdbCnh3j4pka1n9hAFi7zHfpump",
-      "action": "queue_buy",
-      "reason": "zona BUY skor 60.0"
-    }
-  ]
+  "pending": 1,
+  "actions": []
 }

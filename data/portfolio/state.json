@@ -1,118 +1,8 @@
 {
-  "equity": 1000.0,
+  "equity": 994.404218,
   "start_equity": 1000.0,
   "positions": {},
   "pending": [
-    {
-      "mint": "DezXAZ8z7PnrnRJjz3wXBoRgixCa6xjnB7YaB1pPB263",
-      "symbol": "Bonk",
-      "side": "buy",
-      "signal_ts": 1793142758.3220649,
-      "signal_price": 3.044e-06,
-      "signal_score": 60.0,
-      "usd_size": 50.0,
-      "reason": "zona BUY skor 60.0",
-      "tries": 0
-    },
-    {
-      "mint": "9BB6NFEcjBCtnNLFko2FqVQBq8HHM13kCyYcdQbgpump",
-      "symbol": "Fartcoin ",
-      "side": "buy",
-      "signal_ts": 1793142758.3220649,
-      "signal_price": 0.1421,
-      "signal_score": 60.0,
-      "usd_size": 50.0,
-      "reason": "zona BUY skor 60.0",
-      "tries": 0
-    },
-    {
-      "mint": "7GCihgDB8fe6KNjn2MYtkzZcRjQy3t9GHdC8uHYmW2hr",
-      "symbol": "POPCAT",
-      "side": "buy",
-      "signal_ts": 1793142758.3220649,
-      "signal_price": 0.0446,
-      "signal_score": 60.0,
-      "usd_size": 50.0,
-      "reason": "zona BUY skor 60.0",
-      "tries": 0
-    },
-    {
-      "mint": "2zMMhcVQEXDtdE6vsFS7S7D5oUodfJHE8vd1gnBouauv",
-      "symbol": "PENGU",
-      "side": "buy",
-      "signal_ts": 1793142758.3220649,
-      "signal_price": 0.007782,
-      "signal_score": 60.0,
-      "usd_size": 50.0,
-      "reason": "zona BUY skor 60.0",
-      "tries": 0
-    },
-    {
-      "mint": "6p6xgHyF7AeE6TZkSmFsko444wqoP15icUSqi2jfGiPN",
-      "symbol": "TRUMP",
-      "side": "buy",
-      "signal_ts": 1793142758.3220649,
-      "signal_price": 1.72,
-      "signal_score": 60.0,
-      "usd_size": 50.0,
-      "reason": "zona BUY skor 60.0",
-      "tries": 0
-    },
-    {
-      "mint": "CzLSujWBLFsSjncfkh59rUFqvafWcY5tzedWJSuypump",
-      "symbol": "GOAT",
-      "side": "buy",
-      "signal_ts": 1793142758.3220649,
-      "signal_price": 0.01437,
-      "signal_score": 60.0,
-      "usd_size": 50.0,
-      "reason": "zona BUY skor 60.0",
-      "tries": 0
-    },
-    {
-      "mint": "2qEHjDLDLbuBgRYvsxhc5D6uDWAivNFZGan56P1tpump",
-      "symbol": "Pnut ",
-      "side": "buy",
-      "signal_ts": 1793142758.3220649,
-      "signal_price": 0.04283,
-      "signal_score": 60.0,
-      "usd_size": 50.0,
-      "reason": "zona BUY skor 60.0",
-      "tries": 0
-    },
-    {
-      "mint": "334j9dCg9WBfvC56tzRsp7RVFcYzpF5R2zC54zJdpump",
-      "symbol": "Pioneer",
-      "side": "buy",
-      "signal_ts": 1793142758.3220649,
-      "signal_price": 6.880431828044318e-06,
-      "signal_score": 60.0,
-      "usd_size": 50.0,
-      "reason": "zona BUY skor 60.0",
-      "tries": 0
-    },
-    {
-      "mint": "ween2khNidoDMVRKMxiECFjv81MRpT3EyrPyNATNcSd",
-      "symbol": "LARPOWEEN",
-      "side": "buy",
-      "signal_ts": 1793142758.3220649,
-      "signal_price": 6.528826190010798e-06,
-      "signal_score": 60.0,
-      "usd_size": 50.0,
-      "reason": "zona BUY skor 60.0",
-      "tries": 0
-    },
-    {
-      "mint": "Htg467R28meKnERuin4W374LS5jDxr3cCD2Bf5PLpump",
-      "symbol": "POINTLESS",
-      "side": "buy",
-      "signal_ts": 1793142758.3220649,
-      "signal_price": 2.1168864934903225e-05,
-      "signal_score": 60.0,
-      "usd_size": 50.0,
-      "reason": "zona BUY skor 60.0",
-      "tries": 0
-    },
     {
       "mint": "A6Y5MF7WMmpWJ7c7JoyYq4qHzYmYRnwaDL9j5acXpump",
       "symbol": "SAINTS",
@@ -122,20 +12,26 @@
       "signal_score": 60.0,
       "usd_size": 50.0,
       "reason": "zona BUY skor 60.0",
-      "tries": 0
-    },
-    {
-      "mint": "4bpt2qjbAUAXUAXVjRdbCnh3j4pka1n9hAFi7zHfpump",
-      "symbol": "fomoworld",
-      "side": "buy",
-      "signal_ts": 1793142758.3220649,
-      "signal_price": 6.540516595112991e-06,
-      "signal_score": 60.0,
-      "usd_size": 50.0,
-      "reason": "zona BUY skor 60.0",
-      "tries": 0
+      "tries": 10
     }
   ],
-  "_applied": [],
+  "_applied": [
+    "DezXAZ8z7PnrnRJjz3wXBoRgixCa6xjnB7YaB1pPB263:1793142758.3220649",
+    "9BB6NFEcjBCtnNLFko2FqVQBq8HHM13kCyYcdQbgpump:1793142758.3220649",
+    "7GCihgDB8fe6KNjn2MYtkzZcRjQy3t9GHdC8uHYmW2hr:1793142758.3220649",
+    "2zMMhcVQEXDtdE6vsFS7S7D5oUodfJHE8vd1gnBouauv:1793142758.3220649",
+    "6p6xgHyF7AeE6TZkSmFsko444wqoP15icUSqi2jfGiPN:1793142758.3220649",
+    "CzLSujWBLFsSjncfkh59rUFqvafWcY5tzedWJSuypump:1793142758.3220649",
+    "2qEHjDLDLbuBgRYvsxhc5D6uDWAivNFZGan56P1tpump:1793142758.3220649",
+    "Htg467R28meKnERuin4W374LS5jDxr3cCD2Bf5PLpump:1793142758.3220649",
+    "sell:DezXAZ8z7PnrnRJjz3wXBoRgixCa6xjnB7YaB1pPB263:1793153382.5631187",
+    "sell:9BB6NFEcjBCtnNLFko2FqVQBq8HHM13kCyYcdQbgpump:1793153382.5631187",
+    "sell:7GCihgDB8fe6KNjn2MYtkzZcRjQy3t9GHdC8uHYmW2hr:1793153382.5631187",
+    "sell:2zMMhcVQEXDtdE6vsFS7S7D5oUodfJHE8vd1gnBouauv:1793153382.5631187",
+    "sell:6p6xgHyF7AeE6TZkSmFsko444wqoP15icUSqi2jfGiPN:1793153382.5631187",
+    "sell:CzLSujWBLFsSjncfkh59rUFqvafWcY5tzedWJSuypump:1793153382.5631187",
+    "sell:2qEHjDLDLbuBgRYvsxhc5D6uDWAivNFZGan56P1tpump:1793153382.5631187",
+    "sell:Htg467R28meKnERuin4W374LS5jDxr3cCD2Bf5PLpump:1793153382.5631187"
+  ],
   "cooldown_until": {}
 }
