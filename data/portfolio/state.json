@@ -2,19 +2,7 @@
   "equity": 994.404218,
   "start_equity": 1000.0,
   "positions": {},
-  "pending": [
-    {
-      "mint": "A6Y5MF7WMmpWJ7c7JoyYq4qHzYmYRnwaDL9j5acXpump",
-      "symbol": "SAINTS",
-      "side": "buy",
-      "signal_ts": 1793142758.3220649,
-      "signal_price": 1.3433382088561968e-05,
-      "signal_score": 60.0,
-      "usd_size": 50.0,
-      "reason": "zona BUY skor 60.0",
-      "tries": 10
-    }
-  ],
+  "pending": [],
   "_applied": [
     "DezXAZ8z7PnrnRJjz3wXBoRgixCa6xjnB7YaB1pPB263:1793142758.3220649",
     "9BB6NFEcjBCtnNLFko2FqVQBq8HHM13kCyYcdQbgpump:1793142758.3220649",
