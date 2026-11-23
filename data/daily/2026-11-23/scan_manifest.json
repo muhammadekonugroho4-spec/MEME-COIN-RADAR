@@ -1,0 +1,208 @@
+{
+  "run_at": "2026-11-23T02:58:03",
+  "pairs_scanned": 37,
+  "known_before": 1742,
+  "fresh_candidates": 15,
+  "zones": {
+    "BUY": 0,
+    "WATCH": 1,
+    "PASSIVE": 3,
+    "REJECT": 1,
+    "SKIP": 10
+  },
+  "solana_rpc_ok": true,
+  "sentiment": {
+    "trending_symbols": [
+      "VVV",
+      "BTC",
+      "HYPE",
+      "ONDO",
+      "TRUMP",
+      "PENGU",
+      "ETH",
+      "DRV",
+      "TAC",
+      "BONK"
+    ],
+    "boosts_tracked": 22
+  },
+  "sol_price_usd": 70.0,
+  "test_buy_forced": [],
+  "results": [
+    {
+      "mint": "57b6Hmc9FFPFfvG3wwBTuKmrW7enxyubxHGFztCXpump",
+      "symbol": "WIF",
+      "zone": "SKIP",
+      "score": 0.0,
+      "reasons": "popular lemah (liq < $50k atau vol24 < $10k)",
+      "parts": "{}"
+    },
+    {
+      "mint": "6p6xgHyF7AeE6TZkSmFsko444wqoP15icUSqi2jfGiPN",
+      "symbol": "TRUMP",
+      "zone": "PASSIVE",
+      "score": 29.8,
+      "reasons": "",
+      "parts": "{\"momentum\": 0.0, \"volume_sustain\": 1.0, \"buy_sell_ratio\": 0.0, \"liq_vs_fdv\": 3.3, \"age_sweetspot\": 4.5, \"supply_known\": 15}",
+      "ai_flag": "caution",
+      "hype_score": 55,
+      "hype_note": "coingecko_trending",
+      "hype_paid": false,
+      "ai_note": "Likuiditas hanya $3,8 juta sementara FDV mencapai $873 juta, skor sistem rendah 29.8, dan perubahan harga 1‑jam negatif menandakan risiko tinggi bagi investor.",
+      "ai_engine": "groq",
+      "price_usd": 0.8737,
+      "liquidity_usd": 3801451.77,
+      "fdv": 873775385.0,
+      "age_min": 970187.0,
+      "chg_h1": -0.1
+    },
+    {
+      "mint": "2zMMhcVQEXDtdE6vsFS7S7D5oUodfJHE8vd1gnBouauv",
+      "symbol": "PENGU",
+      "zone": "PASSIVE",
+      "score": 31.2,
+      "reasons": "",
+      "parts": "{\"momentum\": 0.0, \"volume_sustain\": 1.1, \"buy_sell_ratio\": 0.0, \"liq_vs_fdv\": 4.5, \"age_sweetspot\": 4.5, \"supply_known\": 15}",
+      "ai_flag": "caution",
+      "hype_score": 55,
+      "hype_note": "coingecko_trending",
+      "hype_paid": false,
+      "ai_note": "Likuiditas hanya $2.2 juta dibandingkan FDV $371 juta, sehingga perdagangan dapat terpengaruh; umur token kurang dari 2 tahun menambah ketidakpastian.",
+      "ai_engine": "groq",
+      "price_usd": 0.004175,
+      "liquidity_usd": 2232332.96,
+      "fdv": 371162665.0,
+      "age_min": 1016037.7,
+      "chg_h1": -1.37
+    },
+    {
+      "mint": "DezXAZ8z7PnrnRJjz3wXBoRgixCa6xjnB7YaB1pPB263",
+      "symbol": "Bonk",
+      "zone": "PASSIVE",
+      "score": 27.0,
+      "reasons": "",
+      "parts": "{\"momentum\": 0.1, \"volume_sustain\": 0.5, \"buy_sell_ratio\": 0.0, \"liq_vs_fdv\": 0.8, \"age_sweetspot\": 4.5, \"supply_known\": 15}",
+      "ai_flag": "caution",
+      "hype_score": 55,
+      "hype_note": "coingecko_trending",
+      "hype_paid": false,
+      "ai_note": "Likuiditas yang relatif rendah dibandingkan FDV dan umur yang sangat panjang menunjukkan potensi kurangnya minat pasar, meskipun tidak ada momentum abnormal yang terlihat.",
+      "ai_engine": "groq",
+      "price_usd": 2.044e-06,
+      "liquidity_usd": 203864.89,
+      "fdv": 181636612.0,
+      "age_min": 2057037.7,
+      "chg_h1": -0.45
+    },
+    {
+      "mint": "9BB6NFEcjBCtnNLFko2FqVQBq8HHM13kCyYcdQbgpump",
+      "symbol": "Fartcoin ",
+      "zone": "WATCH",
+      "score": 36.8,
+      "reasons": "",
+      "parts": "{\"momentum\": 1.2, \"volume_sustain\": 1.1, \"buy_sell_ratio\": 0.0, \"liq_vs_fdv\": 15.0, \"age_sweetspot\": 4.5, \"supply_known\": 15}",
+      "ai_flag": "caution",
+      "hype_score": 0,
+      "hype_note": "tidak ada sinyal sosial",
+      "hype_paid": false,
+      "ai_note": "Tidak ada data konsentrasi holder, namun umur token yang hanya sekitar 2 tahun dan likuiditas $4,5 juta yang relatif rendah meningkatkan risiko volatilitas dan manipulasi harga.",
+      "ai_engine": "groq",
+      "price_usd": 0.07691,
+      "liquidity_usd": 4502480.65,
+      "fdv": 76917750.0,
+      "age_min": 1102848.4,
+      "chg_h1": -0.77
+    },
+    {
+      "mint": "EokvMZaRkCgwkabSJTNcbDySVddL4N7wPuaVQaecKHzT",
+      "symbol": "WIF",
+      "zone": "SKIP",
+      "score": 0.0,
+      "reasons": "popular lemah (liq < $50k atau vol24 < $10k)",
+      "parts": "{}"
+    },
+    {
+      "mint": "DqdL3zeg2hPVi1JtXU4taZywptakBGeFGbJe8KMYdET",
+      "symbol": "WIF",
+      "zone": "SKIP",
+      "score": 0.0,
+      "reasons": "popular lemah (liq < $50k atau vol24 < $10k)",
+      "parts": "{}"
+    },
+    {
+      "mint": "Sny8kTptxurC3rJRnWB1228A473cAXf8F8spsD6YGBK",
+      "symbol": "WIF",
+      "zone": "SKIP",
+      "score": 0.0,
+      "reasons": "popular lemah (liq < $50k atau vol24 < $10k)",
+      "parts": "{}"
+    },
+    {
+      "mint": "GB86EHSNReg1vizgQVFCw66ZFLncnXeX5t6LWC5Jpump",
+      "symbol": "GOAT",
+      "zone": "SKIP",
+      "score": 0.0,
+      "reasons": "popular lemah (liq < $50k atau vol24 < $10k)",
+      "parts": "{}"
+    },
+    {
+      "mint": "GNHW5JetZmW85vAU35KyoDcYoSd3sNWtx5RPMTDJpump",
+      "symbol": "GOAT",
+      "zone": "SKIP",
+      "score": 0.0,
+      "reasons": "popular lemah (liq < $50k atau vol24 < $10k)",
+      "parts": "{}"
+    },
+    {
+      "mint": "D7iafdwzzpB7tisqQqT5T9aRrYPtHLqzwxhnLoWJgoat",
+      "symbol": "GOAT",
+      "zone": "SKIP",
+      "score": 0.0,
+      "reasons": "popular lemah (liq < $50k atau vol24 < $10k)",
+      "parts": "{}"
+    },
+    {
+      "mint": "Et13xumwzoFRfFAnvji17zWpEF8mPJN9xmPUBLaFpump",
+      "symbol": "PUMP",
+      "zone": "REJECT",
+      "score": 0.0,
+      "reasons": "likuiditas $0 < $150",
+      "parts": "{}",
+      "ai_flag": "danger",
+      "hype_score": 0,
+      "hype_note": "tidak ada sinyal sosial",
+      "hype_paid": false,
+      "ai_note": "Coin ini sangat berisiko karena likuiditasnya nol dan umur hanya 458 menit, menandakan belum ada pasar yang stabil.",
+      "ai_engine": "groq",
+      "price_usd": 2.013e-06,
+      "liquidity_usd": 0.0,
+      "fdv": 2013.58,
+      "age_min": 458.4,
+      "chg_h1": -0.8
+    },
+    {
+      "mint": "CW8LSonJxHu7k3JnQnp5eTsrtRVgbpg38RwdizWWPyoi",
+      "symbol": "WIF",
+      "zone": "SKIP",
+      "score": 0.0,
+      "reasons": "popular lemah (liq < $50k atau vol24 < $10k)",
+      "parts": "{}"
+    },
+    {
+      "mint": "4ofDxqurqiPiwhEhC3pTe5s4ncyhWrvxUEXGc3gPpump",
+      "symbol": "wif",
+      "zone": "SKIP",
+      "score": 0.0,
+      "reasons": "popular lemah (liq < $50k atau vol24 < $10k)",
+      "parts": "{}"
+    },
+    {
+      "mint": "3L3ub2FBz15NeNgQVYpowANzANTNUiyKW5bfGVxYpump",
+      "symbol": "WIF",
+      "zone": "SKIP",
+      "score": 0.0,
+      "reasons": "popular lemah (liq < $50k atau vol24 < $10k)",
+      "parts": "{}"
+    }
+  ]
+}
